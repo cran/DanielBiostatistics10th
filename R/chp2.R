@@ -1,0 +1,108 @@
+
+
+#' @title Chapter 2
+#' 
+#' @description 
+#' 
+#' Functions for Chapter 2, \emph{Descriptive Statistics} of Wayne W. Daniel's 
+#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
+#' 
+#' @param x \link[base]{numeric} vector, the observations
+#' 
+#' @param na.rm \link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})
+#' 
+#' @return 
+#' 
+#' \code{\link{print_stats}} prints the simple statistics, such as 
+#' mean, median, standard deviation, inter-quartile range (IQR), range, skewness and kurtosis
+#' of the input observations \code{x}.  A histogram is also printed. No value is returned.
+#' 
+#' @references
+#' 
+#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
+#' Wiley, ISBN: 978-1-119-62550-6.
+#' 
+#' \url{https://en.wikipedia.org/wiki/Coefficient_of_variation}
+#' 
+#' @examples 
+#' # Page 20, Example 2.2.1
+#' d141 = read.csv(system.file('extdata', 'EXA_C01_S04_01.csv', package = 'DanielBiostatistics10th'))
+#' class(age <- d141$AGE) # 'integer'
+#' class(age <- as.numeric(age)) # 'numeric'
+#' sort(age) # 'ordered vector'
+#' 
+#' # Page 23, Example 2.3.1
+#' hist(age)
+#' age_breaks = c(30,40,50,60,70,80,90)
+#' class(ageC <- cut(age, breaks = age_breaks, include.lowest = TRUE, right = FALSE)) # 'factor'
+#'   # `include.lowest` actually means 'include.highest'
+#' table(ageC) # tabulat
+#' print.default(ageC) # optional: internally 'factor' is 'integer'
+#' sprintf(fmt = '%.1f%%', 100 * table(ageC)/length(ageC)) # relative frequencies
+#' sprintf(fmt = '%.1f%%', 100 * cumsum(table(ageC)/length(ageC))) # cumulative relative frequencies
+#' # optional: understand `include.lowest` and `right`
+#' table(cut(age, breaks = age_breaks, include.lowest = FALSE, right = FALSE))
+#' table(cut(age, breaks = age_breaks, include.lowest = TRUE, right = TRUE))
+#' table(cut(age, breaks = age_breaks, include.lowest = FALSE, right = TRUE))
+#' 
+#' # Page 31, Exercise 2.3.2 
+#' e232_0 = read.csv(system.file('extdata', 'EXR_C02_S03_02.csv', package = 'DanielBiostatistics10th'))
+#' head(e232_0)
+#' e232 = e232_0$sizes # the `$` is to grab the column named 'sizes'
+#' (n_e232 = length(e232))
+#' hist(e232)
+#' e232_f = cut(e232, breaks = seq(from = 0, to = 30, by = 5), include.lowest = TRUE)
+#' table(e232_f) # frequency
+#' table(e232_f) / n_e232 # relative frequency
+#' cumsum(table(e232_f)) # cumulative frequency
+#' cumsum(table(e232_f)) / n_e232 # relative cumulative frequency
+#' (e232b <- (e232 >= 10) & (e232 <= 14.9)) # 'logical' (i.e. binary) vector
+#' mean(e232b) # % of TRUE; as TRUE is considered as 1 and FALSE considered as 0
+#' mean(e232 < 20)
+#' mean(e232 >= 25)
+#' mean((e232 < 10) | (e232 >= 19.95))
+#' 
+#' # Page 38, Example 2.4.1
+#' # Page 40, Example 2.4.3
+#' # Page 41, Example 2.4.5
+#' # Page 44, Example 2.5.1
+#' print_stats(age)
+#' 
+#' # Page 39, Example 2.4.2
+#' # Page 40, Example 2.4.4
+#' # Page 42, Example 2.4.6
+#' # Page 44, Example 2.5.2
+#' # Page 46, Example 2.5.3
+#' print_stats(c(88.9, 97.1, 79.0, 92.0, 83.9, 81.2, 86.2, 89.8)/100)
+#' print_stats(c(43, 66, 61, 64, 65, 38, 59, 57, 57, 50))
+#' 
+#' # Page 50, Example 2.5.5
+#' d255 = read.csv(system.file('extdata', 'EXA_C02_S05_05.csv', package = 'DanielBiostatistics10th'))
+#' head(d255)
+#' boxplot(d255$GRF, main = c('GRF from Page 50, Example 2.5.5'))
+#' 
+#' @name Chp2
+#' @export
+print_stats <- function(x, na.rm = TRUE) {
+  nm <- deparse(substitute(x))
+  cat('\nSummary Statistics of', sQuote(nm), '\n\n')
+  cat(sprintf('Number of observations = %d\n', length(if (na.rm) x[!is.na(x)] else x)))
+  cat(sprintf('mean = %.2f\n', mean.default(x, na.rm = na.rm)))
+  cat(sprintf('median = %.2f\n', median(x, na.rm = na.rm)))
+  cat(sprintf('(smallest) mode = %.2f\n', Mode(x)[1L]))
+  cat(sprintf('variance = %.2f\n', var(x, na.rm = na.rm)))
+  cat(sprintf('standard deviation = %.2f\n', sd(x, na.rm = na.rm)))
+  if (all(x >= 0, na.rm = TRUE)) {
+    cat(sprintf('coefficient of variation = %.1f%%\n', cv(x, na.rm = na.rm)))
+  } else cat('(coefficient of variation only applicable to all-non-negative observations)\n')
+  Q <- quantile(x, probs = c(.25, .5, .75), na.rm = na.rm)
+  cat(sprintf('Quartiles: Q1 = %.1f, Q2 = %.1f, Q3 = %.1f\n', Q[1L], Q[2L], Q[3L]))
+  cat(sprintf('IQR = %.1f\n', Q[3L] - Q[1L]))
+  cat(sprintf('range = %.1f (%.1f ~ %.1f)\n', diff(range(x, na.rm = na.rm)), min(x, na.rm = na.rm), max(x, na.rm = na.rm)))
+  cat(sprintf('skewness = %.3f\n', skewness(x, na.rm = na.rm)))
+  cat(sprintf('kurtosis = %.3f\n', kurtosis(x, na.rm = na.rm)))
+  cat('\n')
+  plot(hist(x), main = paste('Histogram of', nm))
+  return(invisible())
+}
+
