@@ -21,28 +21,7 @@
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
-#' @examples 
-#' 
-#' # Page 644, Example 12.7.1
-#' addmargins(d1271 <- array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), 
-#'  dimnames = list(Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
-#' relativeRisk(d1271)
-#' # textbook confidence interval (.65, 1.86) wrong (too many rounding in intermediate steps)
-#' 
-#' # Page 647, Example 12.7.2
-#' addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
-#'  SmkPregnancy = c('TRUE', 'FALSE'),
-#'  Obesity = c('TRUE', 'FALSE')
-#' )))
-#' oddsRatio(d1272)
-#' 
-#' # Page 650, Example 12.7.3
-#' # Page 652, Example 12.7.4
-#' (d1273 <- array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), 
-#'  dimnames = list(HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), 
-#'   Age = c('<=55', '>55'))))
-#' addmargins(d1273, margin = 1:2) # Page 651, Table 12.7.6
-#' mantelhaen.test(d1273)
+#' @example inst/example/chp12.R 
 #' 
 #' @name Chp12
 #' @export

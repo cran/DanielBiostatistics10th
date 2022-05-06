@@ -24,6 +24,8 @@ Functions for Chapter 1, \emph{Introduction to Biostatistics} of Wayne W. Daniel
 \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 }
 \examples{
+library(DanielBiostatistics10th)
+
 # Page 8, Example 1.4.1
 d141 = read.csv(system.file('extdata', 'EXA_C01_S04_01.csv', package = 'DanielBiostatistics10th'))
 ?read.csv # invoke the help files of an R 'function'

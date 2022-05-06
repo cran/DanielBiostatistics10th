@@ -21,10 +21,10 @@
 #' 
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom pracma Mode
-#' @importFrom raster cv
 #' 
 #' @docType package
 #' @keywords package
 #' @name DanielBiostatistics10th-package
 NULL
 
+# @importFrom raster cv # \pkg{raster} creates many problems
