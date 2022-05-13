@@ -1,4 +1,11 @@
 library(DanielBiostatistics10th)
+# To run a line of code, use shortcut
+# Command + Enter: Mac and RStudio Cloud
+# Control + Enter: Windows, Mac and RStudio Cloud
+# To clear the console
+# Control + L: Mac and RStudio Cloud
+
+
 
 # Page 318, Example 8.2.1
 dim(d821_raw <- read.csv('data/EXA_C08_S02_01.csv'))

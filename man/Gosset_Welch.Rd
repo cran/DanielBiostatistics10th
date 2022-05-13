@@ -7,22 +7,23 @@
 Gosset_Welch(s1, s2, v1 = s1^2, v2 = s2^2, n1, n2, var.equal = FALSE)
 }
 \arguments{
-\item{s1, s2}{(optional) \link[base]{double} vectors, sample standard deviation(s) of the two samples}
+\item{s1, s2}{(optional) \link[base]{double} vectors, sample standard deviations of the two samples}
 
-\item{v1, v2}{\link[base]{double} vectors, sample variances(s) of the two samples, 
+\item{v1, v2}{\link[base]{double} vectors, sample variances of the two samples, 
 default \eqn{v_1=s_1^2}, \eqn{v_2=s_2^2}.}
 
-\item{n1, n2}{\link[base]{integer} vectors, sample size(s) of the two samples}
+\item{n1, n2}{\link[base]{integer} vectors, sample sizes of the two samples}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two variances as being equal 
-(default \code{FALSE}).  See \code{\link[stats]{t.test}}}
+(default \code{FALSE}).}
 }
 \value{
-\code{\link{Gosset_Welch}} returns the degree of freedom of two-sample t-test, 
+\link{Gosset_Welch} returns the degree of freedom of two-sample t-test, 
 with attribute \code{'stderr'} of the standard error of the mean-difference.
 }
 \description{
-..
+To determine the degree of freedom, as well as the standard error,
+of two-sample \eqn{t}-test, with or without the equal-variance assumption.
 }
 \details{
 If \code{var.equal = TRUE}, the degree of freedom, as well as the standard error of the mean-difference,
@@ -46,5 +47,5 @@ Student's \eqn{t}-test, \doi{10.1093/biomet/6.1.1}.
 Welch–Satterthwaite equation, \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
 }
 \seealso{
-Method \code{stats:::t.test.default} of \code{\link[stats]{t.test}}
+\link[stats]{t.test}
 }

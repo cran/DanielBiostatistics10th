@@ -4,29 +4,44 @@
 #' 
 #' @description 
 #' 
-#' Functions for Chapter 2, \emph{Descriptive Statistics} of Wayne W. Daniel's 
-#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
+#' Functions and examples for Chapter 2, \emph{Descriptive Statistics}.
 #' 
-#' @param x \link[base]{numeric} vector, the observations
+#' @param x \link[base]{numeric} vector, the observations. 
+#' In \link{print_freqs} function, this argument can also be a \link[base]{factor}
+#' 
+#' @param breaks,include.lowest,right see \link[base]{cut.default}
 #' 
 #' @param na.rm \link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})
 #' 
+#' @details 
+#' 
+#' \link{print_freqs} prints the (relative) frequencies and cumulative (relative) frequencies, from 
+#' a numeric input vector, specified interval breaks as well as open/close status of the ends of the intervals.
+#' 
+#' \link{print_stats} prints the simple statistics of the input observations, such as sample size,
+#' mean, median, (smallest) mode, variance, standard deviation, 
+#' coefficient of variation (if all observations are non-negative),
+#' quartiles, inter-quartile range (IQR), range, skewness and kurtosis.  A histogram is also printed. 
+#' 
 #' @return 
 #' 
-#' \code{\link{print_stats}} prints the simple statistics, such as 
-#' mean, median, standard deviation, inter-quartile range (IQR), range, skewness and kurtosis
-#' of the input observations \code{x}.  A histogram is also printed. No value is returned.
+#' \link{print_freqs} returns a \link[base]{noquote} \link[base]{matrix}.
+#' 
+#' \link{print_stats} does not have a returned value.
+#' 
+#' @seealso \link[base]{cut.default} \link[base]{table} \link[base]{cumsum}
+#' \link[base]{mean.default} \link[stats]{median.default} \link[pracma]{Mode} 
+#' \link[stats]{var} \link[stats]{sd} \link[stats]{quantile}
+#' \link[e1071]{skewness} \link[e1071]{kurtosis}
 #' 
 #' @references
 #' 
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
-#' \url{https://en.wikipedia.org/wiki/Coefficient_of_variation}
+#' @example inst/example/Chapter2.R
 #' 
-#' @example inst/example/chp2.R
-#' 
-#' @name Chp2
+#' @name Chapter02
 #' @export
 print_stats <- function(x, na.rm = TRUE) {
   nm <- deparse(substitute(x))
@@ -49,5 +64,26 @@ print_stats <- function(x, na.rm = TRUE) {
   cat('\n')
   plot(hist(x), main = paste('Histogram of', nm))
   return(invisible())
+}
+
+
+#' @rdname Chapter02
+#' @export
+print_freqs <- function(x, breaks, include.lowest = FALSE, right = TRUE) {
+  object <- if (is.factor(x)) x else {
+    cut.default(x, breaks = breaks, include.lowest = include.lowest, right = right, ordered_result = TRUE)
+  }
+  tab <- table(object)
+  ctab <- cumsum(tab)
+  n <- sum(tab)
+  ret <- cbind(
+    'Frequency (%)' = sprintf(fmt = '%d (%.2f%%)', tab, 100 * tab/n), 
+    'Cummulative Freq (%)' = sprintf(fmt = '%d (%.2f%%)', ctab, 100 * ctab/n)
+  )
+  rownames(ret) <- names(tab)
+  print.noquote(noquote(ret, right = TRUE))
+  return(invisible(list(
+    freq = tab, n = n
+  )))
 }
 

@@ -4,26 +4,33 @@
 #' 
 #' @description 
 #' 
-#' Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies} 
-#' of Wayne W. Daniel's 
-#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
+#' Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies}.
 #' 
-#' @param A a 2-by-2 \link[base]{matrix}, contingency table of risk factor and disease status
+#' @param A 2-by-2 \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
+#' 
+#' @param O \link[base]{integer} vector, observed counts
+#' 
+#' @param prob \link[base]{numeric} vector, anticipated probability.
+#' If missing (default), an uniform distribution across all categories are used.
 #' 
 #' @return
 #' 
-#' \code{\link{relativeRisk}} returns a \code{'logRelativeRisk'} object.
+#' \link{relativeRisk} returns a \code{'logRelativeRisk'} object.
 #' 
-#' \code{\link{oddsRatio}} returns a \code{'logOddsRatio'} object.
+#' \link{oddsRatio} returns a \code{'logOddsRatio'} object.
+#' 
+#' \link{print_OE} prints a table with observed and expected frequencies, as well as 
+#' the category-wise \eqn{\chi^2} statistics.   The category-wise \eqn{\chi^2} statistics
+#' are returned invisibly.
 #' 
 #' @references
 #' 
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
-#' @example inst/example/chp12.R 
+#' @example inst/example/Chapter12.R 
 #' 
-#' @name Chp12
+#' @name Chapter12
 #' @export
 relativeRisk <- function(A) {
   .inspect_2by2(A)
@@ -42,7 +49,7 @@ relativeRisk <- function(A) {
 }
 
 
-#' @rdname Chp12
+#' @rdname Chapter12
 #' @export
 oddsRatio <- function(A) {
   .inspect_2by2(A)
@@ -90,3 +97,24 @@ print.logOddsRatio <- function(x, level = .95, ...) {
   message(sprintf('Disease Status %s: ', sQuote(dimnm[2L])), paste0(cnm, '(', c('+', '-'), ')', collapse = ' vs. '))
 }
 
+
+#' @rdname Chapter12
+#' @export
+print_OE <- function(O, prob) {
+  if (!is.integer(O) || (nO <- length(O)) <= 1L || anyNA(O) || any(O < 0L)) stop('observed data must be non-negative integer')
+  if (missing(prob)) {
+    prob <- rep(1/nO, times = nO)
+  } else {
+    if (!is.numeric(prob) || length(prob) != nO || anyNA(prob) || any(prob < 0)) stop('prob must be non-negative numerics')
+    prob <- prob / sum(prob)
+  }
+  E <- sum(O) * prob
+  chisq <- (O - E)^2 / E
+  ret <- cbind(
+    'Observed Freq' = O,
+    'Expected Freq (%)' = sprintf('%.2f (%.2f%%)', E, 1e2*prob),
+    '(O-E)^2/E' = sprintf('%.3f', chisq)
+  )
+  print.noquote(noquote(ret, right = TRUE))
+  return(invisible(chisq))
+}

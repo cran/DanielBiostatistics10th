@@ -1,4 +1,12 @@
 library(DanielBiostatistics10th)
+# To run a line of code, use shortcut
+# Command + Enter: Mac and RStudio Cloud
+# Control + Enter: Windows, Mac and RStudio Cloud
+# To clear the console
+# Control + L: Mac and RStudio Cloud
+
+
+
 
 # Page 493, Example 10.3.1
 head(d1031 <- read.csv('data/EXA_C10_S03_01.csv'))

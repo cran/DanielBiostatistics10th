@@ -5,9 +5,8 @@
 \alias{DanielBiostatistics10th-package}
 \title{Functions for Wayne W. Daniel's \emph{Biostatistics} (Tenth Edition)}
 \description{
-R functions to accompany Wayne W. Daniel's 
-\emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition,
-for Course \code{GC660} of Jefferson Medical College, Thomas Jefferson University, Philadelphia, PA.
+Functions and examples to accompany Wayne W. Daniel's 
+\emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.

@@ -8,9 +8,8 @@
 #' 
 #' @description
 #'
-#' R functions to accompany Wayne W. Daniel's 
-#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition,
-#' for Course \code{GC660} of Jefferson Medical College, Thomas Jefferson University, Philadelphia, PA.
+#' Functions and examples to accompany Wayne W. Daniel's 
+#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' 
 #' @references
 #' 
@@ -18,7 +17,6 @@
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
 #' @import graphics stats utils
-#' 
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom pracma Mode
 #' 

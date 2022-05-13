@@ -1,4 +1,6 @@
 
+# Do NOT edit DanielBiostatistics10th/R/Gosset_Welch.R  
+# Edit tzh/R/Gosset_Welch.R
 
 # https://en.wikipedia.org/wiki/Student%27s_t-test
 # https://en.wikipedia.org/wiki/Welch%27s_t-test
@@ -7,17 +9,19 @@
 
 #' @title Two-Sample Student's \eqn{t} and Welch–Satterthwaite Equation
 #' 
-#' @description ..
+#' @description
+#' To determine the degree of freedom, as well as the standard error,
+#' of two-sample \eqn{t}-test, with or without the equal-variance assumption.
 #' 
-#' @param s1,s2 (optional) \link[base]{double} vectors, sample standard deviation(s) of the two samples
+#' @param s1,s2 (optional) \link[base]{double} vectors, sample standard deviations of the two samples
 #' 
-#' @param v1,v2 \link[base]{double} vectors, sample variances(s) of the two samples, 
+#' @param v1,v2 \link[base]{double} vectors, sample variances of the two samples, 
 #' default \eqn{v_1=s_1^2}, \eqn{v_2=s_2^2}.
 #' 
-#' @param n1,n2 \link[base]{integer} vectors, sample size(s) of the two samples
+#' @param n1,n2 \link[base]{integer} vectors, sample sizes of the two samples
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two variances as being equal 
-#' (default \code{FALSE}).  See \code{\link[stats]{t.test}}
+#' (default \code{FALSE}).  
 #' 
 #' @details 
 #' 
@@ -29,7 +33,7 @@
 #' 
 #' @return 
 #' 
-#' \code{\link{Gosset_Welch}} returns the degree of freedom of two-sample t-test, 
+#' \link{Gosset_Welch} returns the degree of freedom of two-sample t-test, 
 #' with attribute \code{'stderr'} of the standard error of the mean-difference.
 #' 
 #' @references 
@@ -37,7 +41,7 @@
 #' 
 #' Welch–Satterthwaite equation, \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
 #' 
-#' @seealso Method \code{stats:::t.test.default} of \code{\link[stats]{t.test}}
+#' @seealso \link[stats]{t.test}
 #' 
 #' @examples 
 #' x = rnorm(32L, sd = 1.6); y = rnorm(57L, sd = 2.1)

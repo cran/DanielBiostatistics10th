@@ -7,71 +7,73 @@
 #' 
 #' Functions for Chapter 5, \emph{Some Important Sampling Distributions},
 #' Chapter 6, \emph{Estimation} and 
-#' Chapter 7, \emph{Hypothesis Testing} of Wayne W. Daniel's 
-#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
+#' Chapter 7, \emph{Hypothesis Testing}.
 #' 
-#' @param x \link[base]{integer} scalar or length-2 vector of positive count(s) of binary variable(s)
+#' @param x \link[base]{integer} scalar or length-two vector, positive count(s) of binary variable(s)
 #' 
-#' @param xbar \link[base]{numeric} scalar or length-2 vector, sample mean(s)
+#' @param xbar \link[base]{numeric} scalar or length-two vector, sample mean(s) for numeric variable(s) or
+#' sample proportion(s) for binary variable(s). 
+#' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
+#' sample means or sample proportions.
 #' 
-#' @param xsd \link[base]{numeric} scalar or length-2 vector, sample standard deviation(s)
+#' @param xsd \link[base]{numeric} scalar or length-two vector, sample standard deviation(s)
 #' 
-#' @param xvar \link[base]{numeric} scalar or length-2 vector, sample variance(s)
+#' @param sd \link[base]{numeric} scalar or length-two vector, population standard deviation(s)
 #' 
-#' @param sd \link[base]{numeric} scalar or length-2 vector, population standard deviation(s)
+#' @param n \link[base]{integer} scalar or length-two vector, sample size(s)
 #' 
-#' @param n \link[base]{integer} scalar or length-2 vector, sample size(s)
-#' 
-#' @param prob \link[base]{numeric} scalar or length-2 vector, population probability or population probabilities
-#' 
-#' @param phat \link[base]{numeric} scalar or length-2 vector, sample proportions or difference of sample proportions
+#' @param prob \link[base]{numeric} scalar or length-two vector, population probability or probabilities
 #' 
 #' @param null.value \link[base]{numeric} scalar, null value of hypothesis testing
 #' 
 #' @param alternative \link[base]{character} scalar, alternative hypothesis,
-#' either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}. 
-#' See \code{\link[stats]{t.test}}.
+#' either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}
 #' 
-#' @param conf.level \link[base]{numeric} scalar, confidence level, default 0.95.  
-#' See \code{\link[stats]{t.test}}.
+#' @param conf.level \link[base]{numeric} scalar, confidence level, default 0.95
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two population variances as being equal 
-#' (default \code{FALSE}).  See \code{\link[stats]{t.test}}.
+#' (default \code{FALSE})
 #' 
 #' @param p.equal \link[base]{logical} scalar, whether to use pooled sample proportion 
-#' (default \code{FALSE}).
+#' (default \code{FALSE}) if \code{prob} is not provided
 #' 
 #' @param ... potential arguments, not in use currently
 #' 
-#' @return 
+#' @details  
 #' 
-#' \code{\link{aggregated_z_test}} performs one-sample or two-sample z-test 
+#' \link{aggregated_z_test} performs one-sample or two-sample \eqn{z}-test 
 #' using aggregated statistics of sample mean(s) and sample size(s).
 #' 
-#' \code{\link{aggregated_t_test}} performs one-sample or two-sample t-test 
+#' \link{aggregated_t_test} performs one-sample or two-sample \eqn{t}-test 
 #' using aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s).
 #' 
-#' \code{\link{prop_test_CLT}} performs one-sample or two-sample z-test on proportions,
+#' \link{prop_test_CLT} performs one-sample or two-sample \eqn{z}-test on proportion(s),
 #' using Central Limit Theorem
 #' 
-#' \code{\link{aggregated_var_test}} performs chi-squared test on one-sample variance, 
-#' or F-test on two-sample variances, using aggregated statistics of sample variance(s) and sample size(s).
+#' \link{aggregated_var_test} performs \eqn{\chi^2}-test on one-sample variance, 
+#' or \eqn{F}-test on two-sample variances, using aggregated statistics of sample standard deviation(s) and sample size(s).
+#' 
+#' @return 
+#' \link{aggregated_z_test} returns an \code{'htest'} object.
+#' 
+#' \link{aggregated_t_test} returns an \code{'htest'} object.
+#' 
+#' \link{prop_test_CLT} returns an \code{'htest'} object.
+#' 
+#' \link{aggregated_var_test} returns an \code{'htest'} object.
+#' 
+#' @seealso \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
 #' 
 #' @references
 #' 
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
-#' @example inst/example/chp5.6.7.R 
+#' @example inst/example/Chapter5.6.7.R 
 #' 
-#' @name Chp567
+#' @name Chapter05to07
 #' @export
-aggregated_z_test <- function(
-    xbar, n, 
-    sd,
-    null.value = 0, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, 
-    ...
-) {
+aggregated_z_test <- function(xbar, n, sd, null.value = 0, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
   if (!is.numeric(xbar) || anyNA(xbar)) stop('Illegal sample mean(s)')
   if (!is.numeric(sd) || anyNA(sd) || any(sd <= 0)) stop('Illegal population standard deviation(s)')
@@ -95,8 +97,8 @@ aggregated_z_test <- function(
     method <- 'Two Sample z-test'
     stderr <- sqrt(sd[1L]^2/n[1L] + sd[2L]^2/n[2L])
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
-      xbar0 <- xbar[1L]
-      dname <- sprintf(fmt = '\u0394=%.1f', xbar0)
+      xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample means
+      dname <- sprintf(fmt = '\u0394x\u0304=%.1f (\u00B1%.3g vs. \u00B1%.3g)', xbar0, sd[1L], sd[2L])
     } else {
       xbar0 <- xbar[1L] - xbar[2L]
       dname <- paste(dname, collapse = ' vs. ')
@@ -122,7 +124,7 @@ aggregated_z_test <- function(
     statistic = setNames(zstat, nm = 'z'),
     p.value = pval, 
     conf.int = cint, 
-    null.value = setNames(null.value, nm = switch(length(xbar), '1' = 'mean', '2' = 'mean-difference')), 
+    null.value = setNames(null.value, nm = switch(length(n), '1' = 'mean', '2' = 'mean-difference')), 
     stderr = stderr, alternative = alternative, method = method, 
     data.name = dname
   )
@@ -134,7 +136,7 @@ aggregated_z_test <- function(
 
 
 
-#' @rdname Chp567
+#' @rdname Chapter05to07
 #' @export
 aggregated_t_test <- function(
     xbar, xsd, n, 
@@ -168,8 +170,8 @@ aggregated_t_test <- function(
     df <- Gosset_Welch(s1 = xsd[1L], s2 = xsd[2L], n1 = n[1L], n2 = n[2L], var.equal = var.equal)
     stderr <- attr(df, which = 'stderr', exact = TRUE)
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
-      xbar0 <- xbar[1L] 
-      dname <- sprintf(fmt = '\u0394=%.1f', xbar0)
+      xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample means
+      dname <- sprintf(fmt = '\u0394x\u0304=%.1f (\u00B1%.3g vs. \u00B1%.3g)', xbar0, xsd[1L], xsd[2L])
     } else {
       xbar0 <- xbar[1L] - xbar[2L]
       dname <- paste(dname, collapse = ' vs. ')
@@ -205,20 +207,14 @@ aggregated_t_test <- function(
 
 
 
-#' @rdname Chp567
+#' @rdname Chapter05to07
 #' @export
-prop_test_CLT <- function(
-    x, # positive count(s)
-    n,
-    phat = x/n,
-    prob = phat,
-    p.equal = FALSE,
-    null.value = 0,
-    alternative = c('two.sided', 'less', 'greater'), conf.level = .95, 
+prop_test_CLT <- function(x, n, xbar = x/n, prob = xbar, p.equal = FALSE,
+    null.value = 0, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, 
     ...
 ) {
   
-  if (!is.numeric(phat) || anyNA(phat) || any(phat < 0)) stop('Illegal sample proportion(s)')
+  if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0)) stop('Illegal sample proportion(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal total count(s)')
   if (!is.numeric(prob) || anyNA(prob) || any(prob < 0) || any(prob > 1)) stop('Illegal population proportion(s)')
   if (!missing(null.value)) {
@@ -228,38 +224,40 @@ prop_test_CLT <- function(
   alternative <- match.arg(alternative)
   
   tmp <- if (missing(x)) {
-    data.frame(phat = phat, n = n, prob = prob) # vector recycling, let warn
-  } else data.frame(x = x, phat = phat, n = n, prob = prob)
-  phat <- tmp[['phat']]
+    data.frame(xbar = xbar, n = n, prob = prob) # vector recycling, let warn
+  } else data.frame(x = x, xbar = xbar, n = n, prob = prob)
+  xbar <- tmp[['xbar']]
   n <- tmp$n
-  dname <- sprintf(fmt = '%.1f%% (n=%d)', 1e2*phat, n)
+  dname <- sprintf(fmt = '%.1f%% (n=%d)', 1e2*xbar, n)
   
   if (length(n) == 1L) { # one sample test
     method <- 'One Sample z-test on Proportion'
     prob <- tmp[['prob']]
     stderr <- sqrt(prob*(1-prob)/n)
-    phat0 <- phat
+    xbar0 <- xbar
     if (missing(null.value)) null.value <- prob
     
   } else if (length(n) == 2L) { # two sample test
     method <- 'Two Sample z-test on Proportions'
     
-    if (missing(prob) && length(x <- tmp[['x']]) && p.equal) {
-      prob <- rep(sum(x)/sum(n), times = 2L)
+    if (missing(prob)) {
+      if (length(x <- tmp[['x']]) && p.equal) {
+        prob <- rep(sum(x)/sum(n), times = 2L)
+      } else prob <- tmp[['prob']]
     } else prob <- tmp[['prob']]
     stderr <- sqrt(prob[1L]*(1-prob[1L])/n[1L] + prob[2L]*(1-prob[2L])/n[2L])
-    if (isTRUE(all.equal.numeric(phat[1L], phat[2L]))) {
-      phat0 <- phat[1L] 
-      dname <- sprintf(fmt = '\u0394=%.1f%%', 1e2*phat0)
+    if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
+      xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample proportions
+      dname <- sprintf(fmt = '\u0394p\u0302=%.1f%%', 1e2*xbar0)
     } else {
-      phat0 <- phat[1L] - phat[2L]
+      xbar0 <- xbar[1L] - xbar[2L]
       dname <- paste(dname, collapse = ' vs. ')
     }
     if (missing(null.value)) null.value <- prob[1L] - prob[2L]
     
   } else stop('should not come here')
   
-  zstat <- (phat0 - null.value) / stderr
+  zstat <- (xbar0 - null.value) / stderr
   switch(alternative, less = {
     pval <- pnorm(zstat, lower.tail = TRUE)
     cint0 <- c(-Inf, qnorm(conf.level, lower.tail = TRUE))
@@ -271,14 +269,14 @@ prop_test_CLT <- function(
     cint0 <- c(-1, 1) * qnorm((1 - conf.level)/2, lower.tail = FALSE)
   })
   
-  cint <- phat0 + cint0 * stderr
+  cint <- xbar0 + cint0 * stderr
   attr(cint, which = 'conf.level') <- conf.level
   
   ret <- list(
     statistic = setNames(zstat, nm = 'z'),
     p.value = pval, 
     conf.int = cint, 
-    null.value = setNames(null.value, nm = switch(length(phat), '1' = 'proportion', '2' = 'proportion-difference')),
+    null.value = setNames(null.value, nm = switch(length(n), '1' = 'proportion', '2' = 'proportion-difference')),
     stderr = stderr, alternative = alternative, method = method, 
     data.name = dname
   )
@@ -289,22 +287,19 @@ prop_test_CLT <- function(
 
 
 
-#' @rdname Chp567
+
+
+#' @rdname Chapter05to07
 #' @export
-aggregated_var_test <- function(
-    xvar, n,
-    null.value = 1,
-    alternative = c('two.sided', 'less', 'greater'), conf.level = .95,
-    ...
-) {
+aggregated_var_test <- function(xsd, n, null.value = 1, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
-  if (!is.numeric(xvar) || anyNA(xvar) || any(xvar <= 0)) stop('Illegal sample variances(s)')
+  if (!is.numeric(xsd) || anyNA(xsd) || any(xsd <= 0)) stop('Illegal sample variances(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal sample size(s)')
   if (!is.numeric(null.value) || length(null.value) != 1L || anyNA(null.value)) stop('Hypothesized mean (difference) must be len-1 number')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
   alternative <- match.arg(alternative)
   
-  tmp <- data.frame(xvar = xvar, n = n)
+  tmp <- data.frame(xvar = xsd^2, n = n)
   xvar <- tmp[['xvar']]
   n <- tmp[['n']]
   df <- n - 1L
@@ -347,7 +342,7 @@ aggregated_var_test <- function(
       pval <- 1 - pval
       cint <- c(estimate/qf(conf.level, df1 = df[1L], df2 = df[2L]), Inf)
     })
-
+    
   } else stop('should not come here')
   
   cint <- unname(cint)
@@ -361,8 +356,10 @@ aggregated_var_test <- function(
   )
   class(ret) <- 'htest'
   return(ret)
-
+  
 }
+
+
 
 
 

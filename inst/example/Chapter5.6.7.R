@@ -1,4 +1,13 @@
 library(DanielBiostatistics10th)
+# To run a line of code, use shortcut
+# Command + Enter: Mac and RStudio Cloud
+# Control + Enter: Windows, Mac and RStudio Cloud
+# To clear the console
+# Control + L: Mac and RStudio Cloud
+
+# To view the help files of functions in Chapter 5-7
+# ?Chapter05to07
+
 
 # Page 142, Example 5.3.2
 aggregated_z_test(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
@@ -12,14 +21,14 @@ aggregated_z_test(xbar = 20, sd = c(15, 20), n = c(35L, 40L), null.value = 45-30
   alternative = 'greater')
 
 # Page 150, Example 5.5.1
-prop_test_CLT(phat = .4, n = 150L, prob = .357, alternative = 'greater')
+prop_test_CLT(xbar = .4, n = 150L, prob = .357, alternative = 'greater')
 # Page 152, Example 5.5.2
-prop_test_CLT(phat = .45, n = 200L, prob = .51, alternative = 'less')
+prop_test_CLT(xbar = .45, n = 200L, prob = .51, alternative = 'less')
 
 # Page 155, Example 5.6.1
-prop_test_CLT(phat = .1, prob = c(.28, .21), n = 100L, alternative = 'greater')
+prop_test_CLT(xbar = .1, prob = c(.28, .21), n = 100L, alternative = 'greater')
 # Page 155, Example 5.6.2
-prop_test_CLT(phat = .05, prob = c(.34, .26), n = c(250L, 200L), alternative = 'less')
+prop_test_CLT(xbar = .05, prob = c(.34, .26), n = c(250L, 200L), alternative = 'less')
 
 # Page 166, Example 6.2.1
 aggregated_z_test(xbar = 22, n = 10L, sd = sqrt(45))
@@ -47,7 +56,7 @@ aggregated_t_test(xbar = c(4.7, 8.8), xsd = c(9.3, 11.5), n = c(18L, 10L))
 # Welch slightly different from Cochran; textbook explained on Page 182
 
 # Page 185, Example 6.5.1
-prop_test_CLT(phat = .18, n = 1220L)
+prop_test_CLT(xbar = .18, n = 1220L)
 
 # Page 187, Example 6.6.1
 prop_test_CLT(x = c(31L, 53L), n = c(68L, 255L), conf.level = .99)
@@ -68,10 +77,10 @@ sprintf('Example 6.8.1 requires a sample size of %d.', ceiling(n_681$root))
 
 # Page 196, Example 6.9.1
 d691 = c(9.7, 12.3, 11.2, 5.1, 24.8, 14.8, 17.7)
-sqrt(aggregated_var_test(xvar = var(d691), n = length(d691))$conf.int)
+sqrt(aggregated_var_test(xsd = sd(d691), n = length(d691))$conf.int)
 
 # Page 200, Example 6.10.1
-aggregated_var_test(xvar = c(8.1, 5.9)^2, n = c(16L, 4L))
+aggregated_var_test(xsd = c(8.1, 5.9), n = c(16L, 4L))
 
 # Page 222, Example 7.2.1
 aggregated_z_test(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30)
@@ -112,9 +121,9 @@ prop_test_CLT(x = 24L, n = 301L, prob = .063, alternative = 'greater')
 prop_test_CLT(x = c(24L, 11L), n = c(44L, 29L), p.equal = TRUE, alternative = 'greater')
 
 # Page 264, Example 7.7.1
-aggregated_var_test(xvar = 670.81, n = 16L, null.value = 600)
+aggregated_var_test(xsd = sqrt(670.81), n = 16L, null.value = 600)
 
 # Page 268, Example 7.8.1
-aggregated_var_test(xvar = c(30.62, 11.37)^2, n = 6L, alternative = 'greater')
+aggregated_var_test(xsd = c(30.62, 11.37), n = 6L, alternative = 'greater')
 # Page 270, Example 7.8.2
 with(d732, var.test(x = CONTROL, y = SCI))

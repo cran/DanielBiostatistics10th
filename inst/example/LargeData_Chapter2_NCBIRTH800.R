@@ -1,3 +1,9 @@
+library(DanielBiostatistics10th)
+# To run a line of code, use shortcut
+# Command + Enter: Mac and RStudio Cloud
+# Control + Enter: Windows, Mac and RStudio Cloud
+# To clear the console
+# Control + L: Mac and RStudio Cloud
 
 # Page 62, Large Data Set `NCBIRTH800`
 
@@ -55,9 +61,7 @@ boxplot(mage ~ marital, data = NCBIRTH800)
 
 
 # Page 90, Chapter 3
-
 addProbs(table(NCBIRTH800[c('premie', 'smoke')]))
-
 addProbs(table(NCBIRTH800[c('low', 'marital')]))
 
 

@@ -7,29 +7,32 @@
 #' 
 #' @description 
 #' 
-#' Functions for Chapter 4, \emph{Probability Distributions} of Wayne W. Daniel's 
-#' \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
+#' Functions for Chapter 4, \emph{Probability Distributions}.
 #' 
-#' @param size,prob see \code{\link[stats]{dbinom}}
+#' @param size non-negative \link[base]{integer} scalar, number of trials for binomial distribution
 #' 
-#' @param lambda see \code{\link[stats]{dpois}}
+#' @param prob \link[base]{numeric} scalar between 0 and 1, probability of success on each trial for binomial distribution
 #' 
-#' @param xlim length-2 \link[base]{numeric} vector, horizontal limit of the figure.
+#' @param lambda non-negative \link[base]{numeric} scalar, mean of Poisson distribution
+#' 
+#' @param xlim length-two \link[base]{numeric} vector, horizontal limit of the figure
 #' 
 #' @return 
 #' 
-#' \code{\link{binomBar}} generates a bar plot of a Binomial distribution.
+#' \link{binomBar} generates a bar plot of a binomial distribution.
 #' 
-#' \code{\link{poisBar}} generates a bar plot of a Poisson distribution.
+#' \link{poisBar} generates a bar plot of a Poisson distribution.
+#' 
+#' @seealso \link[stats]{dbinom} \link[stats]{dpois} \link[graphics]{barplot}
 #' 
 #' @references
 #' 
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
-#' @example inst/example/chp4.R  
-
-#' @name Chp4
+#' @example inst/example/Chapter4.R  
+#' 
+#' @name Chapter04
 #' @export
 binomBar <- function(size, prob, xlim = size) {
   if (!is.integer(size) || length(size) != 1L) stop('size must be len-1 integer')
@@ -42,7 +45,7 @@ binomBar <- function(size, prob, xlim = size) {
   return(invisible())
 }
 
-#' @rdname Chp4
+#' @rdname Chapter04
 #' @export
 poisBar <- function(lambda, xlim) {
   if (!is.numeric(lambda) || length(lambda) != 1L || is.na(lambda) || lambda < 0) stop('lambda must be len-1 positive numeric')

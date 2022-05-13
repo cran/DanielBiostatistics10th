@@ -1,4 +1,12 @@
 library(DanielBiostatistics10th)
+# To run a line of code, use shortcut
+# Command + Enter: Mac and RStudio Cloud
+# Control + Enter: Windows, Mac and RStudio Cloud
+# To clear the console
+# Control + L: Mac and RStudio Cloud
+
+# To view the help files of functions in Chapter 3
+# ?Chp3
 
 # Page 69, Example 3.4.1
 (d341 = matrix(c(28L, 19L, 41L, 53L, 35L, 38L, 44L, 60L), ncol = 2L, 
