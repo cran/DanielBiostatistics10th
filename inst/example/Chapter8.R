@@ -5,22 +5,18 @@ library(DanielBiostatistics10th)
 # To clear the console
 # Control + L: Mac and RStudio Cloud
 
-
+library(reshape2)
 
 # Page 318, Example 8.2.1
-dim(d821_raw <- read.csv('data/EXA_C08_S02_01.csv'))
-head(d821_raw) # one `Meat` per column, not a desired format for analysis
-colSums(!is.na(d821_raw)) # the data has 42 venison, 30 squirrel, etc
-head(d821 <- reshape2::melt(
-  data = d821_raw, 
-  # measure.vars = names(d821_raw),
+d821 = read.csv(system.file('extdata', 'EXA_C08_S02_01.csv', package = 'DanielBiostatistics10th'))
+head(d821) # one `Meat` per column, not a desired format for analysis
+colSums(!is.na(d821)) # the data has 42 venison, 30 squirrel, etc
+head(d821a <- reshape2::melt(data = d821, id.vars = NULL,
   value.name = 'Selenium', variable.name = 'Meat'))
-# `d821` has a desired format: 1st column denote `Meat` and 2nd column `Selenium`
-boxplot(Selenium ~ Meat, data = d821) # Page 323, Figure 8.2.7
-# ?stats::aov fits an analysis-of-variance model
-(aov_821 = aov(Selenium ~ Meat, data = d821))
-# ?stats::anova provides the ANOVA table
-anova(aov_821)
+# `d821a` has a desired format: 1st column denote `Meat` and 2nd column `Selenium`
+boxplot(Selenium ~ Meat, data = d821a) # Page 323, Figure 8.2.7
+(aov_821 = aov(Selenium ~ Meat, data = d821a)) # ?stats::aov # analysis-of-variance model
+anova(aov_821) # ?stats::anova #  ANOVA table
 # Interpretation: ANOVA shows that the three group means are not all same (p < .001)
 # you don't need to specify 'alpha' here
 # the line 'Signif. codes' gives you
@@ -39,44 +35,48 @@ confint(tukey_822) # Page 326, Figure 8.2.8
 
 
 # Page 339, Example 8.3.1
-head(d831_raw <- read.csv('data/EXA_C08_S03_01.csv'))
-class(d831_raw$ageGroup)
-d831 = within(d831_raw, expr = {
+d831 = read.csv(system.file('extdata', 'EXA_C08_S03_01.csv', package = 'DanielBiostatistics10th'))
+head(d831)
+class(d831$ageGroup)
+d831a = within(d831, expr = {
   ageGroup = structure(ageGroup, levels = c('<20', '20s', '30s', '40s', '>50'), class = 'factor')
 })
-class(d831$ageGroup)
-head(d831$ageGroup)
-(aov_831 = aov(time ~ method + ageGroup, data = d831))
+class(d831a$ageGroup); table(d831a$ageGroup)
+head(d831a$ageGroup)
+(aov_831 = aov(time ~ method + ageGroup, data = d831a))
 anova(aov_831)
 
 
 
 # Page 348, Example 8.4.1
-head(d841_raw <- read.csv('data/EXA_C08_S04_01.csv'))
-d841 = within(d841_raw, expr = {
+d841 = read.csv(system.file('extdata', 'EXA_C08_S04_01.csv', package = 'DanielBiostatistics10th'))
+head(d841)
+d841a = within(d841, expr = {
   SUBJ = factor(SUBJ)
   TIME = structure(TIME, levels = c('Baseline', '1-Mon', '3-Mon', '6-Mon'), class = 'factor')
 })
-(aov_841 = aov(FUNC ~ SUBJ + TIME, data = d841))
+(aov_841 = aov(FUNC ~ SUBJ + TIME, data = d841a))
 anova(aov_841)
 
 
 
 # Page 352, Example 8.4.2 (optional; out of the scope of this course)
-(d842_raw <- read.csv('data/EXA_C08_S04_02.csv'))
+d842 = read.csv(system.file('extdata', 'EXA_C08_S04_02.csv', package = 'DanielBiostatistics10th'))
+head(d842)
 # 'subject': patient ID (NOT repeated measures, REMOVE)
 # treatment: 1 (placebo) and 2 (aloe juice)
 # totalC[1-4]: measurement at four timepoints, baseline, 2wk, 4wk and 6wk
-d842 = reshape2::melt(within(d842_raw, expr = {
+d842a = within(d842, expr = {
   subject = factor(subject)
   treatment = factor(treatment)
-}), id.vars = c('subject', 'treatment'), variable.name = 'time', value.name = 'OralScores')
-head(d842)
+})
+head(d842b <- reshape2::melt(d842a, id.vars = c('subject', 'treatment'), 
+                             variable.name = 'time', value.name = 'OralScores'))
 # Hypothesis: 
 # Main effect of 'treatment';
 # Main effect of 'time';
 # Interaction between 'treatment' and 'time'
-(aov_842 = aov(OralScores ~ treatment * time + Error(subject), data = d842))
+(aov_842 = aov(OralScores ~ treatment * time + Error(subject), data = d842b))
 class(aov_842)
 summary(aov_842)
 # Section 'Error: subject' in R output
@@ -94,20 +94,20 @@ summary(aov_842)
 # .. No significant difference detected in the trends over time between placebo vs. aloe (p = .974)
 # .. Significant difference detected among the four measurement times, for either placebo or aloe patients (p = 3e-7)
 # R code below creates an equivalent ANOVA model
-anova(aov(OralScores ~ treatment * time + subject, data = d842))
+anova(aov(OralScores ~ treatment * time + subject, data = d842b))
 # .. 'subject' is considered as a block factor 
 
 
 # Page 364, Example 8.5.2
-head(d852_raw <- read.csv('data/EXA_C08_S05_02.csv'))
-d852 = within(d852_raw, expr = {
+d852 = read.csv(system.file('extdata', 'EXA_C08_S05_02.csv', package = 'DanielBiostatistics10th'))
+d852a = within(d852, expr = {
   A = structure(A, levels = c('Cardiac', 'Cancer', 'CVA', 'Tuberculosis'), class = 'factor')
   B = structure(B, levels = c('20s', '30s', '40s', '50+'), class = 'factor')
 })
-(aov_852 = aov(HOME ~ A * B, data = d852))
+(aov_852 = aov(HOME ~ A * B, data = d852a))
 anova(aov_852)
 
-summary(lm(HOME ~ A * B, data = d852)) # produces alpha, beta and (alpha beta)'s in the formulation 
+summary(lm(HOME ~ A * B, data = d852a)) # produces alpha, beta and (alpha beta)'s in the formulation 
 
 
 

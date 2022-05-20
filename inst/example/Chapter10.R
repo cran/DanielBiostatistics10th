@@ -6,10 +6,11 @@ library(DanielBiostatistics10th)
 # Control + L: Mac and RStudio Cloud
 
 
-
+library(car)
 
 # Page 493, Example 10.3.1
-head(d1031 <- read.csv('data/EXA_C10_S03_01.csv'))
+d1031 = read.csv(system.file('extdata', 'EXA_C10_S03_01.csv', package = 'DanielBiostatistics10th'))
+head(d1031)
 car::scatterplotMatrix(~ AGE + EDLEVEL + CDA, data = d1031, smooth = FALSE, regLine = TRUE,
                        main = 'Page 494, Figure 10.3.1')
 # perform multivariable linear model
@@ -37,7 +38,8 @@ predict(mod_1031, newdata = newd_1031, interval = 'confidence')
 
 
 # Page 511, Example 10.6.1
-head(d1061 <- read.csv('data/EXA_C10_S06_01.csv'))
+d1061 = read.csv(system.file('extdata', 'EXA_C10_S06_01.csv', package = 'DanielBiostatistics10th'))
+head(d1061)
 car::scatterplotMatrix(~ W + P + S, data = d1061, smooth = FALSE, regLine = TRUE,
                        main = 'Scatter Plot Matrix of Example 10.6.1')
 summary(mod_1061 <- lm(W ~ P + S, data = d1061))

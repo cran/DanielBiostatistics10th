@@ -1,8 +1,5 @@
 
 
-
-
-
 #' @title Chapter 4
 #' 
 #' @description 

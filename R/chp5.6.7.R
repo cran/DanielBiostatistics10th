@@ -1,6 +1,5 @@
 
 
-
 #' @title Chapter 5, 6 and 7
 #' 
 #' @description 
@@ -9,10 +8,11 @@
 #' Chapter 6, \emph{Estimation} and 
 #' Chapter 7, \emph{Hypothesis Testing}.
 #' 
-#' @param x \link[base]{integer} scalar or length-two vector, positive count(s) of binary variable(s)
+#' @param x \link[base]{integer} scalar or length-two vector, positive count(s) of binary (i.e., \link[base]{logical}) variable(s)
 #' 
-#' @param xbar \link[base]{numeric} scalar or length-two vector, sample mean(s) for numeric variable(s) or
-#' sample proportion(s) for binary variable(s). 
+#' @param xbar \link[base]{numeric} scalar or length-two vector, 
+#' sample mean(s) for \link[base]{numeric} variable(s) or
+#' sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s). 
 #' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
 #' sample means or sample proportions.
 #' 
@@ -22,9 +22,11 @@
 #' 
 #' @param n \link[base]{integer} scalar or length-two vector, sample size(s)
 #' 
-#' @param prob \link[base]{numeric} scalar or length-two vector, population probability or probabilities
-#' 
-#' @param null.value \link[base]{numeric} scalar, null value of hypothesis testing
+#' @param null.value (optional) \link[base]{numeric} scalar, 
+#' null value(s) of the population mean(s) for \link{aggregated_z} and \link{aggregated_t},
+#' null value(s) of the population proportion(s) for \link{prop_CLT},
+#' null value(s) of the population variance(s) (ratio) for \link{aggregated_var}.
+#' If missing, only the confidence interval will be computed
 #' 
 #' @param alternative \link[base]{character} scalar, alternative hypothesis,
 #' either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}
@@ -32,35 +34,43 @@
 #' @param conf.level \link[base]{numeric} scalar, confidence level, default 0.95
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two population variances as being equal 
-#' (default \code{FALSE})
-#' 
-#' @param p.equal \link[base]{logical} scalar, whether to use pooled sample proportion 
-#' (default \code{FALSE}) if \code{prob} is not provided
+#' (default \code{FALSE}) in \link{aggregated_t}
 #' 
 #' @param ... potential arguments, not in use currently
 #' 
 #' @details  
 #' 
-#' \link{aggregated_z_test} performs one-sample or two-sample \eqn{z}-test 
-#' using aggregated statistics of sample mean(s) and sample size(s).
+#' \link{aggregated_z} performs one-sample or two-sample \eqn{z}-test 
+#' using aggregated statistics of sample mean(s) and sample size(s) when 
+#' \code{null.value} is provided.  Otherwise, only the confidence interval based on 
+#' \eqn{z}-distribution is computed.
 #' 
-#' \link{aggregated_t_test} performs one-sample or two-sample \eqn{t}-test 
-#' using aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s).
+#' \link{aggregated_t} performs one-sample or two-sample \eqn{t}-test 
+#' using aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
+#' when \code{null.value} is provided.  Otherwise, only the confidence interval based on 
+#' \eqn{t}-distribution is computed.
 #' 
-#' \link{prop_test_CLT} performs one-sample or two-sample \eqn{z}-test on proportion(s),
-#' using Central Limit Theorem
+#' \link{prop_CLT} performs one-sample or two-sample \eqn{z}-test on proportion(s),
+#' using Central Limit Theorem when \code{null.value} is provided.  
+#' Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 #' 
-#' \link{aggregated_var_test} performs \eqn{\chi^2}-test on one-sample variance, 
-#' or \eqn{F}-test on two-sample variances, using aggregated statistics of sample standard deviation(s) and sample size(s).
+#' \link{aggregated_var} performs \eqn{\chi^2}-test on one-sample variance, 
+#' or \eqn{F}-test on two-sample variances, using aggregated statistics of 
+#' sample standard deviation(s) and sample size(s) when \code{null.value} is provided.  
+#' Otherwise, only the confidence interval based on \eqn{\chi^2}-distribution or \eqn{F}-distribution is computed.
 #' 
 #' @return 
-#' \link{aggregated_z_test} returns an \code{'htest'} object.
+#' \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided, 
+#' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' \link{aggregated_t_test} returns an \code{'htest'} object.
+#' \link{aggregated_t} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided, 
+#' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' \link{prop_test_CLT} returns an \code{'htest'} object.
+#' \link{prop_CLT} returns an \link[stats:prop.test]{htest} object when \code{null.value} is provided, 
+#' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' \link{aggregated_var_test} returns an \code{'htest'} object.
+#' \link{aggregated_var} returns an \link[stats:var.test]{htest} object when \code{null.value} is provided, 
+#' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' @seealso \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
 #' 
@@ -73,13 +83,15 @@
 #' 
 #' @name Chapter05to07
 #' @export
-aggregated_z_test <- function(xbar, n, sd, null.value = 0, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
+aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
   if (!is.numeric(xbar) || anyNA(xbar)) stop('Illegal sample mean(s)')
   if (!is.numeric(sd) || anyNA(sd) || any(sd <= 0)) stop('Illegal population standard deviation(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal sample size(s)')
-  if (!is.numeric(null.value) || length(null.value) != 1L || anyNA(null.value)) stop('Hypothesized mean (difference) must be len-1 number')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
+  if (do_test <- !missing(null.value)) {
+    if (!is.numeric(null.value) || !any((n0 <- length(null.value)) == 1:2) || anyNA(null.value)) stop('Hypothesized mean (difference) must be len-1 or len-2 number')
+  }
   alternative <- match.arg(alternative)
   
   tmp <- data.frame(xbar = xbar, sd = sd, n = n) # vector recycling, let warn
@@ -92,6 +104,7 @@ aggregated_z_test <- function(xbar, n, sd, null.value = 0, alternative = c('two.
     method <- 'One Sample z-test'
     stderr <- sd / sqrt(n)
     xbar0 <- xbar
+    if (do_test && (n0 != 1L)) stop('`null.value` must be len-1 for one-sample z-test')
     
   } else if (length(xbar) == 2L) { # two sample z-test
     method <- 'Two Sample z-test'
@@ -103,22 +116,25 @@ aggregated_z_test <- function(xbar, n, sd, null.value = 0, alternative = c('two.
       xbar0 <- xbar[1L] - xbar[2L]
       dname <- paste(dname, collapse = ' vs. ')
     }
+    if (do_test && (n0 == 2L)) null.value <- null.value[1L] - null.value[2L]
+      
   } else stop('should not come here')
   
-  zstat <- (xbar0 - null.value) / stderr
+  if (do_test) zstat <- (xbar0 - null.value) / stderr
   switch(alternative, less = {
-    pval <- pnorm(zstat, lower.tail = TRUE)
+    if (do_test) pval <- pnorm(zstat, lower.tail = TRUE)
     cint0 <- c(-Inf, qnorm(conf.level, lower.tail = TRUE))
   }, greater = {
-    pval <- pnorm(zstat, lower.tail = FALSE)
+    if (do_test) pval <- pnorm(zstat, lower.tail = FALSE)
     cint0 <- c(qnorm(conf.level, lower.tail = FALSE), Inf)
   }, two.sided = {
-    pval <- 2 * pnorm(abs(zstat), lower.tail = FALSE)
+    if (do_test) pval <- 2 * pnorm(abs(zstat), lower.tail = FALSE)
     cint0 <- c(-1, 1) * qnorm((1 - conf.level)/2, lower.tail = FALSE)
   })
   
   cint <- xbar0 + cint0 * stderr
   attr(cint, which = 'conf.level') <- conf.level
+  if (!do_test) return(cint)
   
   ret <- list(
     statistic = setNames(zstat, nm = 'z'),
@@ -135,21 +151,17 @@ aggregated_z_test <- function(xbar, n, sd, null.value = 0, alternative = c('two.
 
 
 
-
 #' @rdname Chapter05to07
 #' @export
-aggregated_t_test <- function(
-    xbar, xsd, n, 
-    null.value = 0, var.equal = FALSE, 
-    alternative = c('two.sided', 'less', 'greater'), conf.level = .95, 
-    ...
-) {
+aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
   if (!is.numeric(xbar) || anyNA(xbar)) stop('Illegal sample mean(s)')
   if (!is.numeric(xsd) || anyNA(xsd) || any(xsd <= 0)) stop('Illegal sample standard deviation(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal sample size(s)')
-  if (!is.numeric(null.value) || length(null.value) != 1L || anyNA(null.value)) stop('Hypothesized mean (difference) must be len-1 number')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
+  if (do_test <- !missing(null.value)) {
+    if (!is.numeric(null.value) || !any((n0 <- length(null.value)) == 1:2) || anyNA(null.value)) stop('Hypothesized mean (difference) must be len-1 or len-2 number')
+  }
   alternative <- match.arg(alternative)
   
   tmp <- data.frame(xbar = xbar, xsd = xsd, n = n) # vector recycling, let warn
@@ -163,10 +175,10 @@ aggregated_t_test <- function(
     df <- n - 1L
     stderr <- xsd / sqrt(n)
     xbar0 <- xbar
+    if (do_test && (n0 != 1L)) stop('`null.value` must be len-1 for one-sample z-test')
     
   } else if (length(xbar) == 2L) { # two sample t-test
     method <- if (var.equal) 'Two Sample t-test (Equal-Variance)' else 'Welch Two Sample t-test'
-    
     df <- Gosset_Welch(s1 = xsd[1L], s2 = xsd[2L], n1 = n[1L], n2 = n[2L], var.equal = var.equal)
     stderr <- attr(df, which = 'stderr', exact = TRUE)
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
@@ -176,22 +188,25 @@ aggregated_t_test <- function(
       xbar0 <- xbar[1L] - xbar[2L]
       dname <- paste(dname, collapse = ' vs. ')
     }
+    if (do_test && (n0 == 2L)) null.value <- null.value[1L] - null.value[2L]
+    
   } else stop('should not come here')
   
-  tstat <- (xbar0 - null.value) / stderr
+  if (do_test) tstat <- (xbar0 - null.value) / stderr
   switch(alternative, less = {
-    pval <- pt(tstat, df = df, lower.tail = TRUE)
+    if (do_test) pval <- pt(tstat, df = df, lower.tail = TRUE)
     cint0 <- c(-Inf, qt(conf.level, df = df, lower.tail = TRUE))
   }, greater = {
-    pval <- pt(tstat, df = df, lower.tail = FALSE)
+    if (do_test) pval <- pt(tstat, df = df, lower.tail = FALSE)
     cint0 <- c(qt(conf.level, df = df, lower.tail = FALSE), Inf)
   }, two.sided = {
-    pval <- 2 * pt(abs(tstat), df = df, lower.tail = FALSE)
+    if (do_test) pval <- 2 * pt(abs(tstat), df = df, lower.tail = FALSE)
     cint0 <- c(-1, 1) * qt((1 - conf.level)/2, df = df, lower.tail = FALSE)
   })
   
   cint <- xbar0 + cint0 * stderr
   attr(cint, which = 'conf.level') <- conf.level
+  if (!do_test) return(cint)
   
   ret <- list(
     statistic = setNames(tstat, nm = 't'), parameter = setNames(df, nm = 'df'), p.value = pval, 
@@ -209,43 +224,52 @@ aggregated_t_test <- function(
 
 #' @rdname Chapter05to07
 #' @export
-prop_test_CLT <- function(x, n, xbar = x/n, prob = xbar, p.equal = FALSE,
-    null.value = 0, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, 
-    ...
-) {
+prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
   if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0)) stop('Illegal sample proportion(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal total count(s)')
-  if (!is.numeric(prob) || anyNA(prob) || any(prob < 0) || any(prob > 1)) stop('Illegal population proportion(s)')
-  if (!missing(null.value)) {
-    if (!is.numeric(null.value) || length(null.value) != 1L || anyNA(null.value)) stop('Hypothesized proportion (difference) must be len-1 number')
-  }
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
+  if (do_test <- !missing(null.value)) {
+    if (!is.numeric(null.value) || !any((n0 <- length(null.value)) == 1:2) || anyNA(null.value)) stop('Hypothesized proportion (difference) must be len-1 or len-2 number')
+  }
   alternative <- match.arg(alternative)
   
   tmp <- if (missing(x)) {
-    data.frame(xbar = xbar, n = n, prob = prob) # vector recycling, let warn
-  } else data.frame(x = x, xbar = xbar, n = n, prob = prob)
+    data.frame(xbar = xbar, n = n) # vector recycling, let warn
+  } else data.frame(x = x, xbar = xbar, n = n)
   xbar <- tmp[['xbar']]
   n <- tmp$n
   dname <- sprintf(fmt = '%.1f%% (n=%d)', 1e2*xbar, n)
   
   if (length(n) == 1L) { # one sample test
     method <- 'One Sample z-test on Proportion'
-    prob <- tmp[['prob']]
-    stderr <- sqrt(prob*(1-prob)/n)
+    if (do_test) {
+      if (n0 != 1L) stop('`null.value` must be len-1 for one-sample z-test')
+      null_val <- null.value
+    }
+    stderr <- if (do_test) sqrt(null.value * (1-null.value) / n) else sqrt(xbar * (1-xbar) / n)
     xbar0 <- xbar
-    if (missing(null.value)) null.value <- prob
     
   } else if (length(n) == 2L) { # two sample test
     method <- 'Two Sample z-test on Proportions'
-    
-    if (missing(prob)) {
-      if (length(x <- tmp[['x']]) && p.equal) {
-        prob <- rep(sum(x)/sum(n), times = 2L)
-      } else prob <- tmp[['prob']]
-    } else prob <- tmp[['prob']]
-    stderr <- sqrt(prob[1L]*(1-prob[1L])/n[1L] + prob[2L]*(1-prob[2L])/n[2L])
+    if (do_test) {
+      p.equal <- FALSE
+      if (n0 == 1L) {
+        null_val <- null.value
+        if (null.value == 0) {
+          p.equal <- TRUE
+        } else stop('must specify the two population proportions')
+      } else { # n0 == 2L
+        null_val <- null.value[1L] - null.value[2L]
+        if (isTRUE(all.equal(null_val, 0))) p.equal <- TRUE
+      }
+    }
+    stderr <- if (!do_test) {
+      sqrt(sum(xbar * (1-xbar) / n))
+    } else if (p.equal) {
+      xbar_eq <- sum(xbar * n) / sum(n)
+      sqrt(xbar_eq * (1-xbar_eq) * sum(1/n))
+    } else sqrt(sum(null.value * (1-null.value) / n))
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
       xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample proportions
       dname <- sprintf(fmt = '\u0394p\u0302=%.1f%%', 1e2*xbar0)
@@ -253,30 +277,30 @@ prop_test_CLT <- function(x, n, xbar = x/n, prob = xbar, p.equal = FALSE,
       xbar0 <- xbar[1L] - xbar[2L]
       dname <- paste(dname, collapse = ' vs. ')
     }
-    if (missing(null.value)) null.value <- prob[1L] - prob[2L]
     
   } else stop('should not come here')
   
-  zstat <- (xbar0 - null.value) / stderr
+  if (do_test) zstat <- (xbar0 - null_val) / stderr
   switch(alternative, less = {
-    pval <- pnorm(zstat, lower.tail = TRUE)
+    if (do_test) pval <- pnorm(zstat, lower.tail = TRUE)
     cint0 <- c(-Inf, qnorm(conf.level, lower.tail = TRUE))
   }, greater = {
-    pval <- pnorm(zstat, lower.tail = FALSE)
+    if (do_test) pval <- pnorm(zstat, lower.tail = FALSE)
     cint0 <- c(qnorm(conf.level, lower.tail = FALSE), Inf)
   }, two.sided = {
-    pval <- 2 * pnorm(abs(zstat), lower.tail = FALSE)
+    if (do_test) pval <- 2 * pnorm(abs(zstat), lower.tail = FALSE)
     cint0 <- c(-1, 1) * qnorm((1 - conf.level)/2, lower.tail = FALSE)
   })
   
   cint <- xbar0 + cint0 * stderr
   attr(cint, which = 'conf.level') <- conf.level
+  if (!do_test) return(cint)
   
   ret <- list(
     statistic = setNames(zstat, nm = 'z'),
     p.value = pval, 
     conf.int = cint, 
-    null.value = setNames(null.value, nm = switch(length(n), '1' = 'proportion', '2' = 'proportion-difference')),
+    null.value = setNames(null_val, nm = switch(length(n), '1' = 'proportion', '2' = 'proportion-difference')),
     stderr = stderr, alternative = alternative, method = method, 
     data.name = dname
   )
@@ -287,16 +311,16 @@ prop_test_CLT <- function(x, n, xbar = x/n, prob = xbar, p.equal = FALSE,
 
 
 
-
-
 #' @rdname Chapter05to07
 #' @export
-aggregated_var_test <- function(xsd, n, null.value = 1, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
+aggregated_var <- function(xsd, n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
   if (!is.numeric(xsd) || anyNA(xsd) || any(xsd <= 0)) stop('Illegal sample variances(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal sample size(s)')
-  if (!is.numeric(null.value) || length(null.value) != 1L || anyNA(null.value)) stop('Hypothesized mean (difference) must be len-1 number')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
+  if (do_test <- !missing(null.value)) {
+    if (!is.numeric(null.value) || !any((n0 <- length(null.value)) == 1:2) || anyNA(null.value)) stop('Hypothesized variance (ratio) must be len-1 or len-2 number')
+  }
   alternative <- match.arg(alternative)
   
   tmp <- data.frame(xvar = xsd^2, n = n)
@@ -308,38 +332,44 @@ aggregated_var_test <- function(xsd, n, null.value = 1, alternative = c('two.sid
   if (length(xvar) == 1L) {
     # essentially ?EnvStats::varTest
     estimate <- NULL # actually `xvar`, no need to output
-    null.value <- setNames(null.value, nm = 'variance')
     method <- 'Chi-squared test on one-sample variance'
-    v_stat <- setNames((df * xvar) / null.value, nm = 'Chi-Squared')
     df <- setNames(df, nm = 'df')
-    pval <- unname(pchisq(v_stat, df = df))
+    if (do_test) {
+      if (n0 != 1L) stop('`null.value` must be len-1 for ', method)
+      null.value <- setNames(null.value, nm = 'variance')
+      v_stat <- setNames((df * xvar) / null.value, nm = 'Chi-Squared')
+      pval <- unname(pchisq(v_stat, df = df))
+    }
     switch(alternative, two.sided = {
-      pval <- 2 * min(pval, 1-pval)
+      if (do_test) pval <- 2 * min(pval, 1-pval)
       a2 <- (1 - conf.level)/2
       cint <- df * xvar / qchisq(c(1-a2, a2), df = df)
     }, less = {
       cint <- c(0, df * xvar / qchisq(1 - conf.level, df = df))
     }, greater = {
-      pval <- 1 - pval
+      if (do_test) pval <- 1 - pval
       cint <- c(df * xvar / qchisq(conf.level, df = df), Inf)
     })
     
   } else if (length(xvar) == 2L) {
-    estimate <- setNames(xvar[1L] / xvar[2L], nm = 'Estimated Variances-Ratio')
-    null.value <- setNames(null.value, nm = 'variances-ratio')
     method <- 'F test to compare two variances'
     dname <- paste(dname, collapse = ' vs. ')
-    v_stat <- setNames(estimate / null.value, nm = 'F')
+    estimate <- setNames(xvar[1L] / xvar[2L], nm = 'Estimated Variances-Ratio')
     df <- setNames(df, nm = c('num df', 'denom df'))
-    pval <- pf(v_stat, df1 = df[1L], df2 = df[2L])
+    if (do_test) {
+      if (n0 == 2L) null.value <- null.value[1L] / null.value[2L]
+      null.value <- setNames(null.value, nm = 'variances-ratio')
+      v_stat <- setNames(estimate / null.value, nm = 'F')
+      pval <- pf(v_stat, df1 = df[1L], df2 = df[2L])
+    }
     switch(alternative, two.sided = {
-      pval <- 2 * min(pval, 1-pval)
+      if (do_test) pval <- 2 * min(pval, 1-pval)
       a2 <- (1 - conf.level)/2
       cint <- estimate / qf(c(1-a2, a2), df1 = df[1L], df2 = df[2L])
     }, less = {
       cint <- c(0, estimate/qf(1 - conf.level, df1 = df[1L], df2 = df[2L]))
     }, greater = {
-      pval <- 1 - pval
+      if (do_test) pval <- 1 - pval
       cint <- c(estimate/qf(conf.level, df1 = df[1L], df2 = df[2L]), Inf)
     })
     
@@ -347,6 +377,8 @@ aggregated_var_test <- function(xsd, n, null.value = 1, alternative = c('two.sid
   
   cint <- unname(cint)
   attr(cint, which = 'conf.level') <- conf.level
+  if (!do_test) return(cint)
+  
   ret <- list(
     statistic = v_stat, parameter = df,
     p.value = pval, conf.int = cint, 

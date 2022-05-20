@@ -81,6 +81,7 @@ print_freqs <- function(x, breaks, include.lowest = FALSE, right = TRUE) {
     'Cummulative Freq (%)' = sprintf(fmt = '%d (%.2f%%)', ctab, 100 * ctab/n)
   )
   rownames(ret) <- names(tab)
+  names(dimnames(ret)) <- c(deparse1(substitute(x)), '')
   print.noquote(noquote(ret, right = TRUE))
   return(invisible(list(
     freq = tab, n = n

@@ -8,10 +8,9 @@ library(DanielBiostatistics10th)
 
 
 # Page 417, Example 9.3.1
-# .. Correlation
-# .. Simple Linear Regression
-head(d931 <- read.csv('data/EXA_C09_S03_01.csv'))
+d931 = read.csv(system.file('extdata', 'EXA_C09_S03_01.csv', package = 'DanielBiostatistics10th'))
 dim(d931)
+head(d931)
 names(d931)[2:3] = c('Waist', 'AT') # change the variable names so that they are intuitive
 head(d931)
 plot(AT ~ Waist, data = d931, xlab = 'Waist circumference (cm), X', ylab = 'Deep abdominal AT area (cm2), Y', 
@@ -66,10 +65,10 @@ abline(reg = mod_931_centered)
 
 
 # Page 447, Example 9.7.1
-head(d971 <- read.csv('data/EXA_C09_S07_01.csv'))
+d971 = read.csv(system.file('extdata', 'EXA_C09_S07_01.csv', package = 'DanielBiostatistics10th'))
 dim(d971)
+head(d971)
 summary(mod_971 <- lm(CV ~ HEIGHT, data = d971))
-
 plot(CV ~ HEIGHT, data = d971, xlab = 'Height (cm)', ylab = 'Cv (units)', main = 'Page 449, Figure 9.7.2')
 abline(reg = mod_971)
 

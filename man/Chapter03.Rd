@@ -3,12 +3,12 @@
 \name{Chapter03}
 \alias{Chapter03}
 \alias{addProbs}
-\alias{predictive_value}
+\alias{predictiveValues}
 \title{Chapter 3}
 \usage{
 addProbs(A)
 
-predictive_value(
+predictiveValues(
   A,
   sensitivity = A[1, 1]/sum(A[, 1]),
   specificity = A[2, 2]/sum(A[, 2]),
@@ -16,26 +16,35 @@ predictive_value(
 )
 }
 \arguments{
-\item{A}{\link[base]{integer} \link[base]{matrix} of contingency table.
-For \link{predictive_value} function, this must be a 2-by-2 contingency table.}
+\item{A}{\link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.
+For \link{predictiveValues} function, this must be a 2-by-2 contingency table.}
 
-\item{sensitivity}{\link[base]{numeric} scalar, sensitivity of a test}
+\item{sensitivity}{\link[base]{numeric} scalar, sensitivity of a test.
+By default, this is calculated by the test-disease contingency table \code{A}}
 
-\item{specificity}{\link[base]{numeric} scalar, specificity of a test}
+\item{specificity}{\link[base]{numeric} scalar, specificity of a test
+By default, this is calculated by the test-disease contingency table \code{A}}
 
-\item{prevalence}{(optional) \link[base]{numeric} scalar, prevalence of a disease}
+\item{prevalence}{\link[base]{numeric} scalar or vector, prevalence(s) of disease}
 }
 \value{
-\link{addProbs} returns an \code{'addProbs'} object.
+\link{addProbs} returns an \link{addProbs} object, which is a \link[base]{list} consisting of 
+a \link[base]{noquote} \link[base]{matrix} of joint probabilities,
+and two \link[base]{noquote} \link[base]{matrix} of conditional probabilities.
+A \link[base]{print} method is defined for \link{addProbs} object.
 
-\link{predictive_value} returns a \code{'predictiveValue'} object.
+\link{predictiveValues} returns a \link{predictiveValues} object, which is a 
+\link[base]{list} of three \link[base]{double} vector elements named 
+\code{'Prevalence'}, \code{'PVP'}, \code{'PVN'}.  
+A \link[base]{print} method and an \link[ggplot2]{autoplot} method are defined 
+for \link{predictiveValues} object.
 }
 \description{
 Functions for Chapter 3, \emph{Some Basic Probability Concepts}.
 }
 \details{
 \link{addProbs} provides the joint, marginal and conditional probabilities of a contingency table.
-\link{predictive_value} provides the predictive values based on (the sensitivity and specificity of) a test, 
+\link{predictiveValues} provides the predictive values based on (the sensitivity and specificity of) a test, 
 based on the 2-by-2 test-disease contingency table,
 and the disease prevalence.
 }
@@ -48,20 +57,30 @@ library(DanielBiostatistics10th)
 # Control + L: Mac and RStudio Cloud
 
 # To view the help files of functions in Chapter 3
-# ?Chp3
+# ?Chapter03
 
 # Page 69, Example 3.4.1
-(d341 = matrix(c(28L, 19L, 41L, 53L, 35L, 38L, 44L, 60L), ncol = 2L, 
- dimnames = list(
-   FamilyHx = c('none', 'Bipolar', 'Unipolar', 'UniBipolar'), 
-   Onset = c('Early', 'Late'))))
-class(d341) # 'matrix', i.e., a two-dimensional array
+# Page 70, Example 3.4.2
+# Page 71, Example 3.4.3, Example 3.4.4
+# Page 72, Example 3.4.5
+# Page 73, Example 3.4.6
+# Page 74, Example 3.4.7
+# Page 75, Example 3.4.8
+(d341 = matrix(c(28L, 19L, 41L, 53L, 35L, 38L, 44L, 60L), ncol = 2L, dimnames = list(
+  FamilyHx = c('none', 'Bipolar', 'Unipolar', 'UniBipolar'), 
+  Onset = c('Early', 'Late'))))
+class(d341) # 'matrix', i.e., a two-dimensional 'array'
 addProbs(d341)
 
 # Page 81, Example 3.5.1
-(d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, 
-  dimnames = list(Test = c('Positive', 'Negative'), Alzheimer = c('Yes', 'No'))))
-predictive_value(d351, prevalence = .113)
+(d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, dimnames = list(
+  Test = c('Positive', 'Negative'), Alzheimer = c('Yes', 'No'))))
+(pv_d315 = predictiveValues(d351, prevalence = c(.05, .113, .15)))
+autoplot(pv_d315, xlim = c(0, .15))
+
+# toy example
+(tmp = predictiveValues(sensitivity = .95, specificity = .995, prevalence = c(.001, .95)))
+autoplot(tmp)
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.

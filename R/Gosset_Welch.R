@@ -21,20 +21,14 @@
 #' @param n1,n2 \link[base]{integer} vectors, sample sizes of the two samples
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two variances as being equal 
-#' (default \code{FALSE}).  
-#' 
-#' @details 
-#' 
-#' If \code{var.equal = TRUE}, the degree of freedom, as well as the standard error of the mean-difference,
-#' are determined by equal-variances two-sample t-test, originally from William Sealy Gosset.
-#' 
-#' If \code{var.equal = FALSE}, the degree of freedom, as well as the standard error of the mean-difference,
-#' are determined by Welch–Satterthwaite equation.
+#' when calculating the degree of freedom and the standard error of the mean-difference.
+#' If \code{FALSE} (default), Welch–Satterthwaite equation is used.
+#' If \code{TRUE}, the original two-sample t-test from William Sealy Gosset is used.
 #' 
 #' @return 
 #' 
-#' \link{Gosset_Welch} returns the degree of freedom of two-sample t-test, 
-#' with attribute \code{'stderr'} of the standard error of the mean-difference.
+#' \link{Gosset_Welch} returns a \link[base]{numeric} scalar of the degree of freedom, 
+#' with a \link[base]{numeric} scalar attribute \code{'stderr'} of the standard error of the mean-difference.
 #' 
 #' @references 
 #' Student's \eqn{t}-test, \doi{10.1093/biomet/6.1.1}.

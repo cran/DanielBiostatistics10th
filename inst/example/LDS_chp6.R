@@ -10,24 +10,22 @@ library(DanielBiostatistics10th)
 # Large Data Sets in Chapter 6, Page 210
 
 # CHOLEST
-head(CHOLEST <- read.csv(system.file(
-  'extdata', 'LDS_C06_CHOLEST.csv', 
+head(CHOLEST <- read.csv(system.file('extdata', 'LDS_C06_CHOLEST.csv', 
   package = 'DanielBiostatistics10th')))
 dim(CHOLEST)
 
 (sp15 = sample(CHOLEST$CHOLEST, size = 15L)); t.test(sp15) # Question 2
 
 (sp50 = sample(CHOLEST$CHOLEST, size = 50L))
-prop_test_CLT(x = sum(sp50 > 225), n = length(sp50)) # Question 3
+prop_CLT(x = sum(sp50 > 225), n = length(sp50)) # Question 3
 
 
 
 
 
 # BABYWGTS
-head(BABYWGTS <- read.csv(system.file(
-  'extdata', 'LDS_C06_BABYWGTS.csv', 
-  package = 'DanielBiostatistics10th')))
+head(BABYWGTS <- read.csv(system.file('extdata', 'LDS_C06_BABYWGTS.csv', 
+                                      package = 'DanielBiostatistics10th')))
 dim(BABYWGTS)
 
 (sp20 = sample(BABYWGTS$WGT, size = 20L)); t.test(sp20) # Question 4

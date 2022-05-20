@@ -28,17 +28,17 @@ pchisq(sum(chisq_1231), df = length(d1231) - 3L, lower.tail = FALSE)
 # Page 609, Example 12.3.2
 # 100 doctors, 25 patients per doctor
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
-o_1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
-(prob_1232 = sum((0:10) * d1232) / (25 * 100)) # binomial `prob`
-p_1232 = c(pbinom(1L, size = 25L, prob = prob_1232),
-           dbinom(2:9, size = 25L, prob = prob_1232),
-           pbinom(9, size = 25L, prob = prob_1232, lower.tail = FALSE))
-chi_1232 = print_OE(o_1232, prob = p_1232)
-pchisq(sum(chi_1232), df = length(o_1232) - 2L, lower.tail = FALSE)
+o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
+(p1232 = sum((0:10) * d1232) / (25 * 100)) # binomial `prob`
+chi_1232 = print_OE(o1232, prob = c(
+  pbinom(1L, size = 25L, prob = p1232),
+  dbinom(2:9, size = 25L, prob = p1232),
+  pbinom(9, size = 25L, prob = p1232, lower.tail = FALSE)))
+pchisq(sum(chi_1232), df = length(o1232) - 2L, lower.tail = FALSE)
 # Conclusion: we reject the null hypothesis that my observations are from a binomial distribution
 # -2L: two restrictions (explained on Page 611)
 # (1) making sum(o) == sum(e)
-# (2) estimating prob_1232
+# (2) estimating p1232
 
 
 
@@ -99,7 +99,7 @@ addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = lis
 # .. that the two populations are homogeneous in migrane (p = .722)
 #
 # (Optional) using test on two proportions
-# prop_test_CLT(x = c(21L, 19L), n = 96L, null.value = 0)
+# prop_CLT(x = c(21L, 19L), n = 96L, null.value = 0)
 # unname(0.355^2 - chisq_1251$statistic) # only true for 2*2 contingency table
 
 

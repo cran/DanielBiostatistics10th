@@ -15,22 +15,17 @@ default \eqn{v_1=s_1^2}, \eqn{v_2=s_2^2}.}
 \item{n1, n2}{\link[base]{integer} vectors, sample sizes of the two samples}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two variances as being equal 
-(default \code{FALSE}).}
+when calculating the degree of freedom and the standard error of the mean-difference.
+If \code{FALSE} (default), Welch–Satterthwaite equation is used.
+If \code{TRUE}, the original two-sample t-test from William Sealy Gosset is used.}
 }
 \value{
-\link{Gosset_Welch} returns the degree of freedom of two-sample t-test, 
-with attribute \code{'stderr'} of the standard error of the mean-difference.
+\link{Gosset_Welch} returns a \link[base]{numeric} scalar of the degree of freedom, 
+with a \link[base]{numeric} scalar attribute \code{'stderr'} of the standard error of the mean-difference.
 }
 \description{
 To determine the degree of freedom, as well as the standard error,
 of two-sample \eqn{t}-test, with or without the equal-variance assumption.
-}
-\details{
-If \code{var.equal = TRUE}, the degree of freedom, as well as the standard error of the mean-difference,
-are determined by equal-variances two-sample t-test, originally from William Sealy Gosset.
-
-If \code{var.equal = FALSE}, the degree of freedom, as well as the standard error of the mean-difference,
-are determined by Welch–Satterthwaite equation.
 }
 \examples{
 x = rnorm(32L, sd = 1.6); y = rnorm(57L, sd = 2.1)

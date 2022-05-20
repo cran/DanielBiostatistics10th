@@ -15,13 +15,15 @@
 #' 
 #' @return
 #' 
-#' \link{relativeRisk} returns a \code{'logRelativeRisk'} object.
+#' \link{relativeRisk} returns a \code{'logRelativeRisk'} object.  
+#' A \link[stats]{vcov} method and a \link[base]{print} method are defined for \code{'logRelativeRisk'} object.
 #' 
 #' \link{oddsRatio} returns a \code{'logOddsRatio'} object.
+#' A \link[stats]{vcov} method and a \link[base]{print} method are defined for \code{'logOddsRatio'} object.
 #' 
 #' \link{print_OE} prints a table with observed and expected frequencies, as well as 
-#' the category-wise \eqn{\chi^2} statistics.   The category-wise \eqn{\chi^2} statistics
-#' are returned invisibly.
+#' the category-wise \eqn{\chi^2} statistics.  
+#' A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 #' 
 #' @references
 #' 
@@ -112,8 +114,8 @@ print_OE <- function(O, prob) {
   chisq <- (O - E)^2 / E
   ret <- cbind(
     'Observed Freq' = O,
-    'Expected Freq (%)' = sprintf('%.2f (%.2f%%)', E, 1e2*prob),
-    '(O-E)^2/E' = sprintf('%.3f', chisq)
+    'Expected Freq (%)' = sprintf(fmt = '%.2f (%.2f%%)', E, 1e2*prob),
+    '(O-E)^2/E' = sprintf(fmt = '%.3f', chisq)
   )
   print.noquote(noquote(ret, right = TRUE))
   return(invisible(chisq))

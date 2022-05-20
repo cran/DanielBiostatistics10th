@@ -6,7 +6,7 @@ library(DanielBiostatistics10th)
 # To clear the console
 # Control + L: Mac and RStudio Cloud
 
-# To view the help files of functions in Chapter 1
+# To view the help files
 # ?Chapter01
 
 # Page 8, Example 1.4.1
@@ -39,6 +39,6 @@ if (FALSE) {
 }
 
 
-# Page 11, Example 1.4.2 (systematic sample)
+# Page 11, Example 1.4.2
 d141[seq.int(from = 4L, to = 166L, by = 18L), ]
 

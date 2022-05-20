@@ -16,9 +16,10 @@
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
-#' @import graphics stats utils
+#' @import graphics stats utils ggplot2
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom pracma Mode
+#' @importFrom scales percent
 #' 
 #' @docType package
 #' @keywords package

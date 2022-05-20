@@ -35,16 +35,16 @@ library(DanielBiostatistics10th)
 # To clear the console
 # Control + L: Mac and RStudio Cloud
 
-# To view the help files of functions in Chapter 4
+# To view the help files
 # ?Chapter04
 
 # Page 93, Example 4.2.1
-# Page 95, Example 4.2.2, Example 4.2.3
+# Page 95, Example 4.2.2 to 4.2.3
 # Page 97, Example 4.2.4 to 4.2.7
 d421 = factor(rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L)))
-d421_freq = print_freqs(d421) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
-barplot(with(d421_freq, freq/n), main = 'Relative Frequence Bar Plot; Page 95, Figure 4.2.1')
-plot(stepfun(x = seq_along(levels(d421)), y = c(0, cumsum(with(d421_freq, freq/n)))), 
+fq421 = print_freqs(d421) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
+barplot(with(fq421, freq/n), main = 'Relative Frequence Bar Plot; Page 95, Figure 4.2.1')
+plot(stepfun(x = seq_along(levels(d421)), y = c(0, cumsum(with(fq421, freq/n)))), 
   main = 'Cumulative Relative Frequence; Page 96, Figure 4.2.2')
  
 # Page 99, Example 4.3.1
