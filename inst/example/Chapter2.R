@@ -13,28 +13,15 @@ d141 = read.csv(system.file('extdata', 'EXA_C01_S04_01.csv', package = 'DanielBi
 head(d141)
 class(d141$AGE) # 'integer'
 class(age <- as.numeric(d141$AGE)) # 'numeric'
-sort(age) # 'ordered vector'
+sort(age) # Page 21, Table 2.2.1 # 'ordered vector'
 
 # Page 23, Example 2.3.1
-hist(age) # to create a histogram
 (ageB = seq.int(from = 30, to = 90, by = 10))
-print_freqs(age, breaks = ageB, include.lowest = TRUE, right = FALSE) # Page 25, Table 2.3.2
+(r231 = print_freqs(age, breaks = ageB, right = FALSE)) # Page 25, Table 2.3.2
+autoplot(r231, title = 'Page 27, Figure 2.3.2')
+# read ?base::cut and ?graphics::hist 
 # `include.lowest` actually implies 'include.highest' when `right = FALSE`
-if (FALSE) {
-  # optional: read ?base::cut to understand `include.lowest` and `right`
-  print_freqs(age, breaks = ageB, include.lowest = FALSE, right = FALSE)
-  print_freqs(age, breaks = ageB, include.lowest = TRUE, right = TRUE)
-  print_freqs(age, breaks = ageB, include.lowest = FALSE, right = TRUE)
-}
-
-# Page 31, Exercise 2.3.2 
-e232 = read.csv(system.file('extdata', 'EXR_C02_S03_02.csv', package = 'DanielBiostatistics10th'))
-head(e232)
-hist(e232$sizes)
-print_freqs(e232$sizes, breaks = seq(0, 30, by = 5), include.lowest = TRUE, right = FALSE)
-# The open/close of interval ends is determined 
-# .. by textbook question phrased as '10 and 14.9 inclusive', which indicates [10, 15)
-# Class activity: use this table to answer question (b)-(e)
+# The open/close of interval ends is determined by textbook using 30-39, 40-49, etc.
 
 # Page 38, Example 2.4.1
 # Page 39, Example 2.4.2
@@ -54,4 +41,4 @@ d255 = read.csv(system.file('extdata', 'EXA_C02_S05_05.csv', package = 'DanielBi
 head(d255)
 boxplot(d255$GRF, main = c('GRF from Page 50, Example 2.5.5'))
 print_stats(d255$GRF)
-print_freqs(d255$GRF, breaks = seq.int(10, 45, by = 5), include.lowest = TRUE)
+print_freqs(d255$GRF, breaks = seq.int(10, 45, by = 5))

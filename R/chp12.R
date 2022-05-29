@@ -7,6 +7,11 @@
 #' Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies}.
 #' 
 #' @param A 2-by-2 \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
+#' \tabular{lcc}{
+#'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
+#' Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
+#' Risk Factor (\eqn{-}) \tab \eqn{x_{-+}} \tab \eqn{x_{--}} \cr
+#' }
 #' 
 #' @param O \link[base]{integer} vector, observed counts
 #' 
@@ -15,11 +20,11 @@
 #' 
 #' @return
 #' 
-#' \link{relativeRisk} returns a \code{'logRelativeRisk'} object.  
-#' A \link[stats]{vcov} method and a \link[base]{print} method are defined for \code{'logRelativeRisk'} object.
+#' \link{relativeRisk} returns a \code{'logRelativeRisk'} object, for which
+#' A \link[stats]{vcov} method and a \link[base]{print} method are defined.
 #' 
-#' \link{oddsRatio} returns a \code{'logOddsRatio'} object.
-#' A \link[stats]{vcov} method and a \link[base]{print} method are defined for \code{'logOddsRatio'} object.
+#' \link{oddsRatio} returns a \code{'logOddsRatio'} object, for which
+#' A \link[stats]{vcov} method and a \link[base]{print} method are defined.
 #' 
 #' \link{print_OE} prints a table with observed and expected frequencies, as well as 
 #' the category-wise \eqn{\chi^2} statistics.  

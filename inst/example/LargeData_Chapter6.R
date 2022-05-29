@@ -11,7 +11,7 @@ library(DanielBiostatistics10th)
 
 # CHOLEST
 head(CHOLEST <- read.csv(system.file('extdata', 'LDS_C06_CHOLEST.csv', 
-  package = 'DanielBiostatistics10th')))
+                                     package = 'DanielBiostatistics10th')))
 dim(CHOLEST)
 
 (sp15 = sample(CHOLEST$CHOLEST, size = 15L)); t.test(sp15) # Question 2
@@ -36,9 +36,8 @@ dim(BABYWGTS)
 
 # BOYHGTS
 
-head(BOYHGTS <- read.csv(system.file(
-  'extdata', 'LDS_C06_BOYHGTS.csv', 
-  package = 'DanielBiostatistics10th')))
+head(BOYHGTS <- read.csv(system.file('extdata', 'LDS_C06_BOYHGTS.csv', 
+                                     package = 'DanielBiostatistics10th')))
 dim(BOYHGTS)
 
 (sp15 = sample(BOYHGTS$HGT, size = 15L)); t.test(sp15, conf.level = .99) # Question 6

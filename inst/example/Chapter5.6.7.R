@@ -8,7 +8,6 @@ library(DanielBiostatistics10th)
 # To view the help files
 # ?Chapter05to07
 
-
 # Page 142, Example 5.3.2
 aggregated_z(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
 # Page 143, Example 5.3.3
@@ -65,8 +64,7 @@ prop_CLT(x = c(31L, 53L), n = c(68L, 255L), conf.level = .99)
 # Page 190, Example 6.7.1
 n_671 = uniroot(f = function(n, sd, level = .95) {
   qnorm(1-(1-level)/2) * sd/sqrt(n) - 5 # half-width of CI <= 5 grams
-}, interval = c(0, 2e2), sd = 20
-)
+}, interval = c(0, 2e2), sd = 20)
 sprintf('Example 6.7.1 requires a sample size of %d.', ceiling(n_671$root))
 
 # Page 192, Example 6.8.1

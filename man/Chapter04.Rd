@@ -6,9 +6,9 @@
 \alias{poisBar}
 \title{Chapter 4}
 \usage{
-binomBar(size, prob, xlim = size)
+binomBar(size, prob, xlim = size, title)
 
-poisBar(lambda, xlim)
+poisBar(lambda, xlim, title)
 }
 \arguments{
 \item{size}{non-negative \link[base]{integer} scalar, number of trials for binomial distribution}
@@ -17,15 +17,19 @@ poisBar(lambda, xlim)
 
 \item{xlim}{length-two \link[base]{numeric} vector, horizontal limit of the figure}
 
-\item{lambda}{non-negative \link[base]{numeric} scalar, mean of Poisson distribution}
+\item{title}{\link[base]{character} scalar, title of the figure}
+
+\item{lambda}{positive \link[base]{numeric} scalar, mean of Poisson distribution}
 }
 \value{
-\link{binomBar} generates a bar plot of a binomial distribution.
-
-\link{poisBar} generates a bar plot of a Poisson distribution.
+\link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which 
+a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
 }
 \description{
 Functions for Chapter 4, \emph{Probability Distributions}.
+}
+\details{
+\link{binomBar} and \link{poisBar} generate bar plots of binomial and Poisson distributions.
 }
 \examples{
 library(DanielBiostatistics10th)
@@ -41,12 +45,16 @@ library(DanielBiostatistics10th)
 # Page 93, Example 4.2.1
 # Page 95, Example 4.2.2 to 4.2.3
 # Page 97, Example 4.2.4 to 4.2.7
-d421 = factor(rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L)))
-fq421 = print_freqs(d421) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
-barplot(with(fq421, freq/n), main = 'Relative Frequence Bar Plot; Page 95, Figure 4.2.1')
-plot(stepfun(x = seq_along(levels(d421)), y = c(0, cumsum(with(fq421, freq/n)))), 
-  main = 'Cumulative Relative Frequence; Page 96, Figure 4.2.2')
- 
+d421 = rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L))
+(fq421 = print_freqs(factor(d421))) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
+autoplot(fq421, type = 'density', title = 'Page 95, Figure 4.2.1')
+autoplot(fq421, type = 'distribution', title = 'Page 96, Figure 4.2.2')
+
+# ?dbinom # 'd' for binomial 'density'; calculate Prob(X = x)
+# ?pbinom # 'p' for binomial 'probability' 
+# `lower.tail = TRUE` (default), calculate Prob(X <= x)
+# `lower.tail = FALSE`, calculate Prob(X > x)
+
 # Page 99, Example 4.3.1
 dbinom(x = 3L, size = 5L, prob = .858)
 # Page 103, Example 4.3.2
@@ -65,6 +73,7 @@ pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE)
 dpois(x = 3L, lambda = 12) 
 # Page 110, Example 4.4.2
 ppois(2L, lambda = 12, lower.tail = FALSE) 
+poisBar(lambda = 12, xlim = 30L)
 # Page 110, Example 4.4.3
 ppois(1L, lambda = 2) 
 # Page 111, Example 4.4.4
@@ -97,5 +106,5 @@ Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sc
 Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
-\link[stats]{dbinom} \link[stats]{dpois} \link[graphics]{barplot}
+\link[stats]{dbinom} \link[stats]{dpois}
 }

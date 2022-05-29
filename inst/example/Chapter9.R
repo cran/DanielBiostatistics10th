@@ -19,11 +19,13 @@ plot(AT ~ Waist, data = d931, xlab = 'Waist circumference (cm), X', ylab = 'Deep
 # Page 436, Example 9.4.2
 # Inference for linear regression 
 summary(mod_931 <- lm(AT ~ Waist, data = d931))
+mod_931$coefficients # beta_0 and beta_1
 # Look to section of 'Coefficients:'
 # '(Intercept)' is beta_0. We seldom look to the significance of intercept,
 # ... as it's a 'value'
 # 'Waist' is beta_1.  We focus on the significance of beta_1, as it's a 'rate'.
 # Data supports a linear relationship between Waist and AT (p < .001)
+
 
 cor(d931[2:3]) # ?stats::cor
 cor.test(~ AT + Waist, data = d931) # test H0: rho = 0 
@@ -35,9 +37,7 @@ anova(mod_931)
 
 plot(AT ~ Waist, data = d931, xlab = 'Waist circumference (cm), X', ylab = 'Deep abdominal AT area (cm2), Y', 
      main = 'Page 422, Figure 9.3.3')
-mod_931$coefficients # beta_0 and beta_1
-abline(a = mod_931$coefficients[1L], b = mod_931$coefficients[2L], col = 'red')
-abline(reg = mod_931, col = 'blue')  # another usage of ?graphics::abline; simpler and equivalent
+abline(reg = mod_931, col = 'blue')
 
 
 # Page 440, Example 9.4.3

@@ -31,10 +31,10 @@ car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121a, regLine = FALSE, smooth =
 # Page 547, Figure 11.2.2: main model (without interaction)
 summary(mod_1121_main <- lm(GRAMS ~ WEEKS + SMOKE, data = d1121a))
 confint(mod_1121_main)
-(cf_main = mod_1121_main$coefficients)
 car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121a, regLine = FALSE, smooth = FALSE,
                  xlab = 'Length of gestation (weeks)', ylab = 'Birth weight (grams)',
                  main = 'Page 548, Figure 11.2.3')
+(cf_main = mod_1121_main$coefficients)
 abline(a = cf_main[1L], b = cf_main[2L], col = 'blue') # regression line for non-smoking mothers
 abline(a = cf_main[1L] + cf_main[3L], b = cf_main[2L], col = 'magenta') # regression line for smoking mothers
 
@@ -53,10 +53,10 @@ abline(a = cf_ita[1L] + cf_ita[3L], b = cf_ita[2L] + cf_ita[4L], col = 'magenta'
 # Magenta line for smokers: y = (beta_0 + beta_2) + (beta_1 + beta_3) * Week
 # end of add regression lines manually
 # equivalent to 
-car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121a, regLine = TRUE, smooth = FALSE,
+car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121a, smooth = FALSE,
                  xlab = 'Length of gestation (weeks)', ylab = 'Birth weight (grams)',
                  main = 'Birthweight Example with Interaction (R code ver.2)')
-# see ?car:::scatterplot.default
+# see ?car:::scatterplot.default, default argument `regLine = TRUE`
 
 if (FALSE) { # how do I locate the colours?
   ?car::scatterplot
@@ -72,27 +72,16 @@ d1123 = read.csv(system.file('extdata', 'EXA_C11_S02_03.csv', package = 'DanielB
 d1123a = within(d1123, expr = {
   METHOD = factor(METHOD, levels = c('C', 'A', 'B')) # textbook designated 'C' as reference level
 })
-car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123a, regLine = TRUE, smooth = FALSE,
+summary(mod_1123 <- lm(EFFECT ~ AGE * METHOD, data = d1123a)) # Page 555, Figure 11.2.5
+confint(mod_1123)
+car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123a, smooth = FALSE,
                  xlab = 'Age', ylab = 'Treatment effectiveness',
                  main = 'Page 555, Figure 11.2.6')
 
-summary(mod_1123 <- lm(EFFECT ~ AGE * METHOD, data = d1123a)) # Page 555, Figure 11.2.5
-confint(mod_1123)
-(cf_1123 = mod_1123$coefficients)
-
-car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123a, regLine = FALSE, smooth = FALSE,
-                 xlab = 'Age', ylab = 'Treatment effectiveness',
-                 main = 'Page 555, Figure 11.2.6 (R code ver.2)')
-abline(a = cf_1123[1L], b = cf_1123[2L], col = 'blue')
-abline(a = cf_1123[1L] + cf_1123[3L], b = cf_1123[2L] + cf_1123[5L], col = 'magenta')
-abline(a = cf_1123[1L] + cf_1123[4L], b = cf_1123[2L] + cf_1123[6L], col = 'cyan')
-
-
 
 # (optional) Page 561, Example 11.3.1
-d1131 = read.csv(system.file('extdata', 'EXA_C11_S03_01.csv', package = 'DanielBiostatistics10th'))
-head(d1131)
-names(d1131) = c('JOBPER', 'ASRV', 'ENTH', 'AMB', 'COMM', 'PROB', 'INIT')
+d1131 = read.csv(system.file('extdata', 'EXA_C11_S03_01_corrected.csv', 
+                             package = 'DanielBiostatistics10th'))
 head(d1131)
 summary(mod_1131_raw <- lm(JOBPER ~ ASRV + ENTH + AMB + COMM + PROB + INIT, data = d1131))
 summary(mod_1131 <- MASS::stepAIC(mod_1131_raw, direction = 'backward'))

@@ -1,3 +1,8 @@
+# DanielBiostatistics10th 0.1.4
+Add new S3 objects 'freqs', 'discreteDistBar', 'binom2pois', 'z_hypothesis', 'power_z'.
+
+Add new S3 methods base::print, ggplot2::autolayer and ggplot2::autoplot for the new S3 objects.
+
 # DanielBiostatistics10th 0.1.3
 Improvement: ?predictiveValue now takes vector `prevalence` and returns vector `PVP` and `PVN`.  
 

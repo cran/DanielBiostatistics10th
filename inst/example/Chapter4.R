@@ -11,12 +11,16 @@ library(DanielBiostatistics10th)
 # Page 93, Example 4.2.1
 # Page 95, Example 4.2.2 to 4.2.3
 # Page 97, Example 4.2.4 to 4.2.7
-d421 = factor(rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L)))
-fq421 = print_freqs(d421) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
-barplot(with(fq421, freq/n), main = 'Relative Frequence Bar Plot; Page 95, Figure 4.2.1')
-plot(stepfun(x = seq_along(levels(d421)), y = c(0, cumsum(with(fq421, freq/n)))), 
-  main = 'Cumulative Relative Frequence; Page 96, Figure 4.2.2')
- 
+d421 = rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L))
+(fq421 = print_freqs(factor(d421))) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
+autoplot(fq421, type = 'density', title = 'Page 95, Figure 4.2.1')
+autoplot(fq421, type = 'distribution', title = 'Page 96, Figure 4.2.2')
+
+# ?dbinom # 'd' for binomial 'density'; calculate Prob(X = x)
+# ?pbinom # 'p' for binomial 'probability' 
+# `lower.tail = TRUE` (default), calculate Prob(X <= x)
+# `lower.tail = FALSE`, calculate Prob(X > x)
+
 # Page 99, Example 4.3.1
 dbinom(x = 3L, size = 5L, prob = .858)
 # Page 103, Example 4.3.2
@@ -35,6 +39,7 @@ pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE)
 dpois(x = 3L, lambda = 12) 
 # Page 110, Example 4.4.2
 ppois(2L, lambda = 12, lower.tail = FALSE) 
+poisBar(lambda = 12, xlim = 30L)
 # Page 110, Example 4.4.3
 ppois(1L, lambda = 2) 
 # Page 111, Example 4.4.4

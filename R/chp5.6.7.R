@@ -10,23 +10,36 @@
 #' 
 #' @param x \link[base]{integer} scalar or length-two vector, positive count(s) of binary (i.e., \link[base]{logical}) variable(s)
 #' 
-#' @param xbar \link[base]{numeric} scalar or length-two vector, 
+#' @param xbar \link[base]{numeric} scalar (\eqn{\bar{x}} or \eqn{\hat{p}}) or 
+#' length-two vector (\eqn{(\bar{x}_1, \bar{x}_2)} or \eqn{(\hat{p}_1, \hat{p}_2)}), 
 #' sample mean(s) for \link[base]{numeric} variable(s) or
 #' sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s). 
 #' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
-#' sample means or sample proportions.
+#' sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}.
 #' 
-#' @param xsd \link[base]{numeric} scalar or length-two vector, sample standard deviation(s)
+#' @param xsd \link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or 
+#' length-two vector \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}, 
+#' sample standard deviation(s)
 #' 
-#' @param sd \link[base]{numeric} scalar or length-two vector, population standard deviation(s)
+#' @param sd \link[base]{numeric} scalar \eqn{\sigma} or 
+#' length-two vector \eqn{(\sigma_1, \sigma_2)}, 
+#' population standard deviation(s)
 #' 
-#' @param n \link[base]{integer} scalar or length-two vector, sample size(s)
+#' @param n \link[base]{integer} scalar \eqn{n} or 
+#' length-two vector \eqn{(n_1, n_2)}, 
+#' sample size(s)
 #' 
-#' @param null.value (optional) \link[base]{numeric} scalar, 
-#' null value(s) of the population mean(s) for \link{aggregated_z} and \link{aggregated_t},
-#' null value(s) of the population proportion(s) for \link{prop_CLT},
-#' null value(s) of the population variance(s) (ratio) for \link{aggregated_var}.
-#' If missing, only the confidence interval will be computed
+#' @param null.value (optional) \link[base]{numeric} scalar or length-two vector.
+#' Null value(s) of the population mean(s) 
+#' (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
+#' for \link{aggregated_z} and \link{aggregated_t}.
+#' Null value(s) of the population proportion(s) 
+#' (\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
+#' for \link{prop_CLT}.
+#' Null value(s) of the population variance(s) (ratio)
+#' (\eqn{\sigma^2_0}, \eqn{(\sigma^2_{10}, \sigma^2_{20})}, or \eqn{\sigma^2_{10}/\sigma^2_{20}})
+#' for \link{aggregated_var}.
+#' If missing, only the confidence intervals will be computed.
 #' 
 #' @param alternative \link[base]{character} scalar, alternative hypothesis,
 #' either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}

@@ -49,21 +49,32 @@ aggregated_var(
 )
 }
 \arguments{
-\item{xbar}{\link[base]{numeric} scalar or length-two vector, 
+\item{xbar}{\link[base]{numeric} scalar (\eqn{\bar{x}} or \eqn{\hat{p}}) or 
+length-two vector (\eqn{(\bar{x}_1, \bar{x}_2)} or \eqn{(\hat{p}_1, \hat{p}_2)}), 
 sample mean(s) for \link[base]{numeric} variable(s) or
 sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s). 
 In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
-sample means or sample proportions.}
+sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}.}
 
-\item{n}{\link[base]{integer} scalar or length-two vector, sample size(s)}
+\item{n}{\link[base]{integer} scalar \eqn{n} or 
+length-two vector \eqn{(n_1, n_2)}, 
+sample size(s)}
 
-\item{sd}{\link[base]{numeric} scalar or length-two vector, population standard deviation(s)}
+\item{sd}{\link[base]{numeric} scalar \eqn{\sigma} or 
+length-two vector \eqn{(\sigma_1, \sigma_2)}, 
+population standard deviation(s)}
 
-\item{null.value}{(optional) \link[base]{numeric} scalar, 
-null value(s) of the population mean(s) for \link{aggregated_z} and \link{aggregated_t},
-null value(s) of the population proportion(s) for \link{prop_CLT},
-null value(s) of the population variance(s) (ratio) for \link{aggregated_var}.
-If missing, only the confidence interval will be computed}
+\item{null.value}{(optional) \link[base]{numeric} scalar or length-two vector.
+Null value(s) of the population mean(s) 
+(\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
+for \link{aggregated_z} and \link{aggregated_t}.
+Null value(s) of the population proportion(s) 
+(\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
+for \link{prop_CLT}.
+Null value(s) of the population variance(s) (ratio)
+(\eqn{\sigma^2_0}, \eqn{(\sigma^2_{10}, \sigma^2_{20})}, or \eqn{\sigma^2_{10}/\sigma^2_{20}})
+for \link{aggregated_var}.
+If missing, only the confidence intervals will be computed.}
 
 \item{alternative}{\link[base]{character} scalar, alternative hypothesis,
 either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
@@ -72,7 +83,9 @@ either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 
 \item{...}{potential arguments, not in use currently}
 
-\item{xsd}{\link[base]{numeric} scalar or length-two vector, sample standard deviation(s)}
+\item{xsd}{\link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or 
+length-two vector \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}, 
+sample standard deviation(s)}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two population variances as being equal 
 (default \code{FALSE}) in \link{aggregated_t}}
@@ -127,7 +140,6 @@ library(DanielBiostatistics10th)
 
 # To view the help files
 # ?Chapter05to07
-
 
 # Page 142, Example 5.3.2
 aggregated_z(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
@@ -185,8 +197,7 @@ prop_CLT(x = c(31L, 53L), n = c(68L, 255L), conf.level = .99)
 # Page 190, Example 6.7.1
 n_671 = uniroot(f = function(n, sd, level = .95) {
   qnorm(1-(1-level)/2) * sd/sqrt(n) - 5 # half-width of CI <= 5 grams
-}, interval = c(0, 2e2), sd = 20
-)
+}, interval = c(0, 2e2), sd = 20)
 sprintf('Example 6.7.1 requires a sample size of \%d.', ceiling(n_671$root))
 
 # Page 192, Example 6.8.1

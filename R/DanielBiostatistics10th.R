@@ -20,6 +20,7 @@
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom pracma Mode
 #' @importFrom scales percent
+#' @importFrom latex2exp TeX
 #' 
 #' @docType package
 #' @keywords package

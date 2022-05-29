@@ -16,19 +16,12 @@ LDS_C11_TEACHERS
 
 
 # Page 597, Question 3 (Large Data Set 'WGTLOSS')
-head(WGTLOSS_raw <- read.csv('data/LDS_C11_WGTLOSS.csv'))
-dim(WGTLOSS_raw)
-
-WGTLOSS = within(WGTLOSS_raw, expr = {
-  # create a dichotomos (or categorical) variable indicating the HEAL vs. CAN group
-  Group = structure(startsWith(as.character(SUBJNO), prefix = 'CAN') + 1L, levels = c('HEAL', 'CAN'), class = 'factor')
-  SUBJNO = NULL
-})
-table(WGTLOSS$Group) # typos in the textbook (in terms of sample size)
+WGTLOSS = read.csv(system.file('extdata', 'LDS_C11_WGTLOSS_corrected.csv', 
+                               package = 'DanielBiostatistics10th'))
 head(WGTLOSS)
-names(WGTLOSS)[1:2] = c('IdealBW', 'Protein')
+table(WGTLOSS$Group) # typos in the textbook (in terms of sample size)
 
-scatterplot(Protein ~ IdealBW | Group, data = WGTLOSS, regLine = TRUE, smooth = FALSE)
+car::scatterplot(Protein ~ IdealBW | Group, data = WGTLOSS, smooth = FALSE)
 summary(lm(Protein ~ IdealBW * Group, data = WGTLOSS))
 # both figure and regression model shows that the interaction between IdealBW and Group is not significant, thus the interaction term should be remove from the model.
 

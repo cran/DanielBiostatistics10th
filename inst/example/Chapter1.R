@@ -38,7 +38,6 @@ if (FALSE) {
   x <- 1; x == 2 # equal or not
 }
 
-
 # Page 11, Example 1.4.2
 d141[seq.int(from = 4L, to = 166L, by = 18L), ]
 

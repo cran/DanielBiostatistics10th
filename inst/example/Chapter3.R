@@ -24,9 +24,9 @@ addProbs(d341)
 # Page 81, Example 3.5.1
 (d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, dimnames = list(
   Test = c('Positive', 'Negative'), Alzheimer = c('Yes', 'No'))))
-(pv_d315 = predictiveValues(d351, prevalence = c(.05, .113, .15)))
-autoplot(pv_d315, xlim = c(0, .15))
+predictiveValues(d351, prevalence = .113)
 
 # toy example
-(tmp = predictiveValues(sensitivity = .95, specificity = .995, prevalence = c(.001, .95)))
-autoplot(tmp)
+predictiveValues(d351, prevalence = c(.005, .98))
+
+

@@ -7,23 +7,26 @@
 #' Functions for Chapter 3, \emph{Some Basic Probability Concepts}.
 #' 
 #' @param A \link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.  
-#' For \link{predictiveValues} function, this must be a 2-by-2 contingency table.
+#' For \link{predictiveValues} function, this must be a 2-by-2 contingency table, with layout
+#' \tabular{lcc}{
+#'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
+#' Test (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
+#' Test (\eqn{-}) \tab \eqn{x_{-+}} \tab \eqn{x_{--}} \cr
+#' }
 #' 
-#' @param sensitivity \link[base]{numeric} scalar, sensitivity of a test.
-#' By default, this is calculated by the test-disease contingency table \code{A}
 #' 
-#' @param specificity \link[base]{numeric} scalar, specificity of a test
-#' By default, this is calculated by the test-disease contingency table \code{A}
+#' @param sensitivity,specificity \link[base]{numeric} scalars, 
+#' sensitivity and specificity of a test.
+#' By default, these are calculated by the test-disease contingency table \code{A}
 #' 
 #' @param prevalence \link[base]{numeric} scalar or vector, prevalence(s) of disease
 #' 
 #' @details 
 #' 
 #' \link{addProbs} provides the joint, marginal and conditional probabilities of a contingency table.
-
-#' \link{predictiveValues} provides the predictive values based on (the sensitivity and specificity of) a test, 
-#' based on the 2-by-2 test-disease contingency table,
-#' and the disease prevalence.
+#' 
+#' \link{predictiveValues} provides the predictive values based on 
+#' the sensitivity, specificity of a test, as well as the disease prevalence.
 #' 
 #' @return 
 #' 
@@ -34,7 +37,7 @@
 #' 
 #' \link{predictiveValues} returns a \link{predictiveValues} object, which is a 
 #' \link[base]{list} of three \link[base]{double} vector elements named 
-#' \code{'Prevalence'}, \code{'PVP'}, \code{'PVN'}.  
+#' \code{'Prevalence'}, \code{'PVP'} and \code{'PVN'}.  
 #' A \link[base]{print} method and an \link[ggplot2]{autoplot} method are defined 
 #' for \link{predictiveValues} object.
 #' 
@@ -132,7 +135,7 @@ print.predictiveValues <- function(x, ...) {
     PVP = sprintf(fmt = '%.1f%%', 100 * x$PVP), 
     PVN = sprintf(fmt = '%.1f%%', 100 * x$PVN)
   ), quote = FALSE, row.names = FALSE)
-  # print(autoplot.predictiveValues(x, ...)) # may be confusing with default xlim = c(0, 1)
+  print(autoplot.predictiveValues(x, ...))
   return(invisible(x))
 }
 
@@ -154,11 +157,14 @@ autoplot.predictiveValues <- function(object, ...) {
 autolayer.predictiveValues <- function(object, xlim = c(0, 1), n = 501L, legend_title = 'Predictive\nValues', ...) {
   if (!is.numeric(xlim) || length(xlim) != 2L || anyNA(xlim) || xlim[1L] >= xlim[2L]) stop('illegal xlim')
   xlim <- c(max(xlim[1L], 0), min(xlim[2L], 1))
+  prev0 <- object[['Prevalence']]
+  prev <- prev0[prev0 >= xlim[1L] & prev0 <= xlim[2L]]
   sens <- attr(object, which = 'sensitivity', exact = TRUE)
   spec <- attr(object, which = 'specificity', exact = TRUE)
   list(
     stat_function(mapping = aes(colour = 'a'), fun = function(x) (sens * x) / (sens * x + (1-spec) * (1-x)), n = n, xlim = xlim, ...),
     stat_function(mapping = aes(colour = 'b'), fun = function(x) (spec * (1-x)) / (spec * (1-x) + (1-sens) * x), n = n, xlim = xlim, ...),
+    geom_vline(xintercept = prev, colour = 'blue', linetype = 2L),
     scale_colour_discrete(name = legend_title, breaks = letters[1:2], labels = c('PV Positive', 'PV Negative'))
   )
 }

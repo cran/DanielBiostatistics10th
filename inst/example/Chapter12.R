@@ -5,8 +5,8 @@ library(DanielBiostatistics10th)
 # To clear the console
 # Control + L: Mac and RStudio Cloud
 
-
-
+# To view the help files
+# ?Chapter12
 
 # Page 605, Example 12.3.1
 d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
@@ -23,8 +23,6 @@ pchisq(sum(chisq_1231), df = length(d1231) - 3L, lower.tail = FALSE)
 # (2) estimating mean
 # (3) estimating sd
 
-
-
 # Page 609, Example 12.3.2
 # 100 doctors, 25 patients per doctor
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
@@ -40,9 +38,6 @@ pchisq(sum(chi_1232), df = length(o1232) - 2L, lower.tail = FALSE)
 # (1) making sum(o) == sum(e)
 # (2) estimating p1232
 
-
-
-
 # Page 611, Example 12.3.3
 d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
@@ -54,19 +49,15 @@ pchisq(sum(chisq_1233), df = length(o_1233) - 1L, lower.tail = FALSE)
 # -1L: one restrictions
 # (1) making sum(xo) == sum(xe)
 
-
 # Page 614, Example 12.3.4
 d1234 = c('Dec 05' = 62L, 'Jan 06' = 84L, 'Feb 06' = 17L, 'Mar 06' = 16L, 'Apr 06' = 21L)
 chisq_1234 = print_OE(d1234)
 pchisq(sum(chisq_1234), df = length(d1234) - 1L, lower.tail = FALSE)
 
-
-
 # Page 616, Example 12.3.5
 d1235 = c(dominant = 43L, heterozygous = 125L, recessive = 32L)
 chisq_1235 = print_OE(d1235, prob = c(1, 2, 1))
 pchisq(sum(chisq_1235), df = length(d1235) - 1L, lower.tail = FALSE)
-
 
 # Page 621, Example 12.4.1
 addmargins(d1241 <- array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dimnames = list(
@@ -77,7 +68,6 @@ chisq.test(d1241) # ?stats::chisq.test
 # Conclusion: I would reject the null hypothesis 
 # .. that the perception of usage of folic acid and race are independent (p = .011).
 
-
 # Page 626, Example 12.4.2
 addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = list(
   Type = c('Faller', 'Non-Faller'),
@@ -86,8 +76,6 @@ addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = li
 chisq.test(d1242, correct = FALSE)
 chisq.test(d1242, correct = TRUE) # Page 627, Yates's Correction
 # Conclusion: we determined that the fear of falling does result in lifestyle change (p<.001)
-
-
 
 # Page 631, Example 12.5.1
 addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = list(
@@ -102,8 +90,6 @@ addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = lis
 # prop_CLT(x = c(21L, 19L), n = 96L, null.value = 0)
 # unname(0.355^2 - chisq_1251$statistic) # only true for 2*2 contingency table
 
-
-
 # Page 638, Example 12.6.1
 addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
   Group = c('PI_Naive', 'PA_Experienced'),
@@ -111,16 +97,11 @@ addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
 )))
 fisher.test(d1262)
 
-
-
-
 # Page 644, Example 12.7.1
 addmargins(d1271 <- array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), 
  dimnames = list(Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
 relativeRisk(d1271)
 # textbook confidence interval (.65, 1.86) wrong (too many rounding in intermediate steps)
-
-
 
 # Page 647, Example 12.7.2
 addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
@@ -128,8 +109,6 @@ addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = 
  Obesity = c('TRUE', 'FALSE')
 )))
 oddsRatio(d1272)
-
-
 
 # Page 650, Example 12.7.3
 # Page 652, Example 12.7.4

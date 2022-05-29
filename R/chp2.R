@@ -9,7 +9,8 @@
 #' @param x \link[base]{numeric} vector, the observations. 
 #' In \link{print_freqs} function, this argument can also be a \link[base]{factor}
 #' 
-#' @param breaks,include.lowest,right see \link[base]{cut.default}
+#' @param breaks,include.lowest,right see \link[base]{cut.default}. Note that we use default
+#' \code{include.lowest = TRUE} in \link{print_freqs}
 #' 
 #' @param na.rm \link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})
 #' 
@@ -25,7 +26,8 @@
 #' 
 #' @return 
 #' 
-#' \link{print_freqs} returns a \link[base]{noquote} \link[base]{matrix}.
+#' \link{print_freqs} returns a \code{'freqs'} object, for which
+#' a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
 #' 
 #' \link{print_stats} does not have a returned value.
 #' 
@@ -62,29 +64,59 @@ print_stats <- function(x, na.rm = TRUE) {
   cat(sprintf('skewness = %.3f\n', skewness(x, na.rm = na.rm)))
   cat(sprintf('kurtosis = %.3f\n', kurtosis(x, na.rm = na.rm)))
   cat('\n')
-  plot(hist(x), main = paste('Histogram of', nm))
+  p <- ggplot() + geom_histogram(mapping = aes(x = x), bins = 30L, colour = 'white') + 
+    labs(x = nm, y = NULL) +
+    theme_bw()
+  print(p)
   return(invisible())
 }
 
 
 #' @rdname Chapter02
 #' @export
-print_freqs <- function(x, breaks, include.lowest = FALSE, right = TRUE) {
+print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
   object <- if (is.factor(x)) x else {
     cut.default(x, breaks = breaks, include.lowest = include.lowest, right = right, ordered_result = TRUE)
   }
   tab <- table(object)
-  ctab <- cumsum(tab)
+  names(dimnames(tab)) <- NULL
+  
   n <- sum(tab)
-  ret <- cbind(
-    'Frequency (%)' = sprintf(fmt = '%d (%.2f%%)', tab, 100 * tab/n), 
-    'Cummulative Freq (%)' = sprintf(fmt = '%d (%.2f%%)', ctab, 100 * ctab/n)
-  )
-  rownames(ret) <- names(tab)
-  names(dimnames(ret)) <- c(deparse1(substitute(x)), '')
-  print.noquote(noquote(ret, right = TRUE))
-  return(invisible(list(
-    freq = tab, n = n
-  )))
+  ret <- list(freq = tab, n = n, data.name = deparse1(substitute(x)))
+  class(ret) <- 'freqs'
+  return(ret)
 }
 
+
+#' @export
+print.freqs <- function(x, ...) {
+  cfreq <- cumsum(freq <- x[['freq']])
+  n <- x[['n']]
+  ret <- cbind(
+    'Frequency (%)' = sprintf(fmt = '%d (%.2f%%)', freq, 100 * freq/n), 
+    'Cummulative Freq (%)' = sprintf(fmt = '%d (%.2f%%)', cfreq, 100 * cfreq/n)
+  )
+  rownames(ret) <- names(freq)
+  names(dimnames(ret)) <- c(x[['data.name']], '')
+  print.noquote(noquote(ret, right = TRUE))
+}
+
+
+#' @export
+autoplot.freqs <- function(object, ...) {
+  ggplot() + autolayer.freqs(object, ...) + scale_y_continuous(labels = percent) + theme_bw()
+}
+
+#' @export
+autolayer.freqs <- function(object, type = c('density', 'distribution'), title = NULL, ...) {
+  cfreq <- cumsum(freq <- object[['freq']])
+  n <- object[['n']]
+  switch(match.arg(type), density = list(
+    geom_bar(mapping = aes(x = names(freq), y = c(freq/n)), stat = 'identity'),
+    labs(x = 'Categories', y = 'Relative Frequency', title = title)
+  ), distribution = list(
+    geom_bar(mapping = aes(x = names(freq), y = c(cfreq/n)), stat = 'identity'),
+    #geom_step(mapping = aes(x = c(0, seq_along(c(freq))), y = c(0, cfreq/n))), # actually not pretty
+    labs(x = 'Categories', y = 'Cumulative Relative Frequency', title = title)
+  ))
+}

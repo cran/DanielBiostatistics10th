@@ -11,7 +11,7 @@ library(car)
 # Page 493, Example 10.3.1
 d1031 = read.csv(system.file('extdata', 'EXA_C10_S03_01.csv', package = 'DanielBiostatistics10th'))
 head(d1031)
-car::scatterplotMatrix(~ AGE + EDLEVEL + CDA, data = d1031, smooth = FALSE, regLine = TRUE,
+car::scatterplotMatrix(~ AGE + EDLEVEL + CDA, data = d1031, smooth = FALSE,
                        main = 'Page 494, Figure 10.3.1')
 # perform multivariable linear model
 summary(mod_1031 <- lm(CDA ~ AGE + EDLEVEL, data = d1031))
@@ -40,7 +40,7 @@ predict(mod_1031, newdata = newd_1031, interval = 'confidence')
 # Page 511, Example 10.6.1
 d1061 = read.csv(system.file('extdata', 'EXA_C10_S06_01.csv', package = 'DanielBiostatistics10th'))
 head(d1061)
-car::scatterplotMatrix(~ W + P + S, data = d1061, smooth = FALSE, regLine = TRUE,
+car::scatterplotMatrix(~ W + P + S, data = d1061, smooth = FALSE,
                        main = 'Scatter Plot Matrix of Example 10.6.1')
 summary(mod_1061 <- lm(W ~ P + S, data = d1061))
 # Both the regression model and scatter plot matrix indicate that 
