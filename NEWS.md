@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.1.5
+Minor improvements here and there.
+
 # DanielBiostatistics10th 0.1.4
 Add new S3 objects 'freqs', 'discreteDistBar', 'binom2pois', 'z_hypothesis', 'power_z'.
 

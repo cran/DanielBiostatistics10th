@@ -49,20 +49,19 @@ aggregated_var(
 )
 }
 \arguments{
-\item{xbar}{\link[base]{numeric} scalar (\eqn{\bar{x}} or \eqn{\hat{p}}) or 
-length-two vector (\eqn{(\bar{x}_1, \bar{x}_2)} or \eqn{(\hat{p}_1, \hat{p}_2)}), 
-sample mean(s) for \link[base]{numeric} variable(s) or
-sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s). 
+\item{xbar}{\link[base]{numeric} scalar or 
+length-two vector. 
+Sample mean(s) for \link[base]{numeric} variable(s) \eqn{\bar{x}} or \eqn{(\bar{x}_1, \bar{x}_2)}.
+Sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s) \eqn{\hat{p}} or \eqn{(\hat{p}_1, \hat{p}_2)}. 
 In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
-sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}.}
+sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}}
 
 \item{n}{\link[base]{integer} scalar \eqn{n} or 
-length-two vector \eqn{(n_1, n_2)}, 
-sample size(s)}
+length-two vector.
+Sample size(s) \eqn{n} or \eqn{(n_1, n_2)}}
 
-\item{sd}{\link[base]{numeric} scalar \eqn{\sigma} or 
-length-two vector \eqn{(\sigma_1, \sigma_2)}, 
-population standard deviation(s)}
+\item{sd}{\link[base]{numeric} scalar or length-two vector.
+population standard deviation(s) \eqn{\sigma} or \eqn{(\sigma_1, \sigma_2)}}
 
 \item{null.value}{(optional) \link[base]{numeric} scalar or length-two vector.
 Null value(s) of the population mean(s) 
@@ -83,14 +82,13 @@ either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 
 \item{...}{potential arguments, not in use currently}
 
-\item{xsd}{\link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or 
-length-two vector \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}, 
-sample standard deviation(s)}
+\item{xsd}{\link[base]{numeric} scalar or length-two vector.
+Sample standard deviation(s) \eqn{\sigma_{\bar{x}}} or \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two population variances as being equal 
 (default \code{FALSE}) in \link{aggregated_t}}
 
-\item{x}{\link[base]{integer} scalar or length-two vector, positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
+\item{x}{\link[base]{integer} scalar or length-two vector, the number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
 }
 \value{
 \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided, 
@@ -111,24 +109,24 @@ Chapter 6, \emph{Estimation} and
 Chapter 7, \emph{Hypothesis Testing}.
 }
 \details{
-\link{aggregated_z} performs one-sample or two-sample \eqn{z}-test 
-using aggregated statistics of sample mean(s) and sample size(s) when 
+\link{aggregated_z} performs one- or two-sample \eqn{z}-test 
+using the aggregated statistics of sample mean(s) and sample size(s) when 
 \code{null.value} is provided.  Otherwise, only the confidence interval based on 
 \eqn{z}-distribution is computed.
 
-\link{aggregated_t} performs one-sample or two-sample \eqn{t}-test 
-using aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
+\link{aggregated_t} performs one- or two-sample \eqn{t}-test 
+using the aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
 when \code{null.value} is provided.  Otherwise, only the confidence interval based on 
 \eqn{t}-distribution is computed.
 
-\link{prop_CLT} performs one-sample or two-sample \eqn{z}-test on proportion(s),
+\link{prop_CLT} performs one- or two-sample \eqn{z}-test on proportion(s),
 using Central Limit Theorem when \code{null.value} is provided.  
 Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 
-\link{aggregated_var} performs \eqn{\chi^2}-test on one-sample variance, 
-or \eqn{F}-test on two-sample variances, using aggregated statistics of 
+\link{aggregated_var} performs one-sample \eqn{\chi^2}-test on variance, 
+or two-sample \eqn{F}-test on variances, using the aggregated statistics of 
 sample standard deviation(s) and sample size(s) when \code{null.value} is provided.  
-Otherwise, only the confidence interval based on \eqn{\chi^2}-distribution or \eqn{F}-distribution is computed.
+Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
 }
 \examples{
 library(DanielBiostatistics10th)

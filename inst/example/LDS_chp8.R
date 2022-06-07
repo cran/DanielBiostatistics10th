@@ -46,9 +46,8 @@ confint(tukey_LSA)
 
 
 # SACEDATA
-head(SACEDATA <- read.csv(system.file(
-  'extdata', 'LDS_C08_SACEDATA.csv', 
-  package = 'DanielBiostatistics10th'))[-1L])
+head(SACEDATA <- read.csv(system.file('extdata', 'LDS_C08_SACEDATA.csv', 
+                                      package = 'DanielBiostatistics10th'))[-1L])
 dim(SACEDATA)
 names(SACEDATA) = c('Never', 'Active', 'Stable', 'Recovered')
 head(SACE <- melt(SACEDATA, id.vars = NULL, variable.name = 'Group', value.name = 'SACE'))
@@ -96,7 +95,7 @@ summary(glht(aov_RBC, linfct = mcp(Diet = 'Tukey')))
 
 # SERUMCHO
 head(SERUMCHO_raw <- read.csv(system.file('extdata', 'LDS_C08_SERUMCHO.csv', 
-  package = 'DanielBiostatistics10th')))
+                                          package = 'DanielBiostatistics10th')))
 dim(SERUMCHO_raw)
 SERUMCHO_0 = within(SERUMCHO_raw, expr = {
   SUBJ = factor(SUBJ)

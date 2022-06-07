@@ -6,4 +6,5 @@ library(DanielBiostatistics10th)
 # Control + L: Mac and RStudio Cloud
 
 # Page 747, Question 1 (Large Data Set 'KLETTER')
-head(KLETTER_raw <- read.csv('data/LDS_C13_KLETTER.csv'))
+head(KLETTER <- read.csv(system.file('extdata', 'LDS_C13_KLETTER.csv', 
+                                     package = 'DanielBiostatistics10th')))

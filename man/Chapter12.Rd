@@ -28,10 +28,10 @@ If missing (default), an uniform distribution across all categories are used.}
 }
 \value{
 \link{relativeRisk} returns a \code{'logRelativeRisk'} object, for which
-A \link[stats]{vcov} method and a \link[base]{print} method are defined.
+a \link[stats]{vcov} method and a \link[base]{print} method are defined.
 
 \link{oddsRatio} returns a \code{'logOddsRatio'} object, for which
-A \link[stats]{vcov} method and a \link[base]{print} method are defined.
+a \link[stats]{vcov} method and a \link[base]{print} method are defined.
 
 \link{print_OE} prints a table with observed and expected frequencies, as well as 
 the category-wise \eqn{\chi^2} statistics.  
@@ -105,8 +105,7 @@ pchisq(sum(chisq_1235), df = length(d1235) - 1L, lower.tail = FALSE)
 # Page 621, Example 12.4.1
 addmargins(d1241 <- array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dimnames = list(
   Race = c('White', 'Black', 'Other'),
-  FolicAcid = c('TRUE', 'FALSE')
-)))
+  FolicAcid = c('TRUE', 'FALSE'))))
 chisq.test(d1241) # ?stats::chisq.test
 # Conclusion: I would reject the null hypothesis 
 # .. that the perception of usage of folic acid and race are independent (p = .011).
@@ -114,8 +113,7 @@ chisq.test(d1241) # ?stats::chisq.test
 # Page 626, Example 12.4.2
 addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = list(
   Type = c('Faller', 'Non-Faller'),
-  LifestyleChange = c('TRUE', 'FALSE')
-)))
+  LifestyleChange = c('TRUE', 'FALSE'))))
 chisq.test(d1242, correct = FALSE)
 chisq.test(d1242, correct = TRUE) # Page 627, Yates's Correction
 # Conclusion: we determined that the fear of falling does result in lifestyle change (p<.001)
@@ -123,12 +121,10 @@ chisq.test(d1242, correct = TRUE) # Page 627, Yates's Correction
 # Page 631, Example 12.5.1
 addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = list(
   Group = c('Narcoleptic', 'Healthy'),
-  Migraine = c('TRUE', 'FALSE')
-)))
+  Migraine = c('TRUE', 'FALSE'))))
 (chisq_1251 = chisq.test(d1251, correct = FALSE))
 # Conclusion: we cannot reject the null hypothesis 
-# .. that the two populations are homogeneous in migrane (p = .722)
-#
+# .. that the two populations are homogeneous in migraine (p = .722)
 # (Optional) using test on two proportions
 # prop_CLT(x = c(21L, 19L), n = 96L, null.value = 0)
 # unname(0.355^2 - chisq_1251$statistic) # only true for 2*2 contingency table
@@ -136,8 +132,7 @@ addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = lis
 # Page 638, Example 12.6.1
 addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
   Group = c('PI_Naive', 'PA_Experienced'),
-  Regimen2yr = c('TRUE', 'FALSE')
-)))
+  Regimen2yr = c('TRUE', 'FALSE'))))
 fisher.test(d1262)
 
 # Page 644, Example 12.7.1
@@ -149,8 +144,7 @@ relativeRisk(d1271)
 # Page 647, Example 12.7.2
 addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
  SmkPregnancy = c('TRUE', 'FALSE'),
- Obesity = c('TRUE', 'FALSE')
-)))
+ Obesity = c('TRUE', 'FALSE'))))
 oddsRatio(d1272)
 
 # Page 650, Example 12.7.3

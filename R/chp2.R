@@ -91,13 +91,15 @@ print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
 #' @export
 print.freqs <- function(x, ...) {
   cfreq <- cumsum(freq <- x[['freq']])
+  rev_cfreq <- rev.default(cumsum(rev.default(freq)))
   n <- x[['n']]
   ret <- cbind(
-    'Frequency (%)' = sprintf(fmt = '%d (%.2f%%)', freq, 100 * freq/n), 
-    'Cummulative Freq (%)' = sprintf(fmt = '%d (%.2f%%)', cfreq, 100 * cfreq/n)
+    'Frequency' = sprintf(fmt = '%d (%.2f%%)', freq, 100 * freq/n), 
+    'Cummulative Freq' = sprintf(fmt = '%d (%.2f%%)', cfreq, 100 * cfreq/n),
+    'Reversed Cumm Freq' = sprintf(fmt = '%d (%.2f%%)', rev_cfreq, 100 * rev_cfreq/n)
   )
   rownames(ret) <- names(freq)
-  names(dimnames(ret)) <- c(x[['data.name']], '')
+  names(dimnames(ret)) <- c(x[['data.name']], 'Counts (%)')
   print.noquote(noquote(ret, right = TRUE))
 }
 

@@ -9,6 +9,8 @@ library(DanielBiostatistics10th)
 
 
 # Page 666, Question (Large Data Set 'SMOKING')
-head(SMOKING_raw <- read.csv('data/LDS_C12_SMOKING.csv'))
+head(SMOKING_raw <- read.csv(system.file('extdata', 'LDS_C12_SMOKING.csv', 
+                                     package = 'DanielBiostatistics10th')))
+# data and description do not match
 
 # dont know what are the columns..  do not use this example

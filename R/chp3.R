@@ -14,7 +14,6 @@
 #' Test (\eqn{-}) \tab \eqn{x_{-+}} \tab \eqn{x_{--}} \cr
 #' }
 #' 
-#' 
 #' @param sensitivity,specificity \link[base]{numeric} scalars, 
 #' sensitivity and specificity of a test.
 #' By default, these are calculated by the test-disease contingency table \code{A}

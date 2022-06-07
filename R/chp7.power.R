@@ -29,8 +29,8 @@
 #' @return 
 #' \link{power_z} returns a \link{power} object, which is a \link[base]{numeric} vector with attributes
 #' \describe{
-#' \item{\code{'x'}}{alternative parameters \eqn{\mu_1}}
-#' \item{\code{'hypothesis'}}{a \code{'z_hypothesis'} object, containing information of the null hypothesis,
+#' \item{\code{x}}{a \link[base]{numeric} vector, alternative parameters \eqn{\mu_1}}
+#' \item{\code{hypothesis}}{a \code{'z_hypothesis'} object, containing information of the null hypothesis,
 #' significance level and rejection region, etc.}
 #' }
 #' A \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined for \link{power_z} object.

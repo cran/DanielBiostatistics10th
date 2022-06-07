@@ -21,10 +21,10 @@
 #' @return
 #' 
 #' \link{relativeRisk} returns a \code{'logRelativeRisk'} object, for which
-#' A \link[stats]{vcov} method and a \link[base]{print} method are defined.
+#' a \link[stats]{vcov} method and a \link[base]{print} method are defined.
 #' 
 #' \link{oddsRatio} returns a \code{'logOddsRatio'} object, for which
-#' A \link[stats]{vcov} method and a \link[base]{print} method are defined.
+#' a \link[stats]{vcov} method and a \link[base]{print} method are defined.
 #' 
 #' \link{print_OE} prints a table with observed and expected frequencies, as well as 
 #' the category-wise \eqn{\chi^2} statistics.  
