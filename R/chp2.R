@@ -1,5 +1,7 @@
 
 
+
+
 #' @title Chapter 2
 #' 
 #' @description 
@@ -26,8 +28,8 @@
 #' 
 #' @return 
 #' 
-#' \link{print_freqs} returns a \code{'freqs'} object, for which
-#' a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
+#' \link{print_freqs} returns a \linkS4class{freqs} object, for which
+#' a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' \link{print_stats} does not have a returned value.
 #' 
@@ -75,33 +77,41 @@ print_stats <- function(x, na.rm = TRUE) {
 #' @rdname Chapter02
 #' @export
 print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
+  data.name <- deparse1(substitute(x))
   object <- if (is.factor(x)) x else {
+    if (!is.numeric(x)) stop(sQuote(data.name), ' must be numeric')
+    # ?base::cut.default will stop on !is.numeric(x), but the error message is not informative enough
     cut.default(x, breaks = breaks, include.lowest = include.lowest, right = right, ordered_result = TRUE)
   }
-  tab <- table(object)
-  names(dimnames(tab)) <- NULL
-  
-  n <- sum(tab)
-  ret <- list(freq = tab, n = n, data.name = deparse1(substitute(x)))
-  class(ret) <- 'freqs'
-  return(ret)
+  new(Class = 'freqs', c(table(object)), data.name = data.name)
 }
 
-
+#' @title Show \linkS4class{freqs} Object
+#' 
+#' @description Show \linkS4class{freqs} object
+#' 
+#' @param object an \linkS4class{freqs} object
+#' 
+#' @return 
+#' The \link[methods]{show} method for \linkS4class{freqs} object 
+#' does not have a returned value.
+#' 
 #' @export
-print.freqs <- function(x, ...) {
-  cfreq <- cumsum(freq <- x[['freq']])
+setMethod(f = show, signature = signature(object = 'freqs'), definition = function(object) {
+  freq <- unclass(object)
+  cfreq <- cumsum(freq)
   rev_cfreq <- rev.default(cumsum(rev.default(freq)))
-  n <- x[['n']]
+  n <- sum(freq)
   ret <- cbind(
     'Frequency' = sprintf(fmt = '%d (%.2f%%)', freq, 100 * freq/n), 
     'Cummulative Freq' = sprintf(fmt = '%d (%.2f%%)', cfreq, 100 * cfreq/n),
     'Reversed Cumm Freq' = sprintf(fmt = '%d (%.2f%%)', rev_cfreq, 100 * rev_cfreq/n)
   )
   rownames(ret) <- names(freq)
-  names(dimnames(ret)) <- c(x[['data.name']], 'Counts (%)')
+  names(dimnames(ret)) <- c(object@data.name, 'Counts (%)')
   print.noquote(noquote(ret, right = TRUE))
-}
+  print(autoplot.freqs(object))
+})
 
 
 #' @export
@@ -111,8 +121,9 @@ autoplot.freqs <- function(object, ...) {
 
 #' @export
 autolayer.freqs <- function(object, type = c('density', 'distribution'), title = NULL, ...) {
-  cfreq <- cumsum(freq <- object[['freq']])
-  n <- object[['n']]
+  freq <- unclass(object)
+  cfreq <- cumsum(freq)
+  n <- sum(freq)
   switch(match.arg(type), density = list(
     geom_bar(mapping = aes(x = names(freq), y = c(freq/n)), stat = 'identity'),
     labs(x = 'Categories', y = 'Relative Frequency', title = title)

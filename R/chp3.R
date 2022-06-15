@@ -7,7 +7,7 @@
 #' Functions for Chapter 3, \emph{Some Basic Probability Concepts}.
 #' 
 #' @param A \link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.  
-#' For \link{predictiveValues} function, this must be a 2-by-2 contingency table, with layout
+#' For \link{predictiveValues} function, this must be a a \linkS4class{BooleanTest} object, or a two-by-two contingency table, with layout
 #' \tabular{lcc}{
 #'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 #' Test (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
@@ -97,14 +97,8 @@ print.addProbs <- function(x, ...) {
 #' @export
 predictiveValues <- function(A, sensitivity = A[1,1]/sum(A[,1]), specificity = A[2,2]/sum(A[,2]), prevalence = stop('must provide prevalence')) {
   if (!missing(A)) {
-    if (!is.matrix(A) || !is.integer(A) || any(dim(A) != 2L)) stop('Test-Disease table must be 2*2 integer matrix')
-    if (length(dnm <- dimnames(A)) != 2L) stop('must provide complete dimension names')
-    if (!length(nm_dnm <- names(dnm)) || any(!nzchar(nm_dnm))) stop('dimension names must have names')
-    message('Confirm that your data setup satisfies that')
-    message('{', nm_dnm[1L], ' = ', dnm[[1L]][1L], '} indicates test-positive')
-    message('{', nm_dnm[2L], ' = ', dnm[[2L]][1L], '} indicates disease-positive')
-    #tmp <- readline(prompt = 'Press Enter to confirm, or any other key to abort: ')
-    #if (nzchar(tmp)) stop('Aborted by user')
+    tmp <- if (inherits(A, what = 'BooleanTest')) A else new(Class = 'BooleanTest', A)
+    cat('\n'); show(tmp); cat('\n')
   }
   
   force(sensitivity); force(specificity)
@@ -128,7 +122,7 @@ predictiveValues <- function(A, sensitivity = A[1,1]/sum(A[,1]), specificity = A
 print.predictiveValues <- function(x, ...) {
   sens <- attr(x, which = 'sensitivity', exact = TRUE)
   spec <- attr(x, which = 'specificity', exact = TRUE)
-  cat(sprintf(fmt = '\nSensitivity = %.1f%%\nSpecificity = %.1f%%\n\n', 100 * sens, 100 * spec))
+  cat(sprintf(fmt = 'Sensitivity = %.1f%%\nSpecificity = %.1f%%\n\n', 100 * sens, 100 * spec))
   print.data.frame(data.frame(
     Prevalence = sprintf(fmt = '%.1f%%', 100 * x$Prevalence), 
     PVP = sprintf(fmt = '%.1f%%', 100 * x$PVP), 
@@ -160,10 +154,15 @@ autolayer.predictiveValues <- function(object, xlim = c(0, 1), n = 501L, legend_
   prev <- prev0[prev0 >= xlim[1L] & prev0 <= xlim[2L]]
   sens <- attr(object, which = 'sensitivity', exact = TRUE)
   spec <- attr(object, which = 'specificity', exact = TRUE)
+  pvp <- function(x) (sens * x) / (sens * x + (1-spec) * (1-x))
+  pvn <- function(x) (spec * (1-x)) / (spec * (1-x) + (1-sens) * x)
   list(
-    stat_function(mapping = aes(colour = 'a'), fun = function(x) (sens * x) / (sens * x + (1-spec) * (1-x)), n = n, xlim = xlim, ...),
-    stat_function(mapping = aes(colour = 'b'), fun = function(x) (spec * (1-x)) / (spec * (1-x) + (1-sens) * x), n = n, xlim = xlim, ...),
-    geom_vline(xintercept = prev, colour = 'blue', linetype = 2L),
+    stat_function(mapping = aes(colour = 'a'), fun = pvp, n = n, xlim = xlim, ...),
+    stat_function(mapping = aes(colour = 'b'), fun = pvn, n = n, xlim = xlim, ...),
+    geom_point(mapping = aes(x = prev, y = pvp(prev), colour = 'a'), size = 2L),
+    geom_label_repel(mapping = aes(x = prev, y = pvp(prev), colour = 'a', label = sprintf(fmt = '%.1f%%', 1e2*pvp(prev))), size = 3.5),
+    geom_point(mapping = aes(x = prev, y = pvn(prev), colour = 'b'), size = 2L),
+    geom_label_repel(mapping = aes(x = prev, y = pvn(prev), colour = 'b', label = sprintf(fmt = '%.1f%%', 1e2*pvn(prev))), size = 3.5),
     scale_colour_discrete(name = legend_title, breaks = letters[1:2], labels = c('PV Positive', 'PV Negative'))
   )
 }

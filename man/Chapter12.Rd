@@ -14,7 +14,7 @@ oddsRatio(A)
 print_OE(O, prob)
 }
 \arguments{
-\item{A}{2-by-2 \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
+\item{A}{a \linkS4class{BooleanRisk} object, or a two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
 \tabular{lcc}{
  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
@@ -56,9 +56,8 @@ d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
 (d1231 = setNames( # Page 605, Table 12.3.1
   c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L), 
   nm = levels(cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE))))
-p_1231 = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31))
-chisq_1231 = print_OE(d1231, prob = p_1231)
-pchisq(sum(chisq_1231), df = length(d1231) - 3L, lower.tail = FALSE)
+chi1231 = print_OE(d1231, prob = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31)))
+pchisq(sum(chi1231), df = length(d1231) - 3L, lower.tail = FALSE)
 # Explanation: I cannot reject the null hypothesis of the observations comes from 
 # a population of N(198.67, 41.31^2) at 5\% significance level
 # -3L: three restrictions (explained on Page 608)
@@ -71,11 +70,11 @@ pchisq(sum(chisq_1231), df = length(d1231) - 3L, lower.tail = FALSE)
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
 o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
 (p1232 = sum((0:10) * d1232) / (25 * 100)) # binomial `prob`
-chi_1232 = print_OE(o1232, prob = c(
+chi1232 = print_OE(o1232, prob = c(
   pbinom(1L, size = 25L, prob = p1232),
   dbinom(2:9, size = 25L, prob = p1232),
   pbinom(9, size = 25L, prob = p1232, lower.tail = FALSE)))
-pchisq(sum(chi_1232), df = length(o1232) - 2L, lower.tail = FALSE)
+pchisq(sum(chi1232), df = length(o1232) - 2L, lower.tail = FALSE)
 # Conclusion: we reject the null hypothesis that my observations are from a binomial distribution
 # -2L: two restrictions (explained on Page 611)
 # (1) making sum(o) == sum(e)
@@ -86,21 +85,24 @@ d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
 p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
            ppois(7L, lambda = 3, lower.tail = FALSE))
-chisq_1233 = print_OE(o_1233, prob = p_1233)
-pchisq(sum(chisq_1233), df = length(o_1233) - 1L, lower.tail = FALSE)
+chi1233 = print_OE(o_1233, prob = p_1233)
+pchisq(sum(chi1233), df = length(o_1233) - 1L, lower.tail = FALSE)
 # Conclusion: cannot reject the null hypothesis that observations come from Poisson(lambda = 3)
 # -1L: one restrictions
 # (1) making sum(xo) == sum(xe)
+chisq.test(o_1233, p = p_1233) # equivalent # warning on any(E < 5)
 
 # Page 614, Example 12.3.4
 d1234 = c('Dec 05' = 62L, 'Jan 06' = 84L, 'Feb 06' = 17L, 'Mar 06' = 16L, 'Apr 06' = 21L)
-chisq_1234 = print_OE(d1234)
-pchisq(sum(chisq_1234), df = length(d1234) - 1L, lower.tail = FALSE)
+chi1234 = print_OE(d1234)
+pchisq(sum(chi1234), df = length(d1234) - 1L, lower.tail = FALSE)
+chisq.test(d1234) # equivalent
 
 # Page 616, Example 12.3.5
 d1235 = c(dominant = 43L, heterozygous = 125L, recessive = 32L)
-chisq_1235 = print_OE(d1235, prob = c(1, 2, 1))
-pchisq(sum(chisq_1235), df = length(d1235) - 1L, lower.tail = FALSE)
+chi1235 = print_OE(d1235, prob = c(1, 2, 1))
+pchisq(sum(chi1235), df = length(d1235) - 1L, lower.tail = FALSE)
+chisq.test(d1235, p = c(1, 2, 1), rescale.p = TRUE) # equivalent
 
 # Page 621, Example 12.4.1
 addmargins(d1241 <- array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dimnames = list(

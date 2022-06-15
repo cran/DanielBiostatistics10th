@@ -15,7 +15,7 @@ binom2pois(x, lambda, size = c(10L, 100L))
 }
 \value{
 \link{binom2pois} returns a \link{binom2pois} object, for which 
-a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
+a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{
 Binomial Approaching Poisson

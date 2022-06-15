@@ -17,7 +17,7 @@ predictiveValues(
 }
 \arguments{
 \item{A}{\link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.
-For \link{predictiveValues} function, this must be a 2-by-2 contingency table, with layout
+For \link{predictiveValues} function, this must be a a \linkS4class{BooleanTest} object, or a two-by-two contingency table, with layout
 \tabular{lcc}{
  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 Test (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
@@ -53,14 +53,6 @@ the sensitivity, specificity of a test, as well as the disease prevalence.
 }
 \examples{
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files of functions in Chapter 3
-# ?Chapter03
 
 # Page 69, Example 3.4.1
 # Page 70, Example 3.4.2
@@ -79,11 +71,7 @@ addProbs(d341)
 (d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, dimnames = list(
   Test = c('Positive', 'Negative'), Alzheimer = c('Yes', 'No'))))
 predictiveValues(d351, prevalence = .113)
-
-# toy example
 predictiveValues(d351, prevalence = c(.005, .98))
-
-
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.

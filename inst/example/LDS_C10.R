@@ -5,8 +5,6 @@ library(DanielBiostatistics10th)
 # To clear the console
 # Control + L: Mac and RStudio Cloud
 
-
-
 library(car)
 
 

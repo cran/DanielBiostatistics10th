@@ -33,7 +33,7 @@
 #' \item{\code{hypothesis}}{a \code{'z_hypothesis'} object, containing information of the null hypothesis,
 #' significance level and rejection region, etc.}
 #' }
-#' A \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined for \link{power_z} object.
+#' A \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined for \link{power_z} object.
 #' 
 #' @seealso \link[stats]{power.t.test}
 #' 
@@ -90,7 +90,7 @@ z_hypothesis <- function(null.value, sd, n, alternative = c('two.sided', 'less',
 
 
 #' @export
-autolayer.z_hypothesis <- function(object, all.alternative = FALSE, ...) {
+autolayer.z_hypothesis <- function(object, xlab = 'Alternative values of \u03bc', ylab = NULL, all.alternative = FALSE, ...) {
   rr <- object[['rr']]
   null.value <- object[['null.value']]
   n <- object[['n']]
@@ -119,24 +119,25 @@ autolayer.z_hypothesis <- function(object, all.alternative = FALSE, ...) {
   ag <- list(null.value = null.value, sd = sd, n = n, sig.level = sig.level)
   
   if (all.alternative) {
-    ylab <- 'Power'
+    if (is.null(ylab)) ylab <- 'Power'
     lyr <- list(
-      stat_function(mapping = aes(colour = 'a'), fun = power_z, args = c(ag, list(alternative = 'two.sided')), xlim = xlim, linetype = switch(alternative, two.sided = 1L, 2L)),
-      stat_function(mapping = aes(colour = 'b'), fun = power_z, args = c(ag, list(alternative = 'less')), xlim = xlim, linetype = switch(alternative, less = 1L, 2L)),
-      stat_function(mapping = aes(colour = 'c'), fun = power_z, args = c(ag, list(alternative = 'greater')), xlim = xlim, linetype = switch(alternative, greater = 1L, 2L)),
-      scale_color_discrete(name = 'Alternative\nHypothesis', breaks = letters[1:3], labels = paste('\u03bc', c('\u2260', '<', '>'), null.value))
+      stat_function(mapping = aes(colour = 'two.sided'), fun = power_z, args = c(ag, list(alternative = 'two.sided')), xlim = xlim, linetype = switch(alternative, two.sided = 1L, 2L)),
+      stat_function(mapping = aes(colour = 'less'), fun = power_z, args = c(ag, list(alternative = 'less')), xlim = xlim, linetype = switch(alternative, less = 1L, 2L)),
+      stat_function(mapping = aes(colour = 'greater'), fun = power_z, args = c(ag, list(alternative = 'greater')), xlim = xlim, linetype = switch(alternative, greater = 1L, 2L)),
+      scale_color_discrete(name = 'Alternative\nHypothesis', breaks = c('two.sided', 'less', 'greater'), labels = paste('\u03bc', c('\u2260', '<', '>'), null.value))
     )
   } else {
-    ylab <- paste('Power of Ha: \u03bc', switch(alternative, two.sided = '\u2260', less = '<', greater = '>'), null.value)
+    if (is.null(ylab)) ylab <- paste('Power of Ha: \u03bc', switch(alternative, two.sided = '\u2260', less = '<', greater = '>'), null.value)
     lyr <- list(
       stat_function(fun = power_z, args = c(ag, list(alternative = alternative)), xlim = xlim),
-      geom_vline(xintercept = null.value, linetype = 2L, color = 'blue', alpha = .7),
       annotate(geom = 'rect', xmin = xmin, xmax = xmax, ymin = 0, ymax = 1, alpha = .2)
     )
   }
   
   return(c(lyr, list(
-    labs(x = 'Alternative values of \u03bc', y = ylab)
+    geom_point(mapping = aes(x = null.value, y = sig.level), size = 2L),
+    geom_label_repel(mapping = aes(x = null.value, y = sig.level, label = sprintf(fmt = '\u03bc0 = %.1f', null.value)), size = 3.5),
+    labs(x = xlab, y = ylab)
   )))
 }
 
@@ -150,20 +151,36 @@ print.power <- function(x, ...) {
   #             '1-\u03b2' = sprintf(fmt = '%.2f%%', 1e2 * x))
   # using unicode will cause ?devtools::check_rhub to give warning
   # unable to translate 'Alternative <U+03BC>' to native encoding
-  ret <- cbind('Alternative mu_1' = sprintf(fmt = '%.1f', attr(x, which = 'x', exact = TRUE)),
-               'beta' = sprintf(fmt = '%.2f%%', 1e2 * (1-x)),
-               '1-beta' = sprintf(fmt = '%.2f%%', 1e2 * x))
-  print(noquote(ret, right = TRUE))
+  ret <- data.frame(
+    'Alternative mu_1' = sprintf(fmt = '%.1f', attr(x, which = 'x', exact = TRUE)),
+    'beta' = sprintf(fmt = '%.2f%%', 1e2 * (1-x)),
+    '1-beta' = sprintf(fmt = '%.2f%%', 1e2 * x), 
+    check.names = FALSE)
+  print.data.frame(ret, row.names = FALSE)
 }
 
 
 #' @export
 autolayer.power <- function(object, all.alternative = FALSE, ...) {
   H <- attr(object, which = 'hypothesis', exact = TRUE)
-  x <- setdiff(attr(object, which = 'x', exact = TRUE), H[['null.value']])
+  x <- attr(object, which = 'x', exact = TRUE)
+  pwr <- unclass(object)
+  if (any(id <- (abs(x - H[['null.value']]) < 1e-4))) {
+    x <- x[!id]
+    pwr <- pwr[!id]
+  }
   list(
     autolayer(H, all.alternative = all.alternative, ...),
-    if (!all.alternative) geom_vline(xintercept = x, linetype = 3L, colour = 'red', alpha = .6)
+    if (length(x)) {
+      if (all.alternative) {
+        geom_point(mapping = aes(x = x, y = pwr, colour = H[['alternative']]), size = 2L)
+      } else geom_point(mapping = aes(x = x, y = pwr), size = 2L)
+    },
+    if (length(x)) {
+      if (all.alternative) {
+        geom_label_repel(mapping = aes(x = x, y = pwr, colour = H[['alternative']], label = sprintf(fmt = '%.1f%%', 1e2*pwr)), size = 3.5)
+      } else geom_label_repel(mapping = aes(x = x, y = pwr, label = sprintf(fmt = '%.1f%%', 1e2*pwr)), size = 3.5)
+    }
   )
 }
 

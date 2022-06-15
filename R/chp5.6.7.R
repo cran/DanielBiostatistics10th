@@ -237,7 +237,7 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
 #' @export
 prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
-  if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0)) stop('Illegal sample proportion(s)')
+  if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0, xbar > 1)) stop('Illegal sample proportion(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal total count(s)')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
   if (do_test <- !missing(null.value)) {

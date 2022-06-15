@@ -20,8 +20,8 @@ In \link{print_freqs} function, this argument can also be a \link[base]{factor}}
 \code{include.lowest = TRUE} in \link{print_freqs}}
 }
 \value{
-\link{print_freqs} returns a \code{'freqs'} object, for which
-a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
+\link{print_freqs} returns a \linkS4class{freqs} object, for which
+a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 
 \link{print_stats} does not have a returned value.
 }
@@ -39,14 +39,6 @@ quartiles, inter-quartile range (IQR), range, skewness and kurtosis.  A histogra
 }
 \examples{
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files
-# ?Chapter02
 
 # Page 20, Example 2.2.1
 d141 = read.csv(system.file('extdata', 'EXA_C01_S04_01.csv', package = 'DanielBiostatistics10th'))

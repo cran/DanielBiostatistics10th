@@ -1,12 +1,4 @@
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files
-# ?Chapter04
 
 # Page 93, Example 4.2.1
 # Page 95, Example 4.2.2 to 4.2.3

@@ -6,7 +6,7 @@
 #' 
 #' Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies}.
 #' 
-#' @param A 2-by-2 \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
+#' @param A a \linkS4class{BooleanRisk} object, or a two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
 #' \tabular{lcc}{
 #'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 #' Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
@@ -40,7 +40,8 @@
 #' @name Chapter12
 #' @export
 relativeRisk <- function(A) {
-  .inspect_2by2(A)
+  tmp <- if (inherits(A, what = 'BooleanRisk')) A else new(Class = 'BooleanRisk', A)
+  cat('\n'); show(tmp); cat('\n')
   risks <- A[,1L] / .rowSums(A, m = 2L, n = 2L)
   chisq <- unname(chisq.test(A, correct = FALSE)$statistic)
   # all.equal(chisq, sum(A) * (A[1L,1L]*A[2L,2L] - A[2L,1L]*A[1L,2L])^2 / prod(rowSums(A), colSums(A)))
@@ -59,7 +60,8 @@ relativeRisk <- function(A) {
 #' @rdname Chapter12
 #' @export
 oddsRatio <- function(A) {
-  .inspect_2by2(A)
+  tmp <- if (inherits(A, what = 'BooleanRisk')) A else new(Class = 'BooleanRisk', A)
+  cat('\n'); show(tmp); cat('\n')
   odds <- A[,1L] / A[,2L]
   chisq <- unname(chisq.test(A, correct = FALSE)$statistic)
   # Equation (12.7.4) (Page 646)
@@ -94,15 +96,6 @@ print.logOddsRatio <- function(x, level = .95, ...) {
 }
 
 
-.inspect_2by2 <- function(A) {
-  if (!is.matrix(A) || !is.integer(A) || !all(dim(A) == 2L) || anyNA(A) || any(A <= 0L)) stop('A must be 2*2 integer matrix')
-  dnm <- dimnames(A)
-  dimnm <- names(dnm)
-  if (length(dimnm) == 2L && !all(nzchar(dimnm))) stop('name of dimensions must be specified')
-  if (is.null(rnm <- dnm[[1L]]) || is.null(cnm <- dnm[[2L]])) stop('A must have colnames and rownames')
-  message(sprintf('Risk Factor %s: ', sQuote(dimnm[1L])), paste0(rnm, '(', c('+', '-'), ')', collapse = ' vs. '))
-  message(sprintf('Disease Status %s: ', sQuote(dimnm[2L])), paste0(cnm, '(', c('+', '-'), ')', collapse = ' vs. '))
-}
 
 
 #' @rdname Chapter12
@@ -123,5 +116,6 @@ print_OE <- function(O, prob) {
     '(O-E)^2/E' = sprintf(fmt = '%.3f', chisq)
   )
   print.noquote(noquote(ret, right = TRUE))
+  cat(sprintf(fmt = '\nSum (O-E)^2/E = %.2f\n', sum(chisq)))
   return(invisible(chisq))
 }

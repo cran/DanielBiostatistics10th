@@ -1,12 +1,4 @@
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files of functions in Chapter 3
-# ?Chapter03
 
 # Page 69, Example 3.4.1
 # Page 70, Example 3.4.2
@@ -25,8 +17,4 @@ addProbs(d341)
 (d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, dimnames = list(
   Test = c('Positive', 'Negative'), Alzheimer = c('Yes', 'No'))))
 predictiveValues(d351, prevalence = .113)
-
-# toy example
 predictiveValues(d351, prevalence = c(.005, .98))
-
-

@@ -1,12 +1,4 @@
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files
-# ?Chapter05to07
 
 # Page 142, Example 5.3.2
 aggregated_z(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
@@ -119,7 +111,8 @@ prop_CLT(x = 24L, n = 301L, null.value = .063, alternative = 'greater')
 prop_CLT(x = c(24L, 11L), n = c(44L, 29L), null.value = 0, alternative = 'greater')
 
 # Page 264, Example 7.7.1
-aggregated_var(xsd = sqrt(670.81), n = 16L, null.value = 600)
+d771 = read.csv(system.file('extdata', 'EXA_C07_S07_01.csv', package = 'DanielBiostatistics10th'))
+aggregated_var(xsd = sd(d771$mass), n = 16L, null.value = 600)
 
 # Page 268, Example 7.8.1
 aggregated_var(xsd = c(30.62, 11.37), n = 6L, null.value = 1, alternative = 'greater')

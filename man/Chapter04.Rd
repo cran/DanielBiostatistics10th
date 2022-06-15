@@ -23,7 +23,7 @@ poisBar(lambda, xlim, title)
 }
 \value{
 \link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which 
-a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
+a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{
 Functions for Chapter 4, \emph{Probability Distributions}.
@@ -33,14 +33,6 @@ Functions for Chapter 4, \emph{Probability Distributions}.
 }
 \examples{
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files
-# ?Chapter04
 
 # Page 93, Example 4.2.1
 # Page 95, Example 4.2.2 to 4.2.3

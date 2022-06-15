@@ -26,7 +26,7 @@
 #' @return 
 #' 
 #' \link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which 
-#' a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
+#' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' 
 #' @seealso \link[stats]{dbinom} \link[stats]{dpois}
@@ -113,7 +113,7 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
 #' @return 
 #' 
 #' \link{binom2pois} returns a \link{binom2pois} object, for which 
-#' a \link[base]{print} method, a \link[ggplot2]{autolayer} and a \link[ggplot2]{autoplot} method are defined.
+#' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' @seealso \link[stats]{dbinom} \link[stats]{dpois}
 #' 
@@ -125,11 +125,11 @@ binom2pois <- function(x, lambda, size = c(10L, 100L)) {
   if (!is.integer(size) || length(size <- unique.default(size)) < 2L || anyNA(size) || any(size < 0L)) stop('illegal `size`')
   if (!is.integer(x) || length(x) != 1L || is.na(x) || x < 0L) stop('illegal `x`')
   if (!is.numeric(lambda) || length(lambda) != 1L || is.na(lambda) || lambda <= 0) stop('illegal `lambda`')
-  sizes <- min(size):max(size)
+  #sizes <- min(size):max(size)
   ret <- list(
     x = x,
-    sizes = sizes,
-    probs = lambda / sizes,
+    #sizes = sizes,
+    #probs = lambda / sizes,
     lambda = lambda, 
     size = size
   )
@@ -139,7 +139,7 @@ binom2pois <- function(x, lambda, size = c(10L, 100L)) {
 
 #' @export
 print.binom2pois <- function(x, ...) {
-  object <- x
+  object <- x; x <- NULL
   lambda <- object[['lambda']]
   size <- object[['size']]
   prob <- lambda / size
@@ -159,15 +159,16 @@ print.binom2pois <- function(x, ...) {
 
 #' @export
 autolayer.binom2pois <- function(object, ...) {
-  sizes <- object[['sizes']]
-  probs <- object[['probs']]
   lambda <- object[['lambda']]
   size <- object[['size']]
   x <- object[['x']]
+  dbinoms <- dbinom(x, size = size, prob = lambda/size)
+  seq_size <- min(size):max(size)
   list(
-    geom_path(mapping = aes(x = sizes, y = dbinom(x, size = sizes, prob = probs))),
+    geom_path(mapping = aes(x = seq_size, y = dbinom(x, size = seq_size, prob = lambda/seq_size))),
     geom_hline(yintercept = dpois(x, lambda = lambda), colour = 'red'),
-    geom_vline(xintercept = size, colour = 'blue', linetype = 2L)
+    geom_point(mapping = aes(x = size, y = dbinoms), size = 2L),
+    geom_label_repel(mapping = aes(x = size, y = dbinoms, label = sprintf(fmt = '%.1f%%', 1e2*dbinoms)), size = 3.5)
   )
 }
 

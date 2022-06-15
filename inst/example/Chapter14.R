@@ -5,9 +5,6 @@ library(DanielBiostatistics10th)
 # To clear the console
 # Control + L: Mac and RStudio Cloud
 
-
-
-
 library(survival)
 library(ggfortify)
 
@@ -17,7 +14,6 @@ library(ggfortify)
 # ?survival::survdiff.  log rank test to compare survival functions
 # ?survival::coxph.  to perform Cox proportional hazard model
 # ?ggfortify:::autoplot.survfit. to plot the Kaplan-Meier curves
-
 
 # Page 756, Example 14.3.1
 d1431 = read.csv(system.file('extdata', 'EXA_C14_S03_01.csv', package = 'DanielBiostatistics10th'))
@@ -29,7 +25,7 @@ class(d1431a$edp) # 'Surv'
 head(d1431a$edp)
 summary(sf_1431 <- survfit(edp ~ TUMOR, data = d1431a)) # Page 758, Table 14.3.2
 # ?survival::survfit
-autoplot(sf_1431) # Page 761, Figure 14.3.1
+autoplot(sf_1431) + labs(title = 'Page 761, Figure 14.3.1')
 
 
 # Page 764, Example 14.4.1
@@ -56,4 +52,4 @@ confint(model1_1451)
 summary(model2_1451 <- coxph(edp ~ drug, data = d1451a))
 confint(model2_1451)
 # 'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.923, p < .001)
-autoplot(survfit(edp ~ drug, data = d1451a)) # Page 771, Figure 14.5.1
+autoplot(survfit(edp ~ drug, data = d1451a)) + labs(title = 'Page 771, Figure 14.5.1')
