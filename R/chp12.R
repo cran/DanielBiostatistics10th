@@ -6,12 +6,8 @@
 #' 
 #' Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies}.
 #' 
-#' @param A a \linkS4class{BooleanRisk} object, or a two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
-#' \tabular{lcc}{
-#'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
-#' Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
-#' Risk Factor (\eqn{-}) \tab \eqn{x_{-+}} \tab \eqn{x_{--}} \cr
-#' }
+#' @param A a \linkS4class{BooleanRisk} object, or 
+#' a two-by-two \link[base]{integer} \link[base]{matrix} of the same with layout as outlined in \linkS4class{BooleanRisk}
 #' 
 #' @param O \link[base]{integer} vector, observed counts
 #' 
@@ -48,10 +44,10 @@ relativeRisk <- function(A) {
   
   # Equation (12.7.2) (Page 644)
   logRR <- unname(log(risks[1L]) - log(risks[2L]))
-  stderr <- logRR / sqrt(chisq)
+  std.err <- logRR / sqrt(chisq)
   ret <- list(
     coefficients = c(logRR = logRR), 
-    vcov = array(stderr^2, dim = c(1L, 1L), dimnames = list('logRR', 'logRR')))
+    vcov = array(std.err^2, dim = c(1L, 1L), dimnames = list('logRR', 'logRR')))
   class(ret) <- 'logRelativeRisk'
   return(ret)
 }
@@ -66,10 +62,10 @@ oddsRatio <- function(A) {
   chisq <- unname(chisq.test(A, correct = FALSE)$statistic)
   # Equation (12.7.4) (Page 646)
   logOR <- unname(log(odds[1L]) - log(odds[2L]))
-  stderr <- logOR / sqrt(chisq)
+  std.err <- logOR / sqrt(chisq)
   ret <- list(
     coefficients = c(logOR = logOR), 
-    vcov = array(stderr^2, dim = c(1L, 1L), dimnames = list('logOR', 'logOR')))
+    vcov = array(std.err^2, dim = c(1L, 1L), dimnames = list('logOR', 'logOR')))
   class(ret) <- 'logOddsRatio'
   return(ret)
 }

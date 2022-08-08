@@ -14,12 +14,8 @@ oddsRatio(A)
 print_OE(O, prob)
 }
 \arguments{
-\item{A}{a \linkS4class{BooleanRisk} object, or a two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of risk factor and disease status
-\tabular{lcc}{
- \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
-Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
-Risk Factor (\eqn{-}) \tab \eqn{x_{-+}} \tab \eqn{x_{--}} \cr
-}}
+\item{A}{a \linkS4class{BooleanRisk} object, or 
+a two-by-two \link[base]{integer} \link[base]{matrix} of the same with layout as outlined in \linkS4class{BooleanRisk}}
 
 \item{O}{\link[base]{integer} vector, observed counts}
 
@@ -42,14 +38,6 @@ Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of 
 }
 \examples{
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
-
-# To view the help files
-# ?Chapter12
 
 # Page 605, Example 12.3.1
 d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
@@ -58,8 +46,6 @@ d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
   nm = levels(cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE))))
 chi1231 = print_OE(d1231, prob = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31)))
 pchisq(sum(chi1231), df = length(d1231) - 3L, lower.tail = FALSE)
-# Explanation: I cannot reject the null hypothesis of the observations comes from 
-# a population of N(198.67, 41.31^2) at 5\% significance level
 # -3L: three restrictions (explained on Page 608)
 # (1) making sum(xo) == sum(xe)
 # (2) estimating mean
@@ -75,7 +61,6 @@ chi1232 = print_OE(o1232, prob = c(
   dbinom(2:9, size = 25L, prob = p1232),
   pbinom(9, size = 25L, prob = p1232, lower.tail = FALSE)))
 pchisq(sum(chi1232), df = length(o1232) - 2L, lower.tail = FALSE)
-# Conclusion: we reject the null hypothesis that my observations are from a binomial distribution
 # -2L: two restrictions (explained on Page 611)
 # (1) making sum(o) == sum(e)
 # (2) estimating p1232
@@ -87,7 +72,6 @@ p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
            ppois(7L, lambda = 3, lower.tail = FALSE))
 chi1233 = print_OE(o_1233, prob = p_1233)
 pchisq(sum(chi1233), df = length(o_1233) - 1L, lower.tail = FALSE)
-# Conclusion: cannot reject the null hypothesis that observations come from Poisson(lambda = 3)
 # -1L: one restrictions
 # (1) making sum(xo) == sum(xe)
 chisq.test(o_1233, p = p_1233) # equivalent # warning on any(E < 5)
@@ -109,8 +93,6 @@ addmargins(d1241 <- array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dim
   Race = c('White', 'Black', 'Other'),
   FolicAcid = c('TRUE', 'FALSE'))))
 chisq.test(d1241) # ?stats::chisq.test
-# Conclusion: I would reject the null hypothesis 
-# .. that the perception of usage of folic acid and race are independent (p = .011).
 
 # Page 626, Example 12.4.2
 addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = list(
@@ -118,18 +100,18 @@ addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = li
   LifestyleChange = c('TRUE', 'FALSE'))))
 chisq.test(d1242, correct = FALSE)
 chisq.test(d1242, correct = TRUE) # Page 627, Yates's Correction
-# Conclusion: we determined that the fear of falling does result in lifestyle change (p<.001)
 
 # Page 631, Example 12.5.1
 addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = list(
   Group = c('Narcoleptic', 'Healthy'),
   Migraine = c('TRUE', 'FALSE'))))
 (chisq_1251 = chisq.test(d1251, correct = FALSE))
-# Conclusion: we cannot reject the null hypothesis 
-# .. that the two populations are homogeneous in migraine (p = .722)
-# (Optional) using test on two proportions
-# prop_CLT(x = c(21L, 19L), n = 96L, null.value = 0)
-# unname(0.355^2 - chisq_1251$statistic) # only true for 2*2 contingency table
+if (FALSE) {
+  # (optional) using test on two proportions
+  # only equivalent for 2*2 contingency table
+  (clt_1251 = prop_CLT(x = c(21L, 19L), n = 96L, null.value = 0))
+  all.equal.numeric(unname(clt_1251$statistic^2), unname(chisq_1251$statistic))
+}
 
 # Page 638, Example 12.6.1
 addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
@@ -145,14 +127,14 @@ relativeRisk(d1271)
 
 # Page 647, Example 12.7.2
 addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
- SmkPregnancy = c('TRUE', 'FALSE'),
- Obesity = c('TRUE', 'FALSE'))))
+  SmkPregnancy = c('TRUE', 'FALSE'),
+  Obesity = c('TRUE', 'FALSE'))))
 oddsRatio(d1272)
 
 # Page 650, Example 12.7.3
 # Page 652, Example 12.7.4
-(d1273 <- array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), 
- dimnames = list(HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), 
+(d1273 <- array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), dimnames = list(
+  HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), 
   Age = c('<=55', '>55'))))
 addmargins(d1273, margin = 1:2) # Page 651, Table 12.7.6
 mantelhaen.test(d1273)

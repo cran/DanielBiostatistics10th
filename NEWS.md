@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.1.7
+Misc minor updates
+
 # DanielBiostatistics10th 0.1.6
 Replace all ggplot2::geom_vline with ggrepel::geom_label_repel
 

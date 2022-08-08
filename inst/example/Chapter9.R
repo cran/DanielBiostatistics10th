@@ -1,14 +1,9 @@
 library(DanielBiostatistics10th)
-# To run a line of code, use shortcut
-# Command + Enter: Mac and RStudio Cloud
-# Control + Enter: Windows, Mac and RStudio Cloud
-# To clear the console
-# Control + L: Mac and RStudio Cloud
 
 # Page 417, Example 9.3.1
-head(d931 <- read.csv(system.file('extdata', 'EXA_C09_S03_01_corrected.csv', 
-                                  package = 'DanielBiostatistics10th')))
-dim(d931)
+d931 <- read.csv(system.file('extdata', 'EXA_C09_S03_01.csv', package = 'DanielBiostatistics10th'))
+head(d931)
+names(d931)[2:3] = c('Waist', 'AT')
 plot(AT ~ Waist, data = d931, xlab = 'Waist circumference (cm), X', 
      ylab = 'Deep abdominal AT area (cm2), Y', main = 'Page 419, Figure 9.3.1')
 

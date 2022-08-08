@@ -7,12 +7,8 @@
 #' Functions for Chapter 3, \emph{Some Basic Probability Concepts}.
 #' 
 #' @param A \link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.  
-#' For \link{predictiveValues} function, this must be a a \linkS4class{BooleanTest} object, or a two-by-two contingency table, with layout
-#' \tabular{lcc}{
-#'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
-#' Test (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
-#' Test (\eqn{-}) \tab \eqn{x_{-+}} \tab \eqn{x_{--}} \cr
-#' }
+#' For \link{predictiveValues} function, this must be a \linkS4class{BooleanTest} object, 
+#' or a two-by-two \link[base]{integer} \link[base]{matrix} of the same with layout as outlined in \linkS4class{BooleanTest}
 #' 
 #' @param sensitivity,specificity \link[base]{numeric} scalars, 
 #' sensitivity and specificity of a test.

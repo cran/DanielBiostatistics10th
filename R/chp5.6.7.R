@@ -8,7 +8,11 @@
 #' Chapter 6, \emph{Estimation} and 
 #' Chapter 7, \emph{Hypothesis Testing}.
 #' 
-#' @param x \link[base]{integer} scalar or length-two vector, the number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)
+#' @param x \link[base]{integer} scalar or length-two vector, 
+#' number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)
+#' 
+#' @param bool_obs \link[base]{logical} vector of Boolean observations,
+#' used in one-sample \eqn{z}-test on proportion
 #' 
 #' @param xbar \link[base]{numeric} scalar or 
 #' length-two vector. 
@@ -113,13 +117,13 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
   
   if (length(xbar) == 1L) { # one sample z-test
     method <- 'One Sample z-test'
-    stderr <- sd / sqrt(n)
+    std.err <- sd / sqrt(n)
     xbar0 <- xbar
     if (do_test && (n0 != 1L)) stop('`null.value` must be len-1 for one-sample z-test')
     
   } else if (length(xbar) == 2L) { # two sample z-test
     method <- 'Two Sample z-test'
-    stderr <- sqrt(sd[1L]^2/n[1L] + sd[2L]^2/n[2L])
+    std.err <- sqrt(sd[1L]^2/n[1L] + sd[2L]^2/n[2L])
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
       xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample means
       dname <- sprintf(fmt = '\u0394x\u0304=%.1f (\u00B1%.3g vs. \u00B1%.3g)', xbar0, sd[1L], sd[2L])
@@ -131,7 +135,7 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
       
   } else stop('should not come here')
   
-  if (do_test) zstat <- (xbar0 - null.value) / stderr
+  if (do_test) zstat <- (xbar0 - null.value) / std.err
   switch(alternative, less = {
     if (do_test) pval <- pnorm(zstat, lower.tail = TRUE)
     cint0 <- c(-Inf, qnorm(conf.level, lower.tail = TRUE))
@@ -143,7 +147,7 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
     cint0 <- c(-1, 1) * qnorm((1 - conf.level)/2, lower.tail = FALSE)
   })
   
-  cint <- xbar0 + cint0 * stderr
+  cint <- xbar0 + cint0 * std.err
   attr(cint, which = 'conf.level') <- conf.level
   if (!do_test) return(cint)
   
@@ -152,7 +156,7 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
     p.value = pval, 
     conf.int = cint, 
     null.value = setNames(null.value, nm = switch(length(n), '1' = 'mean', '2' = 'mean-difference')), 
-    stderr = stderr, alternative = alternative, method = method, 
+    stderr = std.err, alternative = alternative, method = method, 
     data.name = dname
   )
   class(ret) <- 'htest'
@@ -184,14 +188,14 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
   if (length(xbar) == 1L) { # one sample t-test
     method <- 'One Sample t-test'
     df <- n - 1L
-    stderr <- xsd / sqrt(n)
+    std.err <- xsd / sqrt(n)
     xbar0 <- xbar
     if (do_test && (n0 != 1L)) stop('`null.value` must be len-1 for one-sample z-test')
     
   } else if (length(xbar) == 2L) { # two sample t-test
     method <- if (var.equal) 'Two Sample t-test (Equal-Variance)' else 'Welch Two Sample t-test'
     df <- Gosset_Welch(s1 = xsd[1L], s2 = xsd[2L], n1 = n[1L], n2 = n[2L], var.equal = var.equal)
-    stderr <- attr(df, which = 'stderr', exact = TRUE)
+    std.err <- attr(df, which = 'std.err', exact = TRUE)
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
       xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample means
       dname <- sprintf(fmt = '\u0394x\u0304=%.1f (\u00B1%.3g vs. \u00B1%.3g)', xbar0, xsd[1L], xsd[2L])
@@ -203,7 +207,7 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
     
   } else stop('should not come here')
   
-  if (do_test) tstat <- (xbar0 - null.value) / stderr
+  if (do_test) tstat <- (xbar0 - null.value) / std.err
   switch(alternative, less = {
     if (do_test) pval <- pt(tstat, df = df, lower.tail = TRUE)
     cint0 <- c(-Inf, qt(conf.level, df = df, lower.tail = TRUE))
@@ -215,7 +219,7 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
     cint0 <- c(-1, 1) * qt((1 - conf.level)/2, df = df, lower.tail = FALSE)
   })
   
-  cint <- xbar0 + cint0 * stderr
+  cint <- xbar0 + cint0 * std.err
   attr(cint, which = 'conf.level') <- conf.level
   if (!do_test) return(cint)
   
@@ -223,7 +227,7 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
     statistic = setNames(tstat, nm = 't'), parameter = setNames(df, nm = 'df'), p.value = pval, 
     conf.int = cint, 
     null.value = setNames(null.value, nm = switch(length(xbar), '1' = 'mean', '2' = 'mean-difference')),
-    stderr = stderr, alternative = alternative, method = method, 
+    stderr = std.err, alternative = alternative, method = method, 
     data.name = dname
   )
   class(ret) <- 'htest'
@@ -235,8 +239,15 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
 
 #' @rdname Chapter05to07
 #' @export
-prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
+prop_CLT <- function(x, n, bool_obs, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
+  if (!missing(bool_obs)) {
+    if (!is.logical(bool_obs) || !length(bool_obs) || anyNA(bool_obs)) stop('Boolean observations illegal')
+    x <- sum(bool_obs) # overwrite user provided `x`, `n` and `xbar`
+    n <- length(bool_obs)
+    xbar <- x/n
+  }
+    
   if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0, xbar > 1)) stop('Illegal sample proportion(s)')
   if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal total count(s)')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
@@ -258,7 +269,7 @@ prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 
       if (n0 != 1L) stop('`null.value` must be len-1 for one-sample z-test')
       null_val <- null.value
     }
-    stderr <- if (do_test) sqrt(null.value * (1-null.value) / n) else sqrt(xbar * (1-xbar) / n)
+    std.err <- if (do_test) sqrt(null.value * (1-null.value) / n) else sqrt(xbar * (1-xbar) / n)
     xbar0 <- xbar
     
   } else if (length(n) == 2L) { # two sample test
@@ -275,7 +286,7 @@ prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 
         if (isTRUE(all.equal(null_val, 0))) p.equal <- TRUE
       }
     }
-    stderr <- if (!do_test) {
+    std.err <- if (!do_test) {
       sqrt(sum(xbar * (1-xbar) / n))
     } else if (p.equal) {
       xbar_eq <- sum(xbar * n) / sum(n)
@@ -291,7 +302,7 @@ prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 
     
   } else stop('should not come here')
   
-  if (do_test) zstat <- (xbar0 - null_val) / stderr
+  if (do_test) zstat <- (xbar0 - null_val) / std.err
   switch(alternative, less = {
     if (do_test) pval <- pnorm(zstat, lower.tail = TRUE)
     cint0 <- c(-Inf, qnorm(conf.level, lower.tail = TRUE))
@@ -303,7 +314,7 @@ prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 
     cint0 <- c(-1, 1) * qnorm((1 - conf.level)/2, lower.tail = FALSE)
   })
   
-  cint <- xbar0 + cint0 * stderr
+  cint <- xbar0 + cint0 * std.err
   attr(cint, which = 'conf.level') <- conf.level
   if (!do_test) return(cint)
   
@@ -312,7 +323,7 @@ prop_CLT <- function(x, n, xbar = x/n, null.value, alternative = c('two.sided', 
     p.value = pval, 
     conf.int = cint, 
     null.value = setNames(null_val, nm = switch(length(n), '1' = 'proportion', '2' = 'proportion-difference')),
-    stderr = stderr, alternative = alternative, method = method, 
+    stderr = std.err, alternative = alternative, method = method, 
     data.name = dname
   )
   class(ret) <- 'htest'

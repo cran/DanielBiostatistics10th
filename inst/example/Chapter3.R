@@ -1,12 +1,6 @@
 library(DanielBiostatistics10th)
 
-# Page 69, Example 3.4.1
-# Page 70, Example 3.4.2
-# Page 71, Example 3.4.3, Example 3.4.4
-# Page 72, Example 3.4.5
-# Page 73, Example 3.4.6
-# Page 74, Example 3.4.7
-# Page 75, Example 3.4.8
+# Page 69-75, Example 3.4.1 - Example 3.4.8
 (d341 = matrix(c(28L, 19L, 41L, 53L, 35L, 38L, 44L, 60L), ncol = 2L, dimnames = list(
   FamilyHx = c('none', 'Bipolar', 'Unipolar', 'UniBipolar'), 
   Onset = c('Early', 'Late'))))

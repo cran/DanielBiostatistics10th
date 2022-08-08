@@ -16,8 +16,11 @@ In \link{print_freqs} function, this argument can also be a \link[base]{factor}}
 
 \item{na.rm}{\link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})}
 
-\item{breaks, include.lowest, right}{see \link[base]{cut.default}. Note that we use default
-\code{include.lowest = TRUE} in \link{print_freqs}}
+\item{breaks}{\link[base]{numeric} vector, see \link[base]{cut.default}}
+
+\item{include.lowest}{\link[base]{logical} scalar, default \code{TRUE}. See \link[base]{cut.default}}
+
+\item{right}{\link[base]{logical} scalar, see \link[base]{cut.default}}
 }
 \value{
 \link{print_freqs} returns a \linkS4class{freqs} object, for which
@@ -50,20 +53,11 @@ sort(age) # Page 21, Table 2.2.1 # 'ordered vector'
 # Page 23, Example 2.3.1
 (ageB = seq.int(from = 30, to = 90, by = 10))
 (r231 = print_freqs(age, breaks = ageB, right = FALSE)) # Page 25, Table 2.3.2
-autoplot(r231, title = 'Page 27, Figure 2.3.2')
-# read ?base::cut and ?graphics::hist 
-# `include.lowest` actually implies 'include.highest' when `right = FALSE`
 # The open/close of interval ends is determined by textbook using 30-39, 40-49, etc.
+autoplot(r231, title = 'Page 27, Figure 2.3.2')
 
-# Page 38, Example 2.4.1
-# Page 39, Example 2.4.2
-# Page 40, Example 2.4.3
-# Page 40, Example 2.4.4
-# Page 41, Example 2.4.5
-# Page 42, Example 2.4.6
-# Page 44, Example 2.5.1
-# Page 44, Example 2.5.2
-# Page 46, Example 2.5.3
+# Page 38-42, Example 2.4.1 - Example 2.4.6
+# Page 44-46, Example 2.5.1 - Example 2.5.3
 print_stats(age) # or some other data input
 
 # Page 49, Example 2.5.4 (omitted)

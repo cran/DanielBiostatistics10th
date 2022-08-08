@@ -10,8 +10,8 @@ Boolean Risk-&-Disease Table
 \section{Slots}{
 
 \describe{
-\item{\code{.Data}}{two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of a Boolean
-test-&-disease decisions with layout
+\item{\code{.Data}}{two-by-two \link[base]{integer} \link[base]{matrix}, a Boolean
+risk-&-disease contingency table with layout
 \tabular{lcc}{
  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr

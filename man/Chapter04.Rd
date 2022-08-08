@@ -34,9 +34,7 @@ Functions for Chapter 4, \emph{Probability Distributions}.
 \examples{
 library(DanielBiostatistics10th)
 
-# Page 93, Example 4.2.1
-# Page 95, Example 4.2.2 to 4.2.3
-# Page 97, Example 4.2.4 to 4.2.7
+# Page 93-97, Example 4.2.1 - Example 4.2.7
 d421 = rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L))
 (fq421 = print_freqs(factor(d421))) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
 autoplot(fq421, type = 'density', title = 'Page 95, Figure 4.2.1')

@@ -32,6 +32,7 @@ aggregated_t(
 prop_CLT(
   x,
   n,
+  bool_obs,
   xbar = x/n,
   null.value,
   alternative = c("two.sided", "less", "greater"),
@@ -88,7 +89,11 @@ Sample standard deviation(s) \eqn{\sigma_{\bar{x}}} or \eqn{(\sigma_{\bar{x}_1},
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two population variances as being equal 
 (default \code{FALSE}) in \link{aggregated_t}}
 
-\item{x}{\link[base]{integer} scalar or length-two vector, the number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
+\item{x}{\link[base]{integer} scalar or length-two vector, 
+number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
+
+\item{bool_obs}{\link[base]{logical} vector of Boolean observations,
+used in one-sample \eqn{z}-test on proportion}
 }
 \value{
 \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided, 

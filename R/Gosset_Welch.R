@@ -7,11 +7,11 @@
 # https://en.wikipedia.org/wiki/Welch–Satterthwaite_equation
 
 
-#' @title Two-Sample Student's \eqn{t} and Welch–Satterthwaite Equation
+#' @title Two-Sample Student's \eqn{t}-statistic and Welch–Satterthwaite Equation
 #' 
 #' @description
 #' To determine the degree of freedom, as well as the standard error,
-#' of two-sample \eqn{t}-test, with or without the equal-variance assumption.
+#' of two-sample \eqn{t}-statistic, with or without the equal-variance assumption.
 #' 
 #' @param s1,s2 (optional) \link[base]{double} vectors, sample standard deviations of the two samples
 #' 
@@ -23,17 +23,17 @@
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two variances as being equal 
 #' when calculating the degree of freedom and the standard error of the mean-difference.
 #' If \code{FALSE} (default), Welch–Satterthwaite equation is used.
-#' If \code{TRUE}, the original two-sample t-test from William Sealy Gosset is used.
+#' If \code{TRUE}, the original two-sample \eqn{t}-test from William Sealy Gosset is used.
 #' 
 #' @return 
 #' 
 #' \link{Gosset_Welch} returns a \link[base]{numeric} scalar of the degree of freedom, 
-#' with a \link[base]{numeric} scalar attribute \code{'stderr'} of the standard error of the mean-difference.
+#' with a \link[base]{numeric} scalar attribute \code{'std.err'} of the standard error of the mean-difference.
 #' 
 #' @references 
-#' Student's \eqn{t}-test, \doi{10.1093/biomet/6.1.1}.
+#' Student's \eqn{t}-test by William Sealy Gosset, \doi{10.1093/biomet/6.1.1}.
 #' 
-#' Welch–Satterthwaite equation, \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
+#' Welch–Satterthwaite equation by Bernard Lewis Welch and F. E. Satterthwaite \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
 #' 
 #' @seealso \link[stats]{t.test}
 #' 
@@ -52,13 +52,13 @@ Gosset_Welch <- function(s1, s2, v1 = s1^2, v2 = s2^2, n1, n2, var.equal = FALSE
   
   if (var.equal) {
     ret <- n1 + n2 - 2L
-    attr(ret, which = 'stderr') <- sqrt(((n1-1L)*v1+(n2-1L)*v2) / (n1+n2-2L) * (1/n1 + 1/n2))
+    attr(ret, which = 'std.err') <- sqrt(((n1-1L)*v1+(n2-1L)*v2) / (n1+n2-2L) * (1/n1 + 1/n2))
   } else {
     .v1 <- v1/n1
     .v2 <- v2/n2
     vp <- .v1 + .v2
     ret <- vp^2 / (.v1^2/(n1-1L) + .v2^2/(n2-1L))
-    attr(ret, which = 'stderr') <- sqrt(vp)
+    attr(ret, which = 'std.err') <- sqrt(vp)
   }
   
   return(ret)

@@ -1,4 +1,8 @@
 
+# Do NOT edit DanielBiostatistics10th/R/0S4_Boolean.R  
+# Edit tzh/R/0S4_Boolean.R
+
+
 # in English
 # 'Boolean' indicates 0/1
 # 'binary' indicates base 2 numerical notation, i.e., er-jin-zhi
@@ -14,8 +18,8 @@ validity_Boolean <- function(object) {
 
 #' @title Boolean Test-&-Disease Table 
 #' 
-#' @slot .Data two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of a Boolean
-#' test-&-disease decisions with layout
+#' @slot .Data two-by-two \link[base]{integer} \link[base]{matrix}, a Boolean
+#' test-&-disease contingency table with layout
 #' \tabular{lcc}{
 #'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 #' Test (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr
@@ -30,8 +34,8 @@ setClass(Class = 'BooleanTest', contains = 'matrix', validity = validity_Boolean
 
 #' @title Boolean Risk-&-Disease Table 
 #' 
-#' @slot .Data two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of a Boolean
-#' test-&-disease decisions with layout
+#' @slot .Data two-by-two \link[base]{integer} \link[base]{matrix}, a Boolean
+#' risk-&-disease contingency table with layout
 #' \tabular{lcc}{
 #'  \tab Disease (\eqn{+}) \tab Disease (\eqn{-}) \cr
 #' Risk Factor (\eqn{+}) \tab \eqn{x_{++}} \tab \eqn{x_{+-}} \cr

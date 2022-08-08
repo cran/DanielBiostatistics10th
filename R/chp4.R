@@ -100,14 +100,14 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
 #' 
 #' @description Binomial Approaching Poisson
 #' 
-#' @param x \link[base]{integer} scalar
+#' @param x \link[base]{integer} scalar, observed number of responses
 #' 
-#' @param lambda positive \link[base]{numeric} scalar
+#' @param lambda positive \link[base]{numeric} scalar, parameter \eqn{\lambda} of Poisson distribution
 #' 
-#' @param size \link[base]{integer} vector
+#' @param size \link[base]{integer} vector, parameter \eqn{n} of binomial distribution
 #' 
 #' @details 
-#' \link{binom2pois} shows how binomial distribution approaches Poisson distribution when
+#' \link{binom2pois} shows how binomial density approaches Poisson density when
 #' \eqn{n\rightarrow\infty} and \eqn{p\rightarrow 0}, while holding a constant product \eqn{np=\lambda}.
 #' 
 #' @return 

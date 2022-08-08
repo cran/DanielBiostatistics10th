@@ -3,9 +3,9 @@
 \docType{class}
 \name{freqs-class}
 \alias{freqs-class}
-\title{S4 class \linkS4class{freqs}}
+\title{S4 Class \linkS4class{freqs}}
 \description{
-S4 class \linkS4class{freqs}
+S4 Class \linkS4class{freqs}
 }
 \section{Slots}{
 

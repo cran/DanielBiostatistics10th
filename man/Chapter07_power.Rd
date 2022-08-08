@@ -10,6 +10,7 @@ power_z(
   null.value,
   sd,
   n,
+  std.err = sd/sqrt(n),
   alternative = c("two.sided", "less", "greater"),
   sig.level = 0.05
 )
@@ -23,19 +24,17 @@ power_z(
 
 \item{n}{\link[base]{integer} scalar, sample size \eqn{n}}
 
+\item{std.err}{\link[base]{numeric} scalar, standardized error.
+For one-sample \eqn{z}-test, this is \eqn{\sigma/\sqrt{n}}.  
+Be aware of the name clash with \link[base]{stderr}}
+
 \item{alternative}{\link[base]{character} scalar, alternative hypothesis, 
 either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 
 \item{sig.level}{\link[base]{numeric} scalar, significance level (i.e., Type-I-error rate), default \eqn{.05}}
 }
 \value{
-\link{power_z} returns a \link{power} object, which is a \link[base]{numeric} vector with attributes
-\describe{
-\item{\code{x}}{a \link[base]{numeric} vector, alternative parameters \eqn{\mu_1}}
-\item{\code{hypothesis}}{a \code{'z_hypothesis'} object, containing information of the null hypothesis,
-significance level and rejection region, etc.}
-}
-A \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined for \link{power_z} object.
+\link{power_z} returns a \linkS4class{power} object, for which a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined for \link{power_z} object.
 }
 \description{
 Functions for Chapter 7, \emph{Hypothesis Testing}.
@@ -52,20 +51,21 @@ Functions for Chapter 7, \emph{Hypothesis Testing}.
 library(DanielBiostatistics10th)
 
 # Page 272, Example 7.9.1
-(p791 = power_z(seq.int(from = 16, to = 19, by = .5), null.value = 17.5, sd = 3.6, n = 100L, 
-                alternative = 'two.sided')) # Page 275, Table 7.9.1
+(p791 = power_z(seq.int(from = 16, to = 19, by = .5), null.value = 17.5, sd = 3.6, n = 100L))
+# Page 275, Table 7.9.1
 autoplot(p791, title = 'Page 275, Figure 7.9.2')
 
 # Page 276, Example 7.9.2
-(p792 = power_z(c(50, 55, 60, 65), null.value = 65, sd = 15, n = 20L, sig.level = .01, 
-                alternative = 'less'))
+(p792 = power_z(seq.int(from = 50, to = 80, by = 5), null.value = 65, sd = 15, n = 20L, 
+                sig.level = .01, alternative = 'less'))
 autoplot(p792, title = 'Page 277, Figure 7.9.4')
 autoplot(p792, all.alternative = TRUE, title = '1-sided vs. 2-sided test')
 
 # Page 278, Example 7.10.1
-(n7101 <- uniroot(f = function(x) {
+(n_d7101 <- uniroot(f = function(x) {
   power_z(55, null.value = 65, sd = 15, n = x, sig.level = .01, alternative = 'less') - .95
 }, interval = c(0, 50))$root)
+(C_d7101 = qnorm(p = .01, mean = 65, sd = 15/sqrt(ceiling(n_d7101)), lower.tail = TRUE))
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.

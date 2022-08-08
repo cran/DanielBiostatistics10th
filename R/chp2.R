@@ -11,8 +11,11 @@
 #' @param x \link[base]{numeric} vector, the observations. 
 #' In \link{print_freqs} function, this argument can also be a \link[base]{factor}
 #' 
-#' @param breaks,include.lowest,right see \link[base]{cut.default}. Note that we use default
-#' \code{include.lowest = TRUE} in \link{print_freqs}
+#' @param breaks \link[base]{numeric} vector, see \link[base]{cut.default}
+#' 
+#' @param include.lowest \link[base]{logical} scalar, default \code{TRUE}. See \link[base]{cut.default}
+#' 
+#' @param right \link[base]{logical} scalar, see \link[base]{cut.default}
 #' 
 #' @param na.rm \link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})
 #' 

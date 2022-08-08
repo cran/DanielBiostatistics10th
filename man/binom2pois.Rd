@@ -7,11 +7,11 @@
 binom2pois(x, lambda, size = c(10L, 100L))
 }
 \arguments{
-\item{x}{\link[base]{integer} scalar}
+\item{x}{\link[base]{integer} scalar, observed number of responses}
 
-\item{lambda}{positive \link[base]{numeric} scalar}
+\item{lambda}{positive \link[base]{numeric} scalar, parameter \eqn{\lambda} of Poisson distribution}
 
-\item{size}{\link[base]{integer} vector}
+\item{size}{\link[base]{integer} vector, parameter \eqn{n} of binomial distribution}
 }
 \value{
 \link{binom2pois} returns a \link{binom2pois} object, for which 
@@ -21,7 +21,7 @@ a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{
 Binomial Approaching Poisson
 }
 \details{
-\link{binom2pois} shows how binomial distribution approaches Poisson distribution when
+\link{binom2pois} shows how binomial density approaches Poisson density when
 \eqn{n\rightarrow\infty} and \eqn{p\rightarrow 0}, while holding a constant product \eqn{np=\lambda}.
 }
 \examples{

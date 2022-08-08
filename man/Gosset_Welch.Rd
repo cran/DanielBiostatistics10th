@@ -2,7 +2,7 @@
 % Please edit documentation in R/Gosset_Welch.R
 \name{Gosset_Welch}
 \alias{Gosset_Welch}
-\title{Two-Sample Student's \eqn{t} and Welch–Satterthwaite Equation}
+\title{Two-Sample Student's \eqn{t}-statistic and Welch–Satterthwaite Equation}
 \usage{
 Gosset_Welch(s1, s2, v1 = s1^2, v2 = s2^2, n1, n2, var.equal = FALSE)
 }
@@ -17,15 +17,15 @@ default \eqn{v_1=s_1^2}, \eqn{v_2=s_2^2}.}
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two variances as being equal 
 when calculating the degree of freedom and the standard error of the mean-difference.
 If \code{FALSE} (default), Welch–Satterthwaite equation is used.
-If \code{TRUE}, the original two-sample t-test from William Sealy Gosset is used.}
+If \code{TRUE}, the original two-sample \eqn{t}-test from William Sealy Gosset is used.}
 }
 \value{
 \link{Gosset_Welch} returns a \link[base]{numeric} scalar of the degree of freedom, 
-with a \link[base]{numeric} scalar attribute \code{'stderr'} of the standard error of the mean-difference.
+with a \link[base]{numeric} scalar attribute \code{'std.err'} of the standard error of the mean-difference.
 }
 \description{
 To determine the degree of freedom, as well as the standard error,
-of two-sample \eqn{t}-test, with or without the equal-variance assumption.
+of two-sample \eqn{t}-statistic, with or without the equal-variance assumption.
 }
 \examples{
 x = rnorm(32L, sd = 1.6); y = rnorm(57L, sd = 2.1)
@@ -37,9 +37,9 @@ Gosset_Welch(v1 = vx, v2 = vy, n1 = nx, n2 = ny, var.equal = TRUE)
 
 }
 \references{
-Student's \eqn{t}-test, \doi{10.1093/biomet/6.1.1}.
+Student's \eqn{t}-test by William Sealy Gosset, \doi{10.1093/biomet/6.1.1}.
 
-Welch–Satterthwaite equation, \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
+Welch–Satterthwaite equation by Bernard Lewis Welch and F. E. Satterthwaite \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
 }
 \seealso{
 \link[stats]{t.test}
