@@ -140,7 +140,7 @@ autolayer.RejectionRegion <- function(
     xlab = 'Alternative values of \u03bc', 
     ylab = NULL, 
     all.alternative = FALSE, 
-    extra_x,
+    extra_x = numeric(),
     ...
 ) {
   if (object@test != 'z') stop('only z-test supported for now')
@@ -150,26 +150,27 @@ autolayer.RejectionRegion <- function(
   alternative <- object@alternative
   sig.level <- object@sig.level
   
+  if (length(extra_x)) {
+    if (!is.vector(extra_x, mode = 'numeric') || anyNA(extra_x)) stop('illegal `extra_x`')
+    #xlim <- range(c(xlim, extra_x))
+  }
+  
   if (all.alternative) {
-    xlim <- null.value + c(-1, 1)*5*std.err
+    xlim <- range(null.value + c(-1, 1)*5*std.err, extra_x)
     # do not need `xmin` and `xmax` (for plotting rejection region, otherwise too crowded)
   } else switch(alternative, two.sided = {
-    xlim <- null.value + c(-1, 1)*5*std.err
+    xlim <- range(null.value + c(-1, 1)*5*std.err, extra_x)
     xmin <- c(xlim[1L], rr[2L])
     xmax <- c(rr[1L], xlim[2L])
   }, less = {
-    xlim <- null.value + c(-5, 1)*std.err
+    xlim <- range(null.value + c(-5, 1)*std.err, extra_x)
     xmin <- xlim[1L]
     xmax <- rr
   }, greater = {
-    xlim <- null.value + c(-1, 5)*std.err
+    xlim <- range(null.value + c(-1, 5)*std.err, extra_x)
     xmin <- rr
     xmax <- xlim[2L]
   })
-  if (!missing(extra_x)) {
-    if (!is.vector(extra_x, mode = 'numeric') || anyNA(extra_x)) stop('illegal `extra_x`')
-    xlim <- range(c(xlim, extra_x))
-  }
   
   ag <- list(null.value = null.value, std.err = std.err, sig.level = sig.level)
   

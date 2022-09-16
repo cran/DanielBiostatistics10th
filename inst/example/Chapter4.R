@@ -20,7 +20,7 @@ dbinom(x = 4L, size = 10L, prob = .14)
 (pU = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = FALSE)) # (b) excluding!
 pL + pU # R makes sure they add up to 1
 binomBar(size = 25L, prob = .1)
-# Page 103, Example 4.3.4
+# Page 105, Example 4.3.4
 dbinom(x = 7L, size = 12L, prob = .55)
 pbinom(q = 5L, size = 12L, prob = .55)
 pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE)

@@ -1,47 +1,42 @@
 library(DanielBiostatistics10th)
 library(reshape2)
-library(multcomp)
 
 # Page 318, Example 8.2.1
-d821 = read.csv(system.file('extdata', 'EXA_C08_S02_01.csv', package = 'DanielBiostatistics10th'))
-head(d821)
-d821a = within(d821, expr = {
+head(EXA_C08_S02_01)
+d821 = within(EXA_C08_S02_01, expr = {
   type = factor(type)
 })
 boxplot(selenium ~ type, data = d821, main = 'Page 323, Figure 8.2.7')
-(aov_d821 = aov(selenium ~ type, data = d821a)) 
+(aov_d821 = aov(selenium ~ type, data = d821)) 
 # ?stats::aov # analysis-of-variance model
 anova(aov_d821) 
 # ?stats::anova # ANOVA table
 
 # Page 325, Example 8.2.2
-summary(tukey_d822 <- multcomp::glht(aov_d821, linfct = multcomp::mcp(type = 'Tukey')))
-confint(tukey_d822) # Page 326, Figure 8.2.8
+(tukey_d822 <- TukeyHSD(aov_d821, conf.level = 0.95)) # Page 326, Figure 8.2.8
+plot(tukey_d822)
 
 # Page 339, Example 8.3.1
-d831 = read.csv(system.file('extdata', 'EXA_C08_S03_01.csv', package = 'DanielBiostatistics10th'))
-head(d831)
-head(d831a <- within(d831, expr = {
+head(EXA_C08_S03_01)
+head(d831 <- within(EXA_C08_S03_01, expr = {
   ageGroup = structure(ageGroup, levels = c('<20', '20s', '30s', '40s', '>50'), class = 'factor')
 }))
-(aov_831 = aov(time ~ method + ageGroup, data = d831a))
+(aov_831 = aov(time ~ method + ageGroup, data = d831))
 anova(aov_831)
 
 # Page 348, Example 8.4.1
-d841 = read.csv(system.file('extdata', 'EXA_C08_S04_01.csv', package = 'DanielBiostatistics10th'))
-head(d841)
-head(d841a <- within(d841, expr = {
+head(EXA_C08_S04_01)
+head(d841 <- within(EXA_C08_S04_01, expr = {
   SUBJ = factor(SUBJ)
   TIME = structure(TIME, levels = c('Baseline', '1-Mon', '3-Mon', '6-Mon'), class = 'factor')
 }))
-(aov_841 = aov(FUNC ~ SUBJ + TIME, data = d841a))
+(aov_841 = aov(FUNC ~ SUBJ + TIME, data = d841))
 anova(aov_841)
 
 # Page 352, Example 8.4.2 (optional; out of the scope of this course)
-d842 = read.csv(system.file('extdata', 'EXA_C08_S04_02.csv', package = 'DanielBiostatistics10th'))
-head(d842)
-names(d842)[3:6] = c('baseline', '2wk', '4wk', '6wk')
-head(d842a <- within(d842, expr = {
+head(EXA_C08_S04_02)
+names(EXA_C08_S04_02)[3:6] = c('baseline', '2wk', '4wk', '6wk')
+head(d842a <- within(EXA_C08_S04_02, expr = {
   subject = factor(subject)
   treatment = structure(treatment, levels = c('placebo', 'aloe_juice'), class = 'factor')
 }))
@@ -73,11 +68,11 @@ anova(aov(OralScores ~ treatment * time + subject, data = d842b))
 # .. 'subject' is considered as a block factor 
 
 # Page 364, Example 8.5.2
-d852 = read.csv(system.file('extdata', 'EXA_C08_S05_02.csv', package = 'DanielBiostatistics10th'))
-head(d852a <- within(d852, expr = {
+head(EXA_C08_S05_02)
+head(d852 <- within(EXA_C08_S05_02, expr = {
   A = structure(A, levels = c('Cardiac', 'Cancer', 'CVA', 'Tuberculosis'), class = 'factor')
   B = structure(B, levels = c('20s', '30s', '40s', '50+'), class = 'factor')
 }))
-(aov_852 = aov(HOME ~ A * B, data = d852a))
+(aov_852 = aov(HOME ~ A * B, data = d852))
 anova(aov_852)
-summary(lm(HOME ~ A * B, data = d852a)) # produces alpha, beta and (alpha beta)'s in the formulation 
+summary(lm(HOME ~ A * B, data = d852)) # produces alpha, beta and (alpha beta)'s in the formulation 

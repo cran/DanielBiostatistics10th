@@ -1,7 +1,7 @@
 library(DanielBiostatistics10th)
 
 # Page 605, Example 12.3.1
-d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
+d1231_b = c(-Inf, seq.int(from = 125, to = 275, by = 25), Inf)
 (d1231 = setNames( # Page 605, Table 12.3.1
   c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L), 
   nm = levels(cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE))))

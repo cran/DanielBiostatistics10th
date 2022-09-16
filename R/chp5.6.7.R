@@ -247,9 +247,12 @@ prop_CLT <- function(x, n, bool_obs, xbar = x/n, null.value, alternative = c('tw
     n <- length(bool_obs)
     xbar <- x/n
   }
-    
-  if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0, xbar > 1)) stop('Illegal sample proportion(s)')
-  if (!is.integer(n) || anyNA(n) || any(n <= 1L)) stop('Illegal total count(s)')
+  
+  if (!missing(x)) {
+    if (!is.integer(x) || anyNA(x) || any(x < 0, x > n)) stop('Number of positive count(s) `x` must be non-negative integers')
+  }  
+  if (!is.numeric(xbar) || anyNA(xbar) || any(xbar < 0, xbar > 1)) stop('Sample proportion(s) `xbar` must be in [0, 1]')
+  if (!is.integer(n) || anyNA(n) || any(n <= 0L)) stop('Number of total count(s) `n` must be positive integers')
   if (!is.numeric(conf.level) || length(conf.level) != 1L || anyNA(conf.level) || conf.level < 0 || conf.level > 1) stop('\'conf.level\' must be len-1 number between 0 and 1')
   if (do_test <- !missing(null.value)) {
     if (!is.numeric(null.value) || !any((n0 <- length(null.value)) == 1:2) || anyNA(null.value)) stop('Hypothesized proportion (difference) must be len-1 or len-2 number')

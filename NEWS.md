@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.1.8
+LazyData enabled
+
 # DanielBiostatistics10th 0.1.7
 Misc minor updates
 

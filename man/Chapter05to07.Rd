@@ -166,9 +166,8 @@ aggregated_z(xbar = 84.3, n = 15L, sd = sqrt(144), conf.level = .99)
 # Page 168, Example 6.2.3
 aggregated_z(xbar = 17.2, n = 35L, sd = 8, conf.level = .9)
 # Page 169, Example 6.2.4
-d624 = read.csv(system.file('extdata', 'EXA_C06_S02_04.csv', package = 'DanielBiostatistics10th'))
-head(d624)
-aggregated_z(xbar = mean(d624$ACTIVITY), n = nrow(d624), sd = sqrt(.36))
+head(EXA_C06_S02_04)
+aggregated_z(xbar = mean(EXA_C06_S02_04$ACTIVITY), n = nrow(EXA_C06_S02_04), sd = sqrt(.36))
 
 # Page 173, Example 6.3.1
 aggregated_t(xbar = 250.8, xsd = 130.9, n = 19L)
@@ -213,9 +212,8 @@ aggregated_z(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30)
 # Page 226, Example 7.2.2
 aggregated_z(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30, alternative = 'less')
 # Page 228, Example 7.2.3
-d723 = read.csv(system.file('extdata', 'EXA_C07_S02_03.csv', package = 'DanielBiostatistics10th'))
-head(d723)
-t.test(d723$DAYS, mu = 15)
+head(EXA_C07_S02_03)
+t.test(EXA_C07_S02_03$DAYS, mu = 15)
 # Page 231, Example 7.2.4
 aggregated_z(xbar = 146, sd = 27, n = 157L, null.value = 140, alternative = 'greater')
 # Page 232, Example 7.2.5
@@ -226,9 +224,8 @@ t.test(d725, mu = 34.5)
 # Page 237, Example 7.3.1
 aggregated_z(xbar = c(4.5, 3.4), sd = sqrt(c(1, 1.5)), n = c(12L, 15L), null.value = 0)
 # Page 239, Example 7.3.2
-d732 = read.csv(system.file('extdata', 'EXA_C07_S03_02.csv', package = 'DanielBiostatistics10th'))
-head(d732)
-with(d732, t.test(x = CONTROL, y = SCI, alternative = 'less', var.equal = TRUE))
+head(EXA_C07_S03_02)
+with(EXA_C07_S03_02, t.test(x = CONTROL, y = SCI, alternative = 'less', var.equal = TRUE))
 # Page 240, Example 7.3.3
 aggregated_t(xbar = c(19.16, 9.53), xsd = c(5.29, 2.69), n = c(15L, 30L), null.value = 0)
 # Page 242, Example 7.3.4
@@ -236,9 +233,8 @@ aggregated_z(xbar = c(59.01, 46.61), sd = c(44.89, 34.85), n = c(53L, 54L), null
   alternative = 'greater')
 
 # Page 251, Example 7.4.1
-d741 = read.csv(system.file('extdata', 'EXA_C07_S04_01.csv', package = 'DanielBiostatistics10th'))
-head(d741)
-with(d741, t.test(x = POSTOP, y = PREOP, alternative = 'greater', paired = TRUE))
+head(EXA_C07_S04_01)
+with(EXA_C07_S04_01, t.test(x = POSTOP, y = PREOP, alternative = 'greater', paired = TRUE))
 
 # Page 258, Example 7.5.1
 prop_CLT(x = 24L, n = 301L, null.value = .063, alternative = 'greater') 
@@ -247,13 +243,13 @@ prop_CLT(x = 24L, n = 301L, null.value = .063, alternative = 'greater')
 prop_CLT(x = c(24L, 11L), n = c(44L, 29L), null.value = 0, alternative = 'greater')
 
 # Page 264, Example 7.7.1
-d771 = read.csv(system.file('extdata', 'EXA_C07_S07_01.csv', package = 'DanielBiostatistics10th'))
-aggregated_var(xsd = sd(d771$mass), n = 16L, null.value = 600)
+head(EXA_C07_S07_01)
+aggregated_var(xsd = sd(EXA_C07_S07_01$mass), n = 16L, null.value = 600)
 
 # Page 268, Example 7.8.1
 aggregated_var(xsd = c(30.62, 11.37), n = 6L, null.value = 1, alternative = 'greater')
 # Page 270, Example 7.8.2
-with(d732, var.test(x = CONTROL, y = SCI))
+with(EXA_C07_S03_02, var.test(x = CONTROL, y = SCI))
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.

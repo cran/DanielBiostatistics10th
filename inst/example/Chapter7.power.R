@@ -6,7 +6,7 @@ library(DanielBiostatistics10th)
 autoplot(p791, title = 'Page 275, Figure 7.9.2')
 
 # Page 276, Example 7.9.2
-(p792 = power_z(seq.int(from = 50, to = 80, by = 5), null.value = 65, sd = 15, n = 20L, 
+(p792 = power_z(seq.int(from = 50, to = 70, by = 5), null.value = 65, sd = 15, n = 20L, 
                 sig.level = .01, alternative = 'less'))
 autoplot(p792, title = 'Page 277, Figure 7.9.4')
 autoplot(p792, all.alternative = TRUE, title = '1-sided vs. 2-sided test')
