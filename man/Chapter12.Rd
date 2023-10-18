@@ -2,33 +2,18 @@
 % Please edit documentation in R/chp12.R
 \name{Chapter12}
 \alias{Chapter12}
-\alias{relativeRisk}
-\alias{oddsRatio}
 \alias{print_OE}
 \title{Chapter 12}
 \usage{
-relativeRisk(A)
-
-oddsRatio(A)
-
 print_OE(O, prob)
 }
 \arguments{
-\item{A}{a \linkS4class{BooleanRisk} object, or 
-a two-by-two \link[base]{integer} \link[base]{matrix} of the same with layout as outlined in \linkS4class{BooleanRisk}}
-
 \item{O}{\link[base]{integer} vector, observed counts}
 
 \item{prob}{\link[base]{numeric} vector, anticipated probability.
 If missing (default), an uniform distribution across all categories are used.}
 }
 \value{
-\link{relativeRisk} returns a \code{'logRelativeRisk'} object, for which
-a \link[stats]{vcov} method and a \link[base]{print} method are defined.
-
-\link{oddsRatio} returns a \code{'logOddsRatio'} object, for which
-a \link[stats]{vcov} method and a \link[base]{print} method are defined.
-
 \link{print_OE} prints a table with observed and expected frequencies, as well as 
 the category-wise \eqn{\chi^2} statistics.  
 A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
@@ -120,16 +105,16 @@ addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
 fisher.test(d1262)
 
 # Page 644, Example 12.7.1
-addmargins(d1271 <- array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), 
- dimnames = list(Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
-relativeRisk(d1271)
+(d1271 = array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), 
+               dimnames = list(Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
+summary(BooleanTable(t(d1271)))
 # textbook confidence interval (.65, 1.86) wrong (too many rounding in intermediate steps)
 
 # Page 647, Example 12.7.2
-addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
+(d1272 = array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
   SmkPregnancy = c('TRUE', 'FALSE'),
   Obesity = c('TRUE', 'FALSE'))))
-oddsRatio(d1272)
+summary(BooleanTable(t(d1272)))
 
 # Page 650, Example 12.7.3
 # Page 652, Example 12.7.4

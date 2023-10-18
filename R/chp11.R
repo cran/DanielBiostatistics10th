@@ -65,7 +65,7 @@ autoplot.predict_glm_binomial <- function(object, ...) {
 
 
 # dont use autolayer.glm; dont want to break other packages
-autolayer_glm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(trms[[2L]]), title = NULL, caption = NULL, ...) {
+autolayer_glm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(trms[[2L]]), ...) {
   # skip the check: must be single-numeric-predictor, simple logistic regression
   dat <- object[['model']]
   trms <- object$terms
@@ -74,7 +74,7 @@ autolayer_glm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(t
   list(
     geom_jitter(mapping = aes(x = xval, y = yval), height = .05),
     geom_smooth(mapping = aes(x = xval, y = yval), method = 'glm', method.args = list(family = 'binomial'), se = FALSE, formula = y ~ x),
-    labs(x = xlab, y = ylab, title = title, caption = caption)
+    labs(x = xlab, y = ylab)
   )
 }
 
@@ -85,7 +85,8 @@ autolayer.predict_glm_binomial <- function(object, ...) {
   newx <- object[['pred_newx']]
   c(autolayer_glm(object[['glm']], ...), list(
     geom_ribbon(mapping = aes(x = xseq, ymin = pred[,1L], ymax = pred[,3L]), fill = 'grey70', alpha = .2),
-    if (length(newx)) geom_point(mapping = aes_string(x = 'x', y = 'fit'), data = newx, colour = 'blue', size = 2L),
+    #if (length(newx)) geom_point(mapping = aes_string(x = 'x', y = 'fit'), data = newx, colour = 'blue', size = 2L),
+    if (length(newx)) geom_point(mapping = aes(x = newx[['x']], y = newx[['fit']]), data = newx, colour = 'blue', size = 2L),
     if (length(newx)) geom_label_repel(mapping = aes(x = newx[['x']], y = newx[['fit']], label = sprintf(fmt = '%.1f%%', 1e2*newx[['fit']])), colour = 'blue', size = 3.5)
   ))
 }

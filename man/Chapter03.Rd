@@ -2,50 +2,12 @@
 % Please edit documentation in R/chp3.R
 \name{Chapter03}
 \alias{Chapter03}
-\alias{addProbs}
-\alias{predictiveValues}
 \title{Chapter 3}
-\usage{
-addProbs(A)
-
-predictiveValues(
-  A,
-  sensitivity = A[1, 1]/sum(A[, 1]),
-  specificity = A[2, 2]/sum(A[, 2]),
-  prevalence = stop("must provide prevalence")
-)
-}
-\arguments{
-\item{A}{\link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.
-For \link{predictiveValues} function, this must be a \linkS4class{BooleanTest} object, 
-or a two-by-two \link[base]{integer} \link[base]{matrix} of the same with layout as outlined in \linkS4class{BooleanTest}}
-
-\item{sensitivity, specificity}{\link[base]{numeric} scalars, 
-sensitivity and specificity of a test.
-By default, these are calculated by the test-disease contingency table \code{A}}
-
-\item{prevalence}{\link[base]{numeric} scalar or vector, prevalence(s) of disease}
-}
 \value{
-\link{addProbs} returns an \link{addProbs} object, which is a \link[base]{list} consisting of 
-a \link[base]{noquote} \link[base]{matrix} of joint probabilities,
-and two \link[base]{noquote} \link[base]{matrix} of conditional probabilities.
-A \link[base]{print} method is defined for \link{addProbs} object.
-
-\link{predictiveValues} returns a \link{predictiveValues} object, which is a 
-\link[base]{list} of three \link[base]{double} vector elements named 
-\code{'Prevalence'}, \code{'PVP'} and \code{'PVN'}.  
-A \link[base]{print} method and an \link[ggplot2]{autoplot} method are defined 
-for \link{predictiveValues} object.
+This is an example-only documentation.
 }
 \description{
-Functions for Chapter 3, \emph{Some Basic Probability Concepts}.
-}
-\details{
-\link{addProbs} provides the joint, marginal and conditional probabilities of a contingency table.
-
-\link{predictiveValues} provides the predictive values based on 
-the sensitivity, specificity of a test, as well as the disease prevalence.
+Examples in Chapter 3, \emph{Some Basic Probability Concepts}.
 }
 \examples{
 library(DanielBiostatistics10th)
@@ -56,17 +18,16 @@ library(DanielBiostatistics10th)
   Onset = c('Early', 'Late'))))
 class(d341) # 'matrix', i.e., a two-dimensional 'array'
 addProbs(d341)
+addProbs(d341, margin = 1L)
+addProbs(d341, margin = 2L)
 
 # Page 81, Example 3.5.1
 (d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, dimnames = list(
   Test = c('Positive', 'Negative'), Alzheimer = c('Yes', 'No'))))
-predictiveValues(d351, prevalence = .113)
-predictiveValues(d351, prevalence = c(.005, .98))
+summary(BooleanTable(t(d351)), prevalence = .113)
+
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 Wiley, ISBN: 978-1-119-62550-6.
-}
-\seealso{
-\link[stats]{addmargins} \link[base]{rowSums} \link[base]{colSums} \link[base]{proportions}
 }

@@ -16,11 +16,10 @@
 #' Resources from 11th edition \url{https://bcs.wiley.com/he-bcs/Books?action=index&bcsId=11491&itemId=1119496578},
 #' with errata of data.
 #' 
-#' @import ggplot2 graphics methods stats utils 
-#' @importFrom e1071 skewness kurtosis
+#' @import ggplot2 methods stats 
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom latex2exp TeX
-#' @importFrom pracma Mode
+# @importFrom plotly ggplotly
 #' @importFrom scales percent
 #' 
 #' @docType package

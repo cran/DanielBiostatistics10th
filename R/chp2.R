@@ -41,6 +41,9 @@
 #' \link[stats]{var} \link[stats]{sd} \link[stats]{quantile}
 #' \link[e1071]{skewness} \link[e1071]{kurtosis}
 #' 
+#' @importFrom e1071 skewness kurtosis
+#' @importFrom pracma Mode
+#' 
 #' @references
 #' 
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
@@ -55,7 +58,7 @@ print_stats <- function(x, na.rm = TRUE) {
   cat('\nSummary Statistics of', sQuote(nm), '\n\n')
   cat(sprintf('Number of observations = %d\n', length(if (na.rm) x[!is.na(x)] else x)))
   cat(sprintf('mean = %.2f\n', mean.default(x, na.rm = na.rm)))
-  cat(sprintf('median = %.2f\n', median(x, na.rm = na.rm)))
+  cat(sprintf('median = %.2f\n', median.default(x, na.rm = na.rm)))
   cat(sprintf('(smallest) mode = %.2f\n', Mode(x)[1L]))
   cat(sprintf('variance = %.2f\n', var(x, na.rm = na.rm)))
   cat(sprintf('standard deviation = %.2f\n', sd(x, na.rm = na.rm)))
@@ -65,7 +68,7 @@ print_stats <- function(x, na.rm = TRUE) {
   Q <- quantile(x, probs = c(.25, .5, .75), na.rm = na.rm)
   cat(sprintf('Quartiles: Q1 = %.1f, Q2 = %.1f, Q3 = %.1f\n', Q[1L], Q[2L], Q[3L]))
   cat(sprintf('IQR = %.1f\n', Q[3L] - Q[1L]))
-  cat(sprintf('range = %.1f (%.1f ~ %.1f)\n', diff(range(x, na.rm = na.rm)), min(x, na.rm = na.rm), max(x, na.rm = na.rm)))
+  cat(sprintf('range = %.1f (%.1f ~ %.1f)\n', diff.default(range.default(x, na.rm = na.rm)), min(x, na.rm = na.rm), max(x, na.rm = na.rm)))
   cat(sprintf('skewness = %.3f\n', skewness(x, na.rm = na.rm)))
   cat(sprintf('kurtosis = %.3f\n', kurtosis(x, na.rm = na.rm)))
   cat('\n')
@@ -88,6 +91,26 @@ print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
   }
   new(Class = 'freqs', c(table(object)), data.name = data.name)
 }
+
+
+# same as in \pkg{tzh}
+#' @title S4 Class \linkS4class{freqs}
+#' 
+#' @slot .Data \link[base]{integer} \link[base]{vector}, frequency counts
+#' 
+#' @slot data.name \link[base]{character} integer, name of the data, only used in output
+#' 
+#' @export
+setClass(Class = 'freqs', contains = 'integer', slots = c(
+  data.name = 'character'
+), validity = function(object) {
+  if (!length(x <- unclass(object)) || anyNA(x) || any(x < 0L)) stop('counts must be all-non-missing integers')
+  nm <- names(x)
+  if (!length(nm) || anyNA(nm) || !all(nzchar(nm))) stop('illegal category names')
+})
+
+
+
 
 #' @title Show \linkS4class{freqs} Object
 #' 
@@ -113,7 +136,6 @@ setMethod(f = show, signature = signature(object = 'freqs'), definition = functi
   rownames(ret) <- names(freq)
   names(dimnames(ret)) <- c(object@data.name, 'Counts (%)')
   print.noquote(noquote(ret, right = TRUE))
-  print(autoplot.freqs(object))
 })
 
 
@@ -123,16 +145,16 @@ autoplot.freqs <- function(object, ...) {
 }
 
 #' @export
-autolayer.freqs <- function(object, type = c('density', 'distribution'), title = NULL, ...) {
+autolayer.freqs <- function(object, type = c('density', 'distribution'), ...) {
   freq <- unclass(object)
   cfreq <- cumsum(freq)
   n <- sum(freq)
   switch(match.arg(type), density = list(
     geom_bar(mapping = aes(x = names(freq), y = c(freq/n)), stat = 'identity'),
-    labs(x = 'Categories', y = 'Relative Frequency', title = title)
+    labs(x = 'Categories', y = 'Relative Frequency')
   ), distribution = list(
     geom_bar(mapping = aes(x = names(freq), y = c(cfreq/n)), stat = 'identity'),
     #geom_step(mapping = aes(x = c(0, seq_along(c(freq))), y = c(0, cfreq/n))), # actually not pretty
-    labs(x = 'Categories', y = 'Cumulative Relative Frequency', title = title)
+    labs(x = 'Categories', y = 'Cumulative Relative Frequency')
   ))
 }

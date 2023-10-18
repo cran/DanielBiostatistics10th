@@ -36,6 +36,10 @@
 #' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
 #' Wiley, ISBN: 978-1-119-62550-6.
 #' 
+#' @examples 
+#' binomBar(size = 25L, prob = .1)
+#' poisBar(lambda = 12, xlim = 30L)
+#' 
 #' @example inst/example/Chapter4.R  
 #' 
 #' @name Chapter04
@@ -54,7 +58,6 @@ binomBar <- function(size, prob, xlim = size, title) {
 }
 
 
-# unicode cannot appear in default parameter(s); destroyes pdf manual
 
 #' @rdname Chapter04
 #' @export
@@ -64,7 +67,7 @@ poisBar <- function(lambda, xlim, title) {
   nl <- length(xlim)
   xl <- if (nl == 1L) 0:xlim else if (nl == 2L) xlim[1L]:xlim[2L] else stop('illegal xlim')
   pr <- dpois(setNames(nm = xl), lambda = lambda)
-  if (missing(title)) title <- sprintf(fmt = 'Poisson(\u03bb = %.1f)', lambda)
+  if (missing(title)) title <- sprintf(fmt = 'Poisson($lambda$ = %.1f)', lambda)
   ret <- list(x = xl, pr = pr, title = title)
   class(ret) <- 'discreteDistBar'
   return(ret)
@@ -81,6 +84,7 @@ autoplot.discreteDistBar <- function(object, ...) {
   ggplot() + autolayer.discreteDistBar(object, ...) + scale_y_continuous(labels = percent) + theme_bw()
 }
 
+#' @importFrom latex2exp TeX
 #' @export
 autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'), ...) {
   x <- object[['x']]
@@ -90,7 +94,7 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
   ylab <- switch(type, density = 'Density', distribution = 'Cumulative Distribution')
   list(
     geom_bar(mapping = aes(x = x, y = y), stat = 'identity'),
-    labs(x = NULL, y = ylab, title = object[['title']])
+    labs(x = NULL, y = ylab, title = TeX(object[['title']]))
   )
 }
 
@@ -148,8 +152,7 @@ print.binom2pois <- function(x, ...) {
     sprintf(fmt = '%.2f%%', 100*c(dbinom(x, size = size, prob = prob), dpois(x, lambda = lambda))),
     dimnames = list(
       c(sprintf(fmt = 'Binomial(n=%d, p=%.0f%%)', size, 100*prob),
-        sprintf(fmt = 'Poisson(\u03bb=%.1f)', lambda)),
-        #sprintf(fmt = 'Poisson(lambda=%.1f)', lambda)),
+        sprintf(fmt = 'Poisson($lambda$=%.1f)', lambda)),
       sprintf(fmt = 'Prob(X = %d)', x)
     )), right = TRUE)
   print.noquote(ret)

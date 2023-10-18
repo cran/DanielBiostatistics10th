@@ -61,7 +61,7 @@ autoplot.predict_lm <- function(object, ...) {
 
 
 # dont use autolayer.lm; dont want to break other packages
-autolayer_lm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(trms[[2L]]), title = NULL, caption = NULL, ...) {
+autolayer_lm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(trms[[2L]]), ...) {
   # skip the check: must be all-numeric, simple linear regression
   dat <- object[['model']]
   trms <- object$terms
@@ -70,7 +70,7 @@ autolayer_lm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(tr
   list(
     geom_point(mapping = aes(x = xval, y = yval)),
     geom_smooth(mapping = aes(x = xval, y = yval), method = 'lm', se = FALSE, formula = y ~ x),
-    labs(x = xlab, y = ylab, title = title, caption = caption)
+    labs(x = xlab, y = ylab)
   )
 }
 
@@ -84,7 +84,8 @@ autolayer.predict_lm <- function(object, ...) {
     geom_ribbon(mapping = aes(x = xseq, ymin = pred[,2L], ymax = pred[,3L], fill = 'Prediction'), alpha = .2),
     geom_ribbon(mapping = aes(x = xseq, ymin = conf[,2L], ymax = conf[,3L], fill = 'Confidence'), alpha = .2),
     scale_fill_discrete(name = 'Intervals'),
-    if (length(newx)) geom_point(mapping = aes_string(x = 'x', y = 'fit'), data = newx, colour = 'blue', size = 2L),
+    #if (length(newx)) geom_point(mapping = aes_string(x = 'x', y = 'fit'), data = newx, colour = 'blue', size = 2L),
+    if (length(newx)) geom_point(mapping = aes(x = newx[['x']], y = newx[['fit']]), data = newx, colour = 'blue', size = 2L),
     if (length(newx)) geom_label_repel(mapping = aes(x = newx[['x']], y = newx[['fit']], label = sprintf(fmt = '%.1f', newx[['fit']])), colour = 'blue', size = 3.5)
   ))
 }

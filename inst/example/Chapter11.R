@@ -65,7 +65,8 @@ summary(mod_1142 <- glm(ATT ~ AGE, family = binomial, data = EXA_C11_S04_02))
 exp(mod_1142$coefficients[2L])
 exp(confint(mod_1142))
 car::Anova(mod_1142) # Optional
-autoplot(predict_glm_binomial(mod_1142, newx = c(50, 65, 80)), title = 'Page 576, Figure 11.4.3')
+autoplot(predict_glm_binomial(mod_1142, newx = c(50, 65, 80))) + 
+  labs(title = 'Page 576, Figure 11.4.3')
 
 # (optional) Page 576, Example 11.4.3
 head(REV_C11_24)

@@ -67,7 +67,7 @@ population standard deviation(s) \eqn{\sigma} or \eqn{(\sigma_1, \sigma_2)}}
 \item{null.value}{(optional) \link[base]{numeric} scalar or length-two vector.
 Null value(s) of the population mean(s) 
 (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
-for \link{aggregated_z} and \link{aggregated_t}.
+for functions [aggregated_z()] and \link{aggregated_t}.
 Null value(s) of the population proportion(s) 
 (\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
 for \link{prop_CLT}.
@@ -96,7 +96,7 @@ number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
 used in one-sample \eqn{z}-test on proportion}
 }
 \value{
-\link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided, 
+Function [aggregated_z()] returns an \code{'htest'} object when \code{null.value} is provided, 
 otherwise returns a length-two \link[base]{numeric} vector.
 
 \link{aggregated_t} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided, 
@@ -114,7 +114,7 @@ Chapter 6, \emph{Estimation} and
 Chapter 7, \emph{Hypothesis Testing}.
 }
 \details{
-\link{aggregated_z} performs one- or two-sample \eqn{z}-test 
+Function [aggregated_z()] performs one- or two-sample \eqn{z}-test 
 using the aggregated statistics of sample mean(s) and sample size(s) when 
 \code{null.value} is provided.  Otherwise, only the confidence interval based on 
 \eqn{z}-distribution is computed.

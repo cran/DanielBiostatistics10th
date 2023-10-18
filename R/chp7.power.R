@@ -134,67 +134,45 @@ RR_z <- function(null.value, std.err, alternative = c('two.sided', 'less', 'grea
 }
 
 
-#' @export
-autolayer.RejectionRegion <- function(
-    object,
-    xlab = 'Alternative values of \u03bc', 
-    ylab = NULL, 
-    all.alternative = FALSE, 
-    extra_x = numeric(),
-    ...
-) {
-  if (object@test != 'z') stop('only z-test supported for now')
-  rr <- unclass(object)
+
+xlim_RejectionRegion <- function(object, all.alternative = FALSE, extra_x = numeric(), ...) {
   null.value <- object@null.value
   std.err <- object@std.err
   alternative <- object@alternative
   sig.level <- object@sig.level
-  
   if (length(extra_x)) {
     if (!is.vector(extra_x, mode = 'numeric') || anyNA(extra_x)) stop('illegal `extra_x`')
-    #xlim <- range(c(xlim, extra_x))
-  }
-  
+  } else extra_x <- numeric()
   if (all.alternative) {
-    xlim <- range(null.value + c(-1, 1)*5*std.err, extra_x)
-    # do not need `xmin` and `xmax` (for plotting rejection region, otherwise too crowded)
-  } else switch(alternative, two.sided = {
-    xlim <- range(null.value + c(-1, 1)*5*std.err, extra_x)
-    xmin <- c(xlim[1L], rr[2L])
-    xmax <- c(rr[1L], xlim[2L])
+    return(range.default(null.value + c(-1, 1)*5*std.err, extra_x))
+  } 
+  switch(alternative, two.sided = {
+    return(range.default(null.value + c(-1, 1)*5*std.err, extra_x))
   }, less = {
-    xlim <- range(null.value + c(-5, 1)*std.err, extra_x)
-    xmin <- xlim[1L]
-    xmax <- rr
+    return(range.default(null.value + c(-5, 1)*std.err, extra_x))
   }, greater = {
-    xlim <- range(null.value + c(-1, 5)*std.err, extra_x)
-    xmin <- rr
-    xmax <- xlim[2L]
+    return(range.default(null.value + c(-1, 5)*std.err, extra_x))
   })
+}
+
+#' @export
+autolayer.RejectionRegion <- function(object, all.alternative = FALSE, ...) {
+  if (object@test != 'z') stop('only z-test supported for now')
+  if (all.alternative) return(invisible())
+  xlim <- xlim_RejectionRegion(object, all.alternative = all.alternative, ...)
+  lyr_samplingdist <- list(
+    stat_function(fun = dnorm, args = list(mean = object@null.value, sd = object@std.err), xlim = xlim),
+    geom_point(mapping = aes(x = object@null.value, y = 0), size = 2L),
+    #geom_label_repel(mapping = aes(x = object@null.value, y = 0, label = sprintf(fmt = '\u03bc0 = %.1f', object@null.value)), size = 3.5)
+    geom_point(mapping = aes(x = object@null.value, y = 0), size = 3, colour = 'blue')
+  )
+  lyr_rr <- list(
+    geom_vline(xintercept = unclass(object), linetype = 2L)
+  )
+  return(c(lyr_samplingdist, lyr_rr))
+  #
   
-  ag <- list(null.value = null.value, std.err = std.err, sig.level = sig.level)
-  
-  if (all.alternative) {
-    if (is.null(ylab)) ylab <- 'Power'
-    lyr <- list(
-      stat_function(mapping = aes(colour = 'two.sided'), fun = power_z, args = c(ag, list(alternative = 'two.sided')), xlim = xlim, linetype = switch(alternative, two.sided = 1L, 2L)),
-      stat_function(mapping = aes(colour = 'less'), fun = power_z, args = c(ag, list(alternative = 'less')), xlim = xlim, linetype = switch(alternative, less = 1L, 2L)),
-      stat_function(mapping = aes(colour = 'greater'), fun = power_z, args = c(ag, list(alternative = 'greater')), xlim = xlim, linetype = switch(alternative, greater = 1L, 2L)),
-      scale_color_discrete(name = 'Alternative\nHypothesis', breaks = c('two.sided', 'less', 'greater'), labels = paste('\u03bc', c('\u2260', '<', '>'), null.value))
-    )
-  } else {
-    if (is.null(ylab)) ylab <- paste('Power of Ha: \u03bc', switch(alternative, two.sided = '\u2260', less = '<', greater = '>'), null.value)
-    lyr <- list(
-      stat_function(fun = power_z, args = c(ag, list(alternative = alternative)), xlim = xlim),
-      annotate(geom = 'rect', xmin = xmin, xmax = xmax, ymin = 0, ymax = 1, alpha = .2)
-    )
-  }
-  
-  return(c(lyr, list(
-    geom_point(mapping = aes(x = null.value, y = sig.level), size = 2L),
-    geom_label_repel(mapping = aes(x = null.value, y = sig.level, label = sprintf(fmt = '\u03bc0 = %.1f', null.value)), size = 3.5),
-    labs(x = xlab, y = ylab)
-  )))
+  #annotate(geom = 'rect', xmin = xlims[['xmin']], xmax = xlims[['xmax']], ymin = 0, ymax = 1, alpha = .2)
 }
 
 
@@ -223,41 +201,74 @@ setMethod(show, signature(object = 'power'), definition = function(object) {
 })
 
 
+#' @importFrom latex2exp TeX
 #' @export
-autolayer.power <- function(object, all.alternative = FALSE, ...) {
+autolayer.power <- function(object, all.alternative = FALSE, ylab = NULL, ...) {
   rr <- object@rr
+  null.value <- rr@null.value
+  std.err <- rr@std.err
+  alternative <- rr@alternative
+  sig.level <- rr@sig.level
+  
   x <- object@x
   pwr <- unclass(object)
-  if (any(id <- (abs(x - rr@null.value) < 1e-4))) {
-    x <- x[!id]
-    pwr <- pwr[!id]
-  }
-  ret <- autolayer.RejectionRegion(rr, all.alternative = all.alternative, extra_x = x, ...)
-  if (!length(x)) return(ret)
+  #if (any(id <- (abs(x - rr@null.value) < 1e-4))) {
+  #  x <- x[!id]
+  #  pwr <- pwr[!id]
+  #}
   
-  ret_add <- if (all.alternative) list(
-    geom_point(mapping = aes(x = x, y = pwr, colour = rr@alternative), size = 2L),
-    geom_label_repel(mapping = aes(x = x, y = pwr, colour = rr@alternative, label = sprintf(fmt = '%.1f%%', 1e2*pwr)), size = 3.5)
-  ) else list(
-    geom_point(mapping = aes(x = x, y = pwr), size = 2L),
-    geom_label_repel(mapping = aes(x = x, y = pwr, label = sprintf(fmt = '%.1f%%', 1e2*pwr)), size = 3.5)
+  xlim <- xlim_RejectionRegion(rr, all.alternative = all.alternative, extra_x = x, ...)
+  
+  ag <- list(null.value = null.value, std.err = std.err, sig.level = sig.level)
+  
+  if (all.alternative) {
+    if (is.null(ylab)) ylab <- TeX(sprintf('Power ($alpha$ = %.0f%%)', 1e2*sig.level))
+    ret_add <- list(
+      stat_function(mapping = aes(colour = 'two.sided'), fun = power_z, args = c(ag, list(alternative = 'two.sided')), xlim = xlim, linetype = switch(alternative, two.sided = 1L, 2L)),
+      stat_function(mapping = aes(colour = 'less'), fun = power_z, args = c(ag, list(alternative = 'less')), xlim = xlim, linetype = switch(alternative, less = 1L, 2L)),
+      stat_function(mapping = aes(colour = 'greater'), fun = power_z, args = c(ag, list(alternative = 'greater')), xlim = xlim, linetype = switch(alternative, greater = 1L, 2L)),
+      scale_color_discrete(name = 'Alternative\nHypothesis', breaks = c('two.sided', 'less', 'greater'), labels = lapply(sprintf(fmt = '$mu %s %f$', c('\\neq', '<', '>'), null.value), FUN = TeX)),
+      if (length(x)) geom_point(mapping = aes(x = x, y = pwr, colour = rr@alternative), size = 2L),
+      if (length(x)) geom_label_repel(mapping = aes(x = x, y = pwr, colour = rr@alternative, label = sprintf(fmt = '%.1f%%', 1e2*pwr)), size = 3.5)
+    )
+  } else {
+    if (is.null(ylab)) ylab <- TeX(sprintf(fmt = 'Power of Ha: $mu %s %f$, $alpha=%.0f$%%', switch(alternative, two.sided = '\\neq', less = '<', greater = '>'), null.value, 1e2*sig.level))
+    ret_add <- list(
+      stat_function(fun = power_z, args = c(ag, list(alternative = alternative)), xlim = xlim),
+      if (length(x)) geom_point(mapping = aes(x = x, y = pwr), size = 2L),
+      if (length(x)) geom_label_repel(mapping = aes(x = x, y = pwr, label = sprintf(fmt = '%.1f%%', 1e2*pwr)), size = 3.5)
+    )
+  }
+  
+  ret_null = list(
+    geom_point(mapping = aes(x = null.value, y = 0), size = 2L),
+    #geom_label_repel(mapping = aes(x = null.value, y = 0), label = sprintf(fmt = '\u03bc0 = %.1f', null.value), size = 3.5)
+    #geom_label_repel(mapping = aes(x = null.value, y = 0), label = TeX(sprintf(fmt = '$mu_0$ = %.1f', null.value)), size = 3.5)
+    # ggrepel::geom_label_repel doesn't work well with latex2exp::TeX
+    geom_point(mapping = aes(x = null.value, y = 0), size = 3, colour = 'blue')
   )
-  return(c(list(ret), ret_add))
+  
+  return(c(list(labs(y = ylab)), ret_add, ret_null))
 }
 
 
 #' @export
-autoplot.RejectionRegion <- function(object, title = NULL, ...) {
+autoplot.RejectionRegion <- function(object, xlab = NULL, ylab = NULL, ...) {
   ggplot() + autolayer.RejectionRegion(object, ...) +
     scale_y_continuous(labels = percent) +
-    labs(title = title) +
+    labs(x = xlab, y = ylab) +
     theme_bw()
+  # ggplotly()
 }
 
 #' @export
-autoplot.power <- function(object, title = NULL, ...) {
+autoplot.power <- function(object, xlab = TeX('Alternative values of $mu$'), ...) {
   ggplot() + autolayer.power(object, ...) +
+    labs(x = xlab) +
     scale_y_continuous(labels = percent) +
-    labs(title = title) +
-    theme_bw()
+    # scale_x_continuous(breaks = object@rr@null.value, labels = 'a') +
+    # https://stackoverflow.com/questions/29824773/annotate-ggplot-with-an-extra-tick-and-label
+    theme_bw() + 
+    #theme(legend.position = c(.85, .5), element_text(family = 'Arial Unicode MS')) # error ??
+    theme(legend.position = c(.85, .5))
 }

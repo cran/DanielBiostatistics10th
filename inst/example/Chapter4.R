@@ -3,8 +3,6 @@ library(DanielBiostatistics10th)
 # Page 93-97, Example 4.2.1 - Example 4.2.7
 d421 = rep(1:8, times = c(62L, 47L, 39L, 39L, 58L, 37L, 4L, 11L))
 (fq421 = print_freqs(factor(d421))) # Page 94, Table 4.2.1 and 4.2.2; Page 96, Table 4.2.3
-autoplot(fq421, type = 'density', title = 'Page 95, Figure 4.2.1')
-autoplot(fq421, type = 'distribution', title = 'Page 96, Figure 4.2.2')
 
 # ?dbinom # 'd' for binomial 'density'; calculate Prob(X = x)
 # ?pbinom # 'p' for binomial 'probability' 
@@ -19,7 +17,6 @@ dbinom(x = 4L, size = 10L, prob = .14)
 (pL = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = TRUE)) # (a) including!
 (pU = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = FALSE)) # (b) excluding!
 pL + pU # R makes sure they add up to 1
-binomBar(size = 25L, prob = .1)
 # Page 105, Example 4.3.4
 dbinom(x = 7L, size = 12L, prob = .55)
 pbinom(q = 5L, size = 12L, prob = .55)
@@ -28,8 +25,7 @@ pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE)
 # Page 110, Example 4.4.1
 dpois(x = 3L, lambda = 12) 
 # Page 110, Example 4.4.2
-ppois(2L, lambda = 12, lower.tail = FALSE) 
-poisBar(lambda = 12, xlim = 30L)
+ppois(2L, lambda = 12, lower.tail = FALSE)
 # Page 110, Example 4.4.3
 ppois(1L, lambda = 2) 
 # Page 111, Example 4.4.4

@@ -22,20 +22,21 @@
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two variances as being equal 
 #' when calculating the degree of freedom and the standard error of the mean-difference.
-#' If \code{FALSE} (default), Welch–Satterthwaite equation is used.
-#' If \code{TRUE}, the original two-sample \eqn{t}-test from William Sealy Gosset is used.
+#' If `FALSE` (default), Welch–Satterthwaite equation is used.
+#' If `TRUE`, the original two-sample \eqn{t}-test from William Sealy Gosset is used.
 #' 
-#' @return 
+#' @returns 
 #' 
-#' \link{Gosset_Welch} returns a \link[base]{numeric} scalar of the degree of freedom, 
-#' with a \link[base]{numeric} scalar attribute \code{'std.err'} of the standard error of the mean-difference.
+#' [Gosset_Welch] returns a \link[base]{numeric} scalar of the degree of freedom, 
+#' with a \link[base]{numeric} scalar attribute `'std.err'` of the standard error of the mean-difference.
 #' 
 #' @references 
 #' Student's \eqn{t}-test by William Sealy Gosset, \doi{10.1093/biomet/6.1.1}.
 #' 
-#' Welch–Satterthwaite equation by Bernard Lewis Welch and F. E. Satterthwaite \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
+#' Welch–Satterthwaite equation by Bernard Lewis Welch and F. E. Satterthwaite, \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
 #' 
-#' @seealso \link[stats]{t.test}
+#' @seealso 
+#' \link[stats]{t.test}
 #' 
 #' @examples 
 #' x = rnorm(32L, sd = 1.6); y = rnorm(57L, sd = 2.1)

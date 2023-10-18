@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.1.9
+Remove unicode from plots
+
 # DanielBiostatistics10th 0.1.8
 LazyData enabled
 

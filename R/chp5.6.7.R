@@ -34,7 +34,7 @@
 #' @param null.value (optional) \link[base]{numeric} scalar or length-two vector.
 #' Null value(s) of the population mean(s) 
 #' (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
-#' for \link{aggregated_z} and \link{aggregated_t}.
+#' for functions [aggregated_z()] and \link{aggregated_t}.
 #' Null value(s) of the population proportion(s) 
 #' (\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
 #' for \link{prop_CLT}.
@@ -55,7 +55,7 @@
 #' 
 #' @details  
 #' 
-#' \link{aggregated_z} performs one- or two-sample \eqn{z}-test 
+#' Function [aggregated_z()] performs one- or two-sample \eqn{z}-test 
 #' using the aggregated statistics of sample mean(s) and sample size(s) when 
 #' \code{null.value} is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{z}-distribution is computed.
@@ -75,7 +75,7 @@
 #' Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
 #' 
 #' @return 
-#' \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided, 
+#' Function [aggregated_z()] returns an \code{'htest'} object when \code{null.value} is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' \link{aggregated_t} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided, 
@@ -113,7 +113,7 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
   xbar <- tmp$xbar
   sd <- tmp$sd
   n <- tmp$n
-  dname <- sprintf(fmt = '%.3g(\u00B1%.3g)', xbar, sd)
+  dname <- sprintf(fmt = '%.3g(\u00B1%.3g)', xbar, sd) # console print, not figure
   
   if (length(xbar) == 1L) { # one sample z-test
     method <- 'One Sample z-test'

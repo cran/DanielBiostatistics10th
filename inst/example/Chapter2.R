@@ -10,7 +10,7 @@ sort(age) # Page 21, Table 2.2.1 # 'ordered vector'
 (ageB = seq.int(from = 30, to = 90, by = 10))
 (r231 = print_freqs(age, breaks = ageB, right = FALSE)) # Page 25, Table 2.3.2
 # The open/close of interval ends is determined by textbook using 30-39, 40-49, etc.
-autoplot(r231, title = 'Page 27, Figure 2.3.2')
+autoplot(r231) + labs(title = 'Page 27, Figure 2.3.2')
 
 # Page 38-42, Example 2.4.1 - Example 2.4.6
 # Page 44-46, Example 2.5.1 - Example 2.5.3
