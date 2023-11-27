@@ -4,24 +4,29 @@
 \alias{Gosset_Welch}
 \title{Two-Sample Student's \eqn{t}-statistic and Welch–Satterthwaite Equation}
 \usage{
-Gosset_Welch(s1, s2, v1 = s1^2, v2 = s2^2, n1, n2, var.equal = FALSE)
+Gosset_Welch(s1, s0, v1 = s1^2, v0 = s0^2, n1, n0, var.equal = FALSE)
 }
 \arguments{
-\item{s1, s2}{(optional) \link[base]{double} vectors, sample standard deviations of the two samples}
+\item{s1, s0}{(optional) \link[base]{double} scalars or \link[base]{vector}s,
+sample standard deviations \eqn{s_1} and \eqn{s_0} of the treatment and control sample, respectively}
 
-\item{v1, v2}{\link[base]{double} vectors, sample variances of the two samples, 
-default \eqn{v_1=s_1^2}, \eqn{v_2=s_2^2}.}
+\item{v1, v0}{\link[base]{double} scalars or \link[base]{vector}s,
+sample variances of the treatment and control sample, respectively.
+Default \eqn{v_1=s_1^2}, \eqn{v_0=s_0^2}.}
 
-\item{n1, n2}{\link[base]{integer} vectors, sample sizes of the two samples}
+\item{n1, n0}{\link[base]{integer} scalars or \link[base]{vector}s,
+sample sizes of the treatment and control sample, respectively}
 
-\item{var.equal}{\link[base]{logical} scalar, whether to treat the two variances as being equal 
+\item{var.equal}{\link[base]{logical} scalar,
+whether to treat the two variances \eqn{v_1} and \eqn{v_0} as being equal
 when calculating the degree of freedom and the standard error of the mean-difference.
-If `FALSE` (default), Welch–Satterthwaite equation is used.
-If `TRUE`, the original two-sample \eqn{t}-test from William Sealy Gosset is used.}
+If \code{FALSE} (default), Welch–Satterthwaite equation is used.
+If \code{TRUE}, the original two-sample \eqn{t}-test from William Sealy Gosset is used.
+See \link[stats]{t.test.default}.}
 }
 \value{
-[Gosset_Welch] returns a \link[base]{numeric} scalar of the degree of freedom, 
-with a \link[base]{numeric} scalar attribute `'std.err'` of the standard error of the mean-difference.
+Function \code{\link[=Gosset_Welch]{Gosset_Welch()}} returns a \link[base]{numeric} scalar of the degree of freedom,
+with a \link[base]{numeric} scalar attribute \code{'stderr'} of the standard error of the mean-difference.
 }
 \description{
 To determine the degree of freedom, as well as the standard error,
@@ -31,9 +36,9 @@ of two-sample \eqn{t}-statistic, with or without the equal-variance assumption.
 x = rnorm(32L, sd = 1.6); y = rnorm(57L, sd = 2.1)
 vx = var(x); vy = var(y); nx = length(x); ny = length(y)
 t.test(x, y, var.equal = FALSE)[c('parameter', 'stderr')]
-Gosset_Welch(v1 = vx, v2 = vy, n1 = nx, n2 = ny, var.equal = FALSE)
+Gosset_Welch(v1 = vx, v0 = vy, n1 = nx, n0 = ny, var.equal = FALSE)
 t.test(x, y, var.equal = TRUE)[c('parameter', 'stderr')]
-Gosset_Welch(v1 = vx, v2 = vy, n1 = nx, n2 = ny, var.equal = TRUE)
+Gosset_Welch(v1 = vx, v0 = vy, n1 = nx, n0 = ny, var.equal = TRUE)
 
 }
 \references{

@@ -12,7 +12,11 @@
 
 
 
-#' @title Boolean Test-&-Disease and/or Risk-&-Disease Table 
+#' @title \linkS4class{BooleanTable}: Boolean Test-&-Disease and/or Risk-&-Disease Table 
+#' 
+#' @description
+#' ..
+#' 
 #' 
 #' @slot .Data two-by-two \link[base]{integer} \link[base]{matrix}, 
 #' contingency table of a Boolean test-&-disease table with layout
@@ -31,7 +35,8 @@
 #' This set up is to accommodate \link[stats]{model.frame.default} and let end user use formula
 #' `endpoint ~ test` or `endpoint ~ risk`.
 #' 
-#' 
+#' @name BooleanTable
+#' @aliases BooleanTable-class
 #' @export
 setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object) {
   x <- unclass(object)
@@ -42,10 +47,7 @@ setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object
 
 
 
-
-#' @title Create Boolean Test-&-Disease and/or Risk-&-Disease Table 
-#'
-#' @description To create Boolean Test-&-Disease and/or Risk-&-Disease table. 
+#' @rdname BooleanTable
 #' 
 #' @param x two-by-two \link[base]{integer} \link[base]{matrix}, contingency table of two Boolean variables, 
 #' or an R object convertible to a two-by-two \link[base]{integer} \link[base]{matrix}.
@@ -54,7 +56,7 @@ setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object
 #' @details ..
 #' 
 #' @returns 
-#' [BooleanTable] returns a \linkS4class{BooleanTable} object.
+#' Function [BooleanTable()] returns a \linkS4class{BooleanTable} object.
 #' 
 #' @seealso 
 #' End-user may also use \link[caret]{confusionMatrix}, 

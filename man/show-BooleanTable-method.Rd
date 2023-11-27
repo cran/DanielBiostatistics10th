@@ -10,7 +10,7 @@
 \item{object}{a \linkS4class{BooleanTable} object}
 }
 \value{
-The \link[methods]{show} method for \linkS4class{BooleanTable} object 
+The \link[methods]{show} method for \linkS4class{BooleanTable} object
 does not have a returned value.
 }
 \description{

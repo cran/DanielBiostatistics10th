@@ -11,8 +11,8 @@ print_stats(x, na.rm = TRUE)
 print_freqs(x, breaks, include.lowest = TRUE, right = TRUE)
 }
 \arguments{
-\item{x}{\link[base]{numeric} vector, the observations. 
-In \link{print_freqs} function, this argument can also be a \link[base]{factor}}
+\item{x}{\link[base]{numeric} vector, the observations.
+In function \code{\link[=print_freqs]{print_freqs()}}, this argument can also be a \link[base]{factor}}
 
 \item{na.rm}{\link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})}
 
@@ -23,20 +23,20 @@ In \link{print_freqs} function, this argument can also be a \link[base]{factor}}
 \item{right}{\link[base]{logical} scalar, see \link[base]{cut.default}}
 }
 \value{
-\link{print_freqs} returns a \linkS4class{freqs} object, for which
+Function \code{\link[=print_freqs]{print_freqs()}} returns a \linkS4class{freqs} object, for which
 a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 
-\link{print_stats} does not have a returned value.
+Function \code{\link[=print_stats]{print_stats()}} does not have a returned value.
 }
 \description{
 Functions and examples for Chapter 2, \emph{Descriptive Statistics}.
 }
 \details{
-\link{print_freqs} prints the (relative) frequencies and cumulative (relative) frequencies, from 
+Function \code{\link[=print_freqs]{print_freqs()}} prints the (relative) frequencies and cumulative (relative) frequencies, from
 a numeric input vector, specified interval breaks as well as open/close status of the ends of the intervals.
 
-\link{print_stats} prints the simple statistics of the input observations, such as sample size,
-mean, median, (smallest) mode, variance, standard deviation, 
+Function \code{\link[=print_stats]{print_stats()}} prints the simple statistics of the input observations, such as sample size,
+mean, median, (smallest) mode, variance, standard deviation,
 coefficient of variation (if all observations are non-negative),
 quartiles, inter-quartile range (IQR), range, skewness and kurtosis.  A histogram is also printed.
 }
@@ -73,7 +73,7 @@ Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[base]{cut.default} \link[base]{table} \link[base]{cumsum}
-\link[base]{mean.default} \link[stats]{median.default} \link[pracma]{Mode} 
+\link[base]{mean.default} \link[stats]{median.default} \link[pracma]{Mode}
 \link[stats]{var} \link[stats]{sd} \link[stats]{quantile}
 \link[e1071]{skewness} \link[e1071]{kurtosis}
 }

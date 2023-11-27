@@ -18,7 +18,7 @@ sampleRow(x, size, replace = FALSE, prob = NULL)
 Default \code{NULL} indicates simple random sampling}
 }
 \value{
-\link{sampleRow} returns a \link[base]{data.frame}, a simple random sample from the input.
+Function \code{\link[=sampleRow]{sampleRow()}} returns a \link[base]{data.frame}, a simple random sample from the input.
 }
 \description{
 Functions and examples for Chapter 1, \emph{Introduction to Biostatistics}.

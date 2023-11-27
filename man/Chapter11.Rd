@@ -18,7 +18,7 @@ as well as one and only one \link[base]{numeric} predictor}
 \item{...}{potential arguments, not in use currently}
 }
 \value{
-\link{predict_glm_binomial} returns a \link{predict_glm_binomial} object, for which 
+Function \code{\link[=predict_glm_binomial]{predict_glm_binomial()}} returns a \code{'predict_glm_binomial'} object, for which
 a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{

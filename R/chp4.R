@@ -14,18 +14,18 @@
 #' 
 #' @param xlim length-two \link[base]{numeric} vector, horizontal limit of the figure
 #' 
-# @param type \link[base]{character} scalar, whether a bar plot of relative frequency (\code{'density'}, default)
-# or cumulative relative frequency (\code{'distribution'}) should be plotted 
+# @param type \link[base]{character} scalar, whether a bar plot of relative frequency (`'density'`, default)
+# or cumulative relative frequency (`'distribution'`) should be plotted 
 #' 
 #' @param title \link[base]{character} scalar, title of the figure
 #' 
 #' @details 
 #' 
-#' \link{binomBar} and \link{poisBar} generate bar plots of binomial and Poisson distributions.
+#' [binomBar()] and [poisBar()] generate bar plots of binomial and Poisson distributions.
 #' 
 #' @return 
 #' 
-#' \link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which 
+#' [binomBar()] and [poisBar()] returns a `'discreteDistBar'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' 
@@ -111,12 +111,12 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
 #' @param size \link[base]{integer} vector, parameter \eqn{n} of binomial distribution
 #' 
 #' @details 
-#' \link{binom2pois} shows how binomial density approaches Poisson density when
+#' [binom2pois()] shows how binomial density approaches Poisson density when
 #' \eqn{n\rightarrow\infty} and \eqn{p\rightarrow 0}, while holding a constant product \eqn{np=\lambda}.
 #' 
 #' @return 
 #' 
-#' \link{binom2pois} returns a \link{binom2pois} object, for which 
+#' [binom2pois()] returns a `'binom2pois'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' @seealso \link[stats]{dbinom} \link[stats]{dpois}

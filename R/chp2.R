@@ -9,32 +9,32 @@
 #' Functions and examples for Chapter 2, \emph{Descriptive Statistics}.
 #' 
 #' @param x \link[base]{numeric} vector, the observations. 
-#' In \link{print_freqs} function, this argument can also be a \link[base]{factor}
+#' In function [print_freqs()], this argument can also be a \link[base]{factor}
 #' 
 #' @param breaks \link[base]{numeric} vector, see \link[base]{cut.default}
 #' 
-#' @param include.lowest \link[base]{logical} scalar, default \code{TRUE}. See \link[base]{cut.default}
+#' @param include.lowest \link[base]{logical} scalar, default `TRUE`. See \link[base]{cut.default}
 #' 
 #' @param right \link[base]{logical} scalar, see \link[base]{cut.default}
 #' 
-#' @param na.rm \link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})
+#' @param na.rm \link[base]{logical} scalar, whether to remove the missing observations (default `TRUE`)
 #' 
 #' @details 
 #' 
-#' \link{print_freqs} prints the (relative) frequencies and cumulative (relative) frequencies, from 
+#' Function [print_freqs()] prints the (relative) frequencies and cumulative (relative) frequencies, from 
 #' a numeric input vector, specified interval breaks as well as open/close status of the ends of the intervals.
 #' 
-#' \link{print_stats} prints the simple statistics of the input observations, such as sample size,
+#' Function [print_stats()] prints the simple statistics of the input observations, such as sample size,
 #' mean, median, (smallest) mode, variance, standard deviation, 
 #' coefficient of variation (if all observations are non-negative),
 #' quartiles, inter-quartile range (IQR), range, skewness and kurtosis.  A histogram is also printed. 
 #' 
 #' @return 
 #' 
-#' \link{print_freqs} returns a \linkS4class{freqs} object, for which
+#' Function [print_freqs()] returns a \linkS4class{freqs} object, for which
 #' a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
-#' \link{print_stats} does not have a returned value.
+#' Function [print_stats()] does not have a returned value.
 #' 
 #' @seealso \link[base]{cut.default} \link[base]{table} \link[base]{cumsum}
 #' \link[base]{mean.default} \link[stats]{median.default} \link[pracma]{Mode} 

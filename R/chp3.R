@@ -6,14 +6,6 @@
 #' 
 #' Examples in Chapter 3, \emph{Some Basic Probability Concepts}.
 #' 
-# @param A \link[base]{integer} \link[base]{matrix}, two-dimensional contingency table.  
-# @param margin \link[base]{integer} scalar or vector, see \link[stats]{addmargins} for detail
-# @details 
-# 
-# \link{addProbs} provides the joint, marginal (using \code{margin = 1:2}) 
-# and conditional (using \code{margin = 1L} or \code{margin = 2L}) 
-# probabilities of a contingency table.
-# 
 #' @return 
 #' This is an example-only documentation.
 #' 

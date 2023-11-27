@@ -16,7 +16,7 @@
 #' 
 #' @return
 #' 
-#' \link{predict_lm} returns a \link{predict_lm} object, for which 
+#' Function [predict_lm()] returns a `'predict_lm'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' @references

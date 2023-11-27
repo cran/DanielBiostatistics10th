@@ -5,7 +5,7 @@
 \alias{DanielBiostatistics10th-package}
 \title{Functions for Wayne W. Daniel's \emph{Biostatistics} (Tenth Edition)}
 \description{
-Functions and examples to accompany Wayne W. Daniel's 
+Functions and examples to accompany Wayne W. Daniel's
 \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition,
 Wiley, ISBN: 978-1-119-62550-6.
 

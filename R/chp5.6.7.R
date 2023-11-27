@@ -34,22 +34,22 @@
 #' @param null.value (optional) \link[base]{numeric} scalar or length-two vector.
 #' Null value(s) of the population mean(s) 
 #' (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
-#' for functions [aggregated_z()] and \link{aggregated_t}.
+#' for functions [aggregated_z()] and [aggregated_t()].
 #' Null value(s) of the population proportion(s) 
 #' (\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
-#' for \link{prop_CLT}.
+#' for [prop_CLT()].
 #' Null value(s) of the population variance(s) (ratio)
 #' (\eqn{\sigma^2_0}, \eqn{(\sigma^2_{10}, \sigma^2_{20})}, or \eqn{\sigma^2_{10}/\sigma^2_{20}})
-#' for \link{aggregated_var}.
+#' for function [aggregated_var()].
 #' If missing, only the confidence intervals will be computed.
 #' 
 #' @param alternative \link[base]{character} scalar, alternative hypothesis,
-#' either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}
+#' either `'two.sided'` (default), `'greater'` or `'less'`
 #' 
 #' @param conf.level \link[base]{numeric} scalar, confidence level, default 0.95
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two population variances as being equal 
-#' (default \code{FALSE}) in \link{aggregated_t}
+#' (default `FALSE`) in function [aggregated_t()]
 #' 
 #' @param ... potential arguments, not in use currently
 #' 
@@ -57,34 +57,34 @@
 #' 
 #' Function [aggregated_z()] performs one- or two-sample \eqn{z}-test 
 #' using the aggregated statistics of sample mean(s) and sample size(s) when 
-#' \code{null.value} is provided.  Otherwise, only the confidence interval based on 
+#' `null.value` is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{z}-distribution is computed.
 #' 
-#' \link{aggregated_t} performs one- or two-sample \eqn{t}-test 
+#' Function [aggregated_t()] performs one- or two-sample \eqn{t}-test 
 #' using the aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
-#' when \code{null.value} is provided.  Otherwise, only the confidence interval based on 
+#' when `null.value` is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{t}-distribution is computed.
 #' 
-#' \link{prop_CLT} performs one- or two-sample \eqn{z}-test on proportion(s),
-#' using Central Limit Theorem when \code{null.value} is provided.  
+#' Function [prop_CLT()] performs one- or two-sample \eqn{z}-test on proportion(s),
+#' using Central Limit Theorem when `null.value` is provided.  
 #' Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 #' 
-#' \link{aggregated_var} performs one-sample \eqn{\chi^2}-test on variance, 
+#' Function [aggregated_var()] performs one-sample \eqn{\chi^2}-test on variance, 
 #' or two-sample \eqn{F}-test on variances, using the aggregated statistics of 
-#' sample standard deviation(s) and sample size(s) when \code{null.value} is provided.  
+#' sample standard deviation(s) and sample size(s) when `null.value` is provided.  
 #' Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
 #' 
 #' @return 
-#' Function [aggregated_z()] returns an \code{'htest'} object when \code{null.value} is provided, 
+#' Function [aggregated_z()] returns an `'htest'` object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' \link{aggregated_t} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided, 
+#' Function [aggregated_t()] returns an \link[stats:t.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' \link{prop_CLT} returns an \link[stats:prop.test]{htest} object when \code{null.value} is provided, 
+#' Function [prop_CLT()] returns an \link[stats:prop.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' \link{aggregated_var} returns an \link[stats:var.test]{htest} object when \code{null.value} is provided, 
+#' Function [aggregated_var()] returns an \link[stats:var.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' @seealso \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
@@ -194,8 +194,8 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
     
   } else if (length(xbar) == 2L) { # two sample t-test
     method <- if (var.equal) 'Two Sample t-test (Equal-Variance)' else 'Welch Two Sample t-test'
-    df <- Gosset_Welch(s1 = xsd[1L], s2 = xsd[2L], n1 = n[1L], n2 = n[2L], var.equal = var.equal)
-    std.err <- attr(df, which = 'std.err', exact = TRUE)
+    df <- Gosset_Welch(s1 = xsd[1L], s0 = xsd[2L], n1 = n[1L], n0 = n[2L], var.equal = var.equal)
+    std.err <- attr(df, which = 'stderr', exact = TRUE)
     if (isTRUE(all.equal.numeric(xbar[1L], xbar[2L]))) {
       xbar0 <- xbar[1L] # input is actually (xbar1 - xbar2), difference of sample means
       dname <- sprintf(fmt = '\u0394x\u0304=%.1f (\u00B1%.3g vs. \u00B1%.3g)', xbar0, xsd[1L], xsd[2L])

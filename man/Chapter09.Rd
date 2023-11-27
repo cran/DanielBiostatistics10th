@@ -17,7 +17,7 @@ predict_lm(object, newx, level = 0.95, ...)
 \item{...}{potential arguments, not in use currently}
 }
 \value{
-\link{predict_lm} returns a \link{predict_lm} object, for which 
+Function \code{\link[=predict_lm]{predict_lm()}} returns a \code{'predict_lm'} object, for which
 a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{

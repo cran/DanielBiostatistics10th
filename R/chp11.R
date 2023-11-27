@@ -17,7 +17,7 @@
 #' 
 #' @return
 #' 
-#' \link{predict_glm_binomial} returns a \link{predict_glm_binomial} object, for which 
+#' Function [predict_glm_binomial()] returns a `'predict_glm_binomial'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' @references

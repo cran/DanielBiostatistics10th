@@ -14,7 +14,7 @@
 \item{...}{potential parameters, currently not in use}
 }
 \value{
-[autoplot.BooleanTable] returns a \link[ggplot2]{ggplot} figure,
+\link{autoplot.BooleanTable} returns a \link[ggplot2]{ggplot} figure,
 which shows the curves of positive and negative predictive values for prevalence from 0 to 1.
 }
 \description{
@@ -27,5 +27,5 @@ autoplot(BooleanTable(x), prevalence = .13)
 
 }
 \seealso{
-[summary.BooleanTable]
+\link{summary.BooleanTable}
 }

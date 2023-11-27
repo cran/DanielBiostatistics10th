@@ -10,14 +10,14 @@
 #' 
 #' @param size positive \link[base]{integer} scalar, number of rows to be selected
 #' 
-#' @param replace \link[base]{logical} scalar, whether sampling should be with replacement (default \code{FALSE})
+#' @param replace \link[base]{logical} scalar, whether sampling should be with replacement (default `FALSE`)
 #' 
-#' @param prob \link[base]{numeric} vector of probability weights for each row of input \code{x} being sampled.
-#' Default \code{NULL} indicates simple random sampling
+#' @param prob \link[base]{numeric} vector of probability weights for each row of input `x` being sampled.
+#' Default `NULL` indicates simple random sampling
 #' 
 #' @return 
 #' 
-#' \link{sampleRow} returns a \link[base]{data.frame}, a simple random sample from the input.
+#' Function [sampleRow()] returns a \link[base]{data.frame}, a simple random sample from the input.
 #' 
 #' @seealso \link[base]{sample.int}
 #' 

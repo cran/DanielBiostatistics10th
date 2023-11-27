@@ -10,13 +10,12 @@ power_z(
   null.value,
   sd,
   n,
-  std.err = sd/sqrt(n),
   alternative = c("two.sided", "less", "greater"),
   sig.level = 0.05
 )
 }
 \arguments{
-\item{x}{\link[base]{numeric} vector, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis}
+\item{x}{\link[base]{numeric} \link[base]{vector}, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis}
 
 \item{null.value}{\link[base]{numeric} scalar, mean parameter \eqn{\mu_0} in the null hypothesis}
 
@@ -24,23 +23,20 @@ power_z(
 
 \item{n}{\link[base]{integer} scalar, sample size \eqn{n}}
 
-\item{std.err}{\link[base]{numeric} scalar, standardized error.
-For one-sample \eqn{z}-test, this is \eqn{\sigma/\sqrt{n}}.  
-Be aware of the name clash with \link[base]{stderr}}
-
-\item{alternative}{\link[base]{character} scalar, alternative hypothesis, 
+\item{alternative}{\link[base]{character} scalar, alternative hypothesis,
 either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 
 \item{sig.level}{\link[base]{numeric} scalar, significance level (i.e., Type-I-error rate), default \eqn{.05}}
 }
 \value{
-\link{power_z} returns a \linkS4class{power} object, for which a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined for \link{power_z} object.
+Function \code{\link[=power_z]{power_z()}} returns a \code{'power_z'} object,
+which inherits from \code{'power.htest'} class.
 }
 \description{
 Functions for Chapter 7, \emph{Hypothesis Testing}.
 }
 \details{
-\link{power_z} calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
+Function \code{\link[=power_z]{power_z()}} calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
 \itemize{
 \item{\eqn{H_0: \mu = \mu_0} vs. \eqn{H_A: \mu \neq \mu_0}, if \code{alternative = 'two.sided'}}
 \item{\eqn{H_0: \mu \leq \mu_0} vs. \eqn{H_A: \mu > \mu_0}, if \code{alternative = 'greater'}}
@@ -62,9 +58,9 @@ autoplot(p792) + labs(title = 'Page 277, Figure 7.9.4')
 
 # Page 278, Example 7.10.1
 (n_d7101 <- uniroot(f = function(x) {
-  power_z(55, null.value = 65, sd = 15, n = x, sig.level = .01, alternative = 'less') - .95
+  power_z(55, null.value = 65, sd = 15, n = x, sig.level = .01, alternative = 'less')$power - .95
 }, interval = c(0, 50))$root)
-(C_d7101 = qnorm(p = .01, mean = 65, sd = 15/sqrt(ceiling(n_d7101)), lower.tail = TRUE))
+power_z(55, null.value = 65, sd = 15, n = ceiling(n_d7101), sig.level = .01, alternative = 'less')
 }
 \references{
 Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.

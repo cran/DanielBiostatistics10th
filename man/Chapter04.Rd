@@ -22,14 +22,14 @@ poisBar(lambda, xlim, title)
 \item{lambda}{positive \link[base]{numeric} scalar, mean of Poisson distribution}
 }
 \value{
-\link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which 
+\code{\link[=binomBar]{binomBar()}} and \code{\link[=poisBar]{poisBar()}} returns a \code{'discreteDistBar'} object, for which
 a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{
 Functions for Chapter 4, \emph{Probability Distributions}.
 }
 \details{
-\link{binomBar} and \link{poisBar} generate bar plots of binomial and Poisson distributions.
+\code{\link[=binomBar]{binomBar()}} and \code{\link[=poisBar]{poisBar()}} generate bar plots of binomial and Poisson distributions.
 }
 \examples{
 binomBar(size = 25L, prob = .1)

@@ -1,13 +1,16 @@
 
 
-#' @title \linkS4class{addedProbs}
+#' @title Conditional and/or Marginal Probabilities
 #' 
-#' @description ..
+#' @description
+#' Add conditional and/or marginal probabilities to a two-way contingency table.
 #' 
 #' @slot .Data \link[base]{matrix}
 #' 
 #' @slot margin \link[base]{integer} scalar or \link[base]{vector}
 #' 
+#' @name addProbs
+#' @aliases addedProbs-class
 #' @export 
 setClass(Class = 'addedProbs', contains = 'array', slots = c(
   margin = 'integer'
@@ -15,10 +18,7 @@ setClass(Class = 'addedProbs', contains = 'array', slots = c(
 
 
 
-#' @title Add Conditional and/or Marginal Probabilities to an \link[base]{integer} \link[base]{matrix}
-#' 
-#' @description
-#' Add conditional and/or marginal probabilities to a two-way contingency table.
+#' @rdname addProbs
 #' 
 #' @param A \link[base]{matrix} of \link[base]{typeof} \link[base]{integer}, 
 #' two-dimensional contingency table.  See \link[stats]{addmargins}
@@ -36,7 +36,7 @@ setClass(Class = 'addedProbs', contains = 'array', slots = c(
 #' is much slower than \link[base]{colSums}.
 #' 
 #' @returns 
-#' Function [addProbs()] returns a \link[base]{noquote} \link[base]{matrix} of subclass `'addedProbs'`.
+#' Function [addProbs()] returns a \linkS4class{addedProbs} object.
 #' 
 #' 
 #' @seealso 

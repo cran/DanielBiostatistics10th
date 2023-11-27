@@ -14,8 +14,8 @@ print_OE(O, prob)
 If missing (default), an uniform distribution across all categories are used.}
 }
 \value{
-\link{print_OE} prints a table with observed and expected frequencies, as well as 
-the category-wise \eqn{\chi^2} statistics.  
+Function \code{\link[=print_OE]{print_OE()}} prints a table with observed and expected frequencies, as well as
+the category-wise \eqn{\chi^2} statistics.
 A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 }
 \description{

@@ -14,12 +14,12 @@
 \item{...}{potential parameters, currently not in use}
 }
 \value{
-[summary.BooleanTable] do not have a returned value.
+\link{summary.BooleanTable} do not have a returned value.
 }
 \description{
-Summarize Boolean test-&-disease and/or risk-&-disease table using 
-sensitivity, specificity, diagnostic accuracy, predictive values, relative risk 
-and odds ratio, 
+Summarize Boolean test-&-disease and/or risk-&-disease table using
+sensitivity, specificity, diagnostic accuracy, predictive values, relative risk
+and odds ratio,
 together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 }
 \details{

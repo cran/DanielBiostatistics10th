@@ -10,7 +10,7 @@
 \item{object}{\linkS4class{addedProbs} object}
 }
 \value{
-The \link[methods]{show} method for \linkS4class{addedProbs} object 
+The \link[methods]{show} method for \linkS4class{addedProbs} object
 does not have a returned value.
 }
 \description{

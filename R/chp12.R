@@ -13,7 +13,7 @@
 #' 
 #' @return
 #' 
-#' \link{print_OE} prints a table with observed and expected frequencies, as well as 
+#' Function [print_OE()] prints a table with observed and expected frequencies, as well as 
 #' the category-wise \eqn{\chi^2} statistics.  
 #' A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 #' 
