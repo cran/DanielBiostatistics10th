@@ -20,7 +20,7 @@
 #' @param sig.level \link[base]{numeric} scalar, significance level (i.e., Type-I-error rate), default \eqn{.05}
 #' 
 #' @details 
-#' Function [power_z()] calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
+#' Function [power_z] calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
 #' \itemize{
 #' \item{\eqn{H_0: \mu = \mu_0} vs. \eqn{H_A: \mu \neq \mu_0}, if `alternative = 'two.sided'`}
 #' \item{\eqn{H_0: \mu \leq \mu_0} vs. \eqn{H_A: \mu > \mu_0}, if `alternative = 'greater'`}
@@ -28,19 +28,15 @@
 #' }
 #' 
 #' @return 
-#' Function [power_z()] returns a `'power_z'` object, 
+#' Function [power_z] returns a `'power_z'` object, 
 #' which inherits from `'power.htest'` class. 
 #' 
 #' @seealso \link[stats]{power.t.test}
 #' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
-#' 
-#' @example inst/example/Chapter7.power.R 
+#' @example inst/extexample/Chapter7.power.R 
 #' 
 #' @name Chapter07_power
+#' @importFrom stats pnorm
 #' @export
 power_z <- function(
     x, 
@@ -83,6 +79,7 @@ power_z <- function(
     mu = x, 
     null.value = null.value, 
     sd = sd, n = n,
+    #std.err = std.err,
     power = power,
     sig.level = sig.level,
     reject = attr(power, which = 'reject', exact = TRUE),
@@ -98,12 +95,14 @@ power_z <- function(
 
 # for which an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined for `'power_z'` object.
 
+#' @importFrom ggplot2 autolayer stat_function scale_color_discrete geom_point
+#' @importFrom ggrepel geom_label_repel
 #' @importFrom latex2exp TeX
 #' @export
 autolayer.power_z <- function(
     object, 
     all.alternative = FALSE, 
-    xlim = range(object$mu),
+    xlim = range.default(object$mu),
     ...
 ) {
   
@@ -143,7 +142,8 @@ autolayer.power_z <- function(
 }
 
 
-
+#' @importFrom ggplot2 autoplot ggplot scale_y_continuous theme
+#' @importFrom scales percent
 #' @export
 autoplot.power_z <- function(object, ...) {
   ggplot() + autolayer.power_z(object, ...) +

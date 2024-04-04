@@ -9,7 +9,7 @@
 #' Functions and examples for Chapter 2, \emph{Descriptive Statistics}.
 #' 
 #' @param x \link[base]{numeric} vector, the observations. 
-#' In function [print_freqs()], this argument can also be a \link[base]{factor}
+#' In function [print_freqs], this argument can also be a \link[base]{factor}
 #' 
 #' @param breaks \link[base]{numeric} vector, see \link[base]{cut.default}
 #' 
@@ -21,37 +21,34 @@
 #' 
 #' @details 
 #' 
-#' Function [print_freqs()] prints the (relative) frequencies and cumulative (relative) frequencies, from 
+#' Function [print_freqs] prints the (relative) frequencies and cumulative (relative) frequencies, from 
 #' a numeric input vector, specified interval breaks as well as open/close status of the ends of the intervals.
 #' 
-#' Function [print_stats()] prints the simple statistics of the input observations, such as sample size,
+#' Function [print_stats] prints the simple statistics of the input observations, such as sample size,
 #' mean, median, (smallest) mode, variance, standard deviation, 
 #' coefficient of variation (if all observations are non-negative),
 #' quartiles, inter-quartile range (IQR), range, skewness and kurtosis.  A histogram is also printed. 
 #' 
 #' @return 
 #' 
-#' Function [print_freqs()] returns a \linkS4class{freqs} object, for which
+#' Function [print_freqs] returns a \linkS4class{freqs} object, for which
 #' a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
-#' Function [print_stats()] does not have a returned value.
+#' Function [print_stats] does not have a returned value.
 #' 
 #' @seealso \link[base]{cut.default} \link[base]{table} \link[base]{cumsum}
 #' \link[base]{mean.default} \link[stats]{median.default} \link[pracma]{Mode} 
 #' \link[stats]{var} \link[stats]{sd} \link[stats]{quantile}
 #' \link[e1071]{skewness} \link[e1071]{kurtosis}
 #' 
-#' @importFrom e1071 skewness kurtosis
-#' @importFrom pracma Mode
 #' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
-#' 
-#' @example inst/example/Chapter2.R
+#' @example inst/extexample/Chapter2.R
 #' 
 #' @name Chapter02
+#' @importFrom ggplot2 ggplot geom_histogram labs theme_bw
+#' @importFrom e1071 skewness kurtosis
+#' @importFrom pracma Mode
+#' @importFrom stats median.default quantile sd var
 #' @export
 print_stats <- function(x, na.rm = TRUE) {
   nm <- deparse(substitute(x))
@@ -81,6 +78,7 @@ print_stats <- function(x, na.rm = TRUE) {
 
 
 #' @rdname Chapter02
+#' @importFrom methods new
 #' @export
 print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
   data.name <- deparse1(substitute(x))
@@ -100,6 +98,7 @@ print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
 #' 
 #' @slot data.name \link[base]{character} integer, name of the data, only used in output
 #' 
+#' @importFrom methods setClass
 #' @export
 setClass(Class = 'freqs', contains = 'integer', slots = c(
   data.name = 'character'
@@ -122,6 +121,7 @@ setClass(Class = 'freqs', contains = 'integer', slots = c(
 #' The \link[methods]{show} method for \linkS4class{freqs} object 
 #' does not have a returned value.
 #' 
+#' @importFrom methods setMethod show signature
 #' @export
 setMethod(f = show, signature = signature(object = 'freqs'), definition = function(object) {
   freq <- unclass(object)
@@ -138,12 +138,15 @@ setMethod(f = show, signature = signature(object = 'freqs'), definition = functi
   print.noquote(noquote(ret, right = TRUE))
 })
 
-
+#' @importFrom ggplot2 autoplot ggplot scale_y_continuous theme_bw
+#' @importFrom scales percent
 #' @export
 autoplot.freqs <- function(object, ...) {
   ggplot() + autolayer.freqs(object, ...) + scale_y_continuous(labels = percent) + theme_bw()
 }
 
+
+#' @importFrom ggplot2 autolayer geom_bar labs
 #' @export
 autolayer.freqs <- function(object, type = c('density', 'distribution'), ...) {
   freq <- unclass(object)

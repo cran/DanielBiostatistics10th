@@ -14,10 +14,10 @@ or an R object convertible to a two-by-two \link[base]{integer} \link[base]{matr
 The endpoint (i.e., disease) is on rows and the test/risk is on columns.}
 }
 \value{
-Function \code{\link[=BooleanTable]{BooleanTable()}} returns a \linkS4class{BooleanTable} object.
+Function \link{BooleanTable} returns a \linkS4class{BooleanTable} object.
 }
 \description{
-..
+To define and create a \linkS4class{BooleanTable}.
 }
 \details{
 ..

@@ -1,5 +1,4 @@
 
-# Do NOT edit DanielBiostatistics10th/R/BooleanTable.R  
 # Edit tzh/R/BooleanTable.R
 
 
@@ -15,7 +14,7 @@
 #' @title \linkS4class{BooleanTable}: Boolean Test-&-Disease and/or Risk-&-Disease Table 
 #' 
 #' @description
-#' ..
+#' To define and create a \linkS4class{BooleanTable}.
 #' 
 #' 
 #' @slot .Data two-by-two \link[base]{integer} \link[base]{matrix}, 
@@ -37,6 +36,7 @@
 #' 
 #' @name BooleanTable
 #' @aliases BooleanTable-class
+#' @importFrom methods setClass
 #' @export
 setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object) {
   x <- unclass(object)
@@ -56,7 +56,7 @@ setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object
 #' @details ..
 #' 
 #' @returns 
-#' Function [BooleanTable()] returns a \linkS4class{BooleanTable} object.
+#' Function [BooleanTable] returns a \linkS4class{BooleanTable} object.
 #' 
 #' @seealso 
 #' End-user may also use \link[caret]{confusionMatrix}, 
@@ -69,6 +69,8 @@ setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object
 #' (x1 = matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
 #' BooleanTable(x1)
 #' 
+#' @importFrom methods new
+#' @importFrom stats setNames
 #' @export
 BooleanTable <- function(x) {
   if (!is.matrix(x) || (typeof(x) != 'integer') || any(dim(x) != 2L)) stop('Boolean table must be 2*2 integer matrix')
@@ -119,6 +121,8 @@ BooleanTable <- function(x) {
 #' The \link[methods]{show} method for \linkS4class{BooleanTable} object 
 #' does not have a returned value.
 #' 
+#' @importFrom methods setMethod show signature
+#' @importFrom stats addmargins
 #' @export
 setMethod(show, signature(object = 'BooleanTable'), definition = function(object) {
   print(addmargins(unclass(object)))
@@ -165,7 +169,7 @@ npv <- function(prevalence, sensitivity, specificity) {
 #' 
 #' @returns 
 #' 
-#' [summary.BooleanTable] do not have a returned value.
+#' Function [summary.BooleanTable] do not have a returned value.
 #' 
 #' @references 
 #' \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}
@@ -176,7 +180,7 @@ npv <- function(prevalence, sensitivity, specificity) {
 #' summary(BooleanTable(x), prevalence = .14)
 #' 
 #' @importFrom e1071 classAgreement
-#' @importFrom stats binom.test qnorm
+#' @importFrom stats binom.test pnorm qnorm
 #' @export summary.BooleanTable
 #' @export
 summary.BooleanTable <- function(object, prevalence, ...) {
@@ -269,7 +273,7 @@ summary.BooleanTable <- function(object, prevalence, ...) {
 #' @param ... potential parameters, currently not in use 
 #' 
 #' @returns 
-#' [autoplot.BooleanTable] returns a \link[ggplot2]{ggplot} figure,
+#' Function [autoplot.BooleanTable] returns a \link[ggplot2]{ggplot} figure,
 #' which shows the curves of positive and negative predictive values for prevalence from 0 to 1.
 #' 
 #' @examples 
@@ -277,40 +281,54 @@ summary.BooleanTable <- function(object, prevalence, ...) {
 #' autoplot(BooleanTable(x))
 #' autoplot(BooleanTable(x), prevalence = .13)
 #' 
-#' @importFrom ggplot2 autoplot ggplot geom_function geom_point aes scale_y_continuous scale_x_continuous scale_colour_discrete labs
+#' @importFrom ggplot2 autolayer geom_function geom_point aes scale_colour_discrete labs xlim
 #' @importFrom ggrepel geom_label_repel 
-#' @importFrom scales percent
 #' @importFrom utils capture.output
 #' @seealso [summary.BooleanTable]
-#' @export autoplot.BooleanTable
+#' @name autoplot.BooleanTable
+#' @export autolayer.BooleanTable
 #' @export
-autoplot.BooleanTable <- function(object, prevalence, ...) {
+autolayer.BooleanTable <- function(object, prevalence, ...) {
   
   capture.output(tmp <- summary.BooleanTable(object))
   sens <- tmp$sens
   spec <- tmp$spec
   
-  p <- ggplot() + 
-    geom_function(mapping = aes(colour = 'ppv'), fun = ppv, args = list(sensitivity = sens, specificity = spec), xlim = c(0, 1)) + 
-    geom_function(mapping = aes(colour = 'npv'), fun = npv, args = list(sensitivity = sens, specificity = spec), xlim = c(0, 1)) + 
-    scale_y_continuous(labels = percent) + 
-    scale_x_continuous(labels = percent) +
-    scale_colour_discrete(name = 'Predictive\nValues', breaks = c('ppv', 'npv'), labels = c('Positive PV', 'Negative PV')) +
+  lyr_curve <- list(
+    geom_function(mapping = aes(colour = 'ppv'), fun = ppv, args = list(sensitivity = sens, specificity = spec)),
+    geom_function(mapping = aes(colour = 'npv'), fun = npv, args = list(sensitivity = sens, specificity = spec)),
+    #xlim(0, 1),
+    scale_colour_discrete(name = 'Predictive\nValues', breaks = c('ppv', 'npv'), labels = c('Positive PV', 'Negative PV')),
     labs(x = 'Prevalence', y = 'Predictive Value', 
          caption = sprintf(fmt = 'Sensitivity = %.1f%%; Specificity = %.1f%%', 1e2*sens, 1e2*spec))
+  )
+    
   
-  if (!missing(prevalence)) {
+  lyr_point <- if (!missing(prevalence)) {
     if (!is.double(prevalence) || !length(prevalence) || anyNA(prevalence) ||
         any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
     ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
     npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
-    p <- p + 
-      geom_point(mapping = aes(x = prevalence, y = ppv_, colour = 'ppv'), size = 2L) +
-      geom_label_repel(mapping = aes(x = prevalence, y = ppv_, colour = 'ppv', label = sprintf(fmt = '%.1f%%', 1e2*ppv_)), size = 3.5) +
-      geom_point(mapping = aes(x = prevalence, y = npv_, colour = 'npv'), size = 2L) + 
+    list(
+      geom_point(mapping = aes(x = prevalence, y = ppv_, colour = 'ppv'), size = 2L),
+      geom_label_repel(mapping = aes(x = prevalence, y = ppv_, colour = 'ppv', label = sprintf(fmt = '%.1f%%', 1e2*ppv_)), size = 3.5),
+      geom_point(mapping = aes(x = prevalence, y = npv_, colour = 'npv'), size = 2L),
       geom_label_repel(mapping = aes(x = prevalence, y = npv_, colour = 'npv', label = sprintf(fmt = '%.1f%%', 1e2*npv_)), size = 3.5)
-  } 
+    )
+  } # else NULL
   
-  return(p)
+  return(c(lyr_curve, lyr_point))
   
+}
+
+
+#' @importFrom ggplot2 autoplot ggplot scale_y_continuous scale_x_continuous
+#' @importFrom scales percent
+#' @rdname autoplot.BooleanTable
+#' @export autoplot.BooleanTable
+#' @export
+autoplot.BooleanTable <- function(object, ...) {
+  ggplot() + autolayer.BooleanTable(object, ...) +
+    scale_y_continuous(labels = percent) + 
+    scale_x_continuous(labels = percent, limits = c(0, 1))
 }

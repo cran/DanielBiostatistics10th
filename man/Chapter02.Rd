@@ -12,7 +12,7 @@ print_freqs(x, breaks, include.lowest = TRUE, right = TRUE)
 }
 \arguments{
 \item{x}{\link[base]{numeric} vector, the observations.
-In function \code{\link[=print_freqs]{print_freqs()}}, this argument can also be a \link[base]{factor}}
+In function \link{print_freqs}, this argument can also be a \link[base]{factor}}
 
 \item{na.rm}{\link[base]{logical} scalar, whether to remove the missing observations (default \code{TRUE})}
 
@@ -23,19 +23,19 @@ In function \code{\link[=print_freqs]{print_freqs()}}, this argument can also be
 \item{right}{\link[base]{logical} scalar, see \link[base]{cut.default}}
 }
 \value{
-Function \code{\link[=print_freqs]{print_freqs()}} returns a \linkS4class{freqs} object, for which
+Function \link{print_freqs} returns a \linkS4class{freqs} object, for which
 a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 
-Function \code{\link[=print_stats]{print_stats()}} does not have a returned value.
+Function \link{print_stats} does not have a returned value.
 }
 \description{
 Functions and examples for Chapter 2, \emph{Descriptive Statistics}.
 }
 \details{
-Function \code{\link[=print_freqs]{print_freqs()}} prints the (relative) frequencies and cumulative (relative) frequencies, from
+Function \link{print_freqs} prints the (relative) frequencies and cumulative (relative) frequencies, from
 a numeric input vector, specified interval breaks as well as open/close status of the ends of the intervals.
 
-Function \code{\link[=print_stats]{print_stats()}} prints the simple statistics of the input observations, such as sample size,
+Function \link{print_stats} prints the simple statistics of the input observations, such as sample size,
 mean, median, (smallest) mode, variance, standard deviation,
 coefficient of variation (if all observations are non-negative),
 quartiles, inter-quartile range (IQR), range, skewness and kurtosis.  A histogram is also printed.
@@ -66,10 +66,6 @@ head(EXA_C02_S05_05)
 boxplot(EXA_C02_S05_05$GRF, main = c('GRF from Page 50, Example 2.5.5'))
 print_stats(EXA_C02_S05_05$GRF)
 print_freqs(EXA_C02_S05_05$GRF, breaks = seq.int(10, 45, by = 5))
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[base]{cut.default} \link[base]{table} \link[base]{cumsum}

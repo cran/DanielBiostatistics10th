@@ -29,14 +29,14 @@ either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 \item{sig.level}{\link[base]{numeric} scalar, significance level (i.e., Type-I-error rate), default \eqn{.05}}
 }
 \value{
-Function \code{\link[=power_z]{power_z()}} returns a \code{'power_z'} object,
+Function \link{power_z} returns a \code{'power_z'} object,
 which inherits from \code{'power.htest'} class.
 }
 \description{
 Functions for Chapter 7, \emph{Hypothesis Testing}.
 }
 \details{
-Function \code{\link[=power_z]{power_z()}} calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
+Function \link{power_z} calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
 \itemize{
 \item{\eqn{H_0: \mu = \mu_0} vs. \eqn{H_A: \mu \neq \mu_0}, if \code{alternative = 'two.sided'}}
 \item{\eqn{H_0: \mu \leq \mu_0} vs. \eqn{H_A: \mu > \mu_0}, if \code{alternative = 'greater'}}
@@ -61,10 +61,6 @@ autoplot(p792) + labs(title = 'Page 277, Figure 7.9.4')
   power_z(55, null.value = 65, sd = 15, n = x, sig.level = .01, alternative = 'less')$power - .95
 }, interval = c(0, 50))$root)
 power_z(55, null.value = 65, sd = 15, n = ceiling(n_d7101), sig.level = .01, alternative = 'less')
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[stats]{power.t.test}

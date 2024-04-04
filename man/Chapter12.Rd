@@ -14,7 +14,7 @@ print_OE(O, prob)
 If missing (default), an uniform distribution across all categories are used.}
 }
 \value{
-Function \code{\link[=print_OE]{print_OE()}} prints a table with observed and expected frequencies, as well as
+Function \link{print_OE} prints a table with observed and expected frequencies, as well as
 the category-wise \eqn{\chi^2} statistics.
 A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 }
@@ -123,8 +123,4 @@ summary(BooleanTable(t(d1272)))
   Age = c('<=55', '>55'))))
 addmargins(d1273, margin = 1:2) # Page 651, Table 12.7.6
 mantelhaen.test(d1273)
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }

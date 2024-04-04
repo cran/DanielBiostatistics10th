@@ -14,7 +14,7 @@
 \item{...}{potential parameters, currently not in use}
 }
 \value{
-\link{summary.BooleanTable} do not have a returned value.
+Function \link{summary.BooleanTable} do not have a returned value.
 }
 \description{
 Summarize Boolean test-&-disease and/or risk-&-disease table using

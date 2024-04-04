@@ -13,16 +13,11 @@
 #' 
 #' @return
 #' 
-#' Function [print_OE()] prints a table with observed and expected frequencies, as well as 
+#' Function [print_OE] prints a table with observed and expected frequencies, as well as 
 #' the category-wise \eqn{\chi^2} statistics.  
 #' A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 #' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
-#' 
-#' @example inst/example/Chapter12.R 
+#' @example inst/extexample/Chapter12.R 
 #' 
 #' @name Chapter12
 #' @export

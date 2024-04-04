@@ -2,9 +2,12 @@
 % Please edit documentation in R/BooleanTable.R
 \name{autoplot.BooleanTable}
 \alias{autoplot.BooleanTable}
+\alias{autolayer.BooleanTable}
 \title{Plot of Predictive Values of Boolean Test-&-Disease Table}
 \usage{
-\method{autoplot}{BooleanTable}(object, prevalence, ...)
+\method{autolayer}{BooleanTable}(object, prevalence, ...)
+
+\method{autoplot}{BooleanTable}(object, ...)
 }
 \arguments{
 \item{object}{a \linkS4class{BooleanTable} object}
@@ -14,7 +17,7 @@
 \item{...}{potential parameters, currently not in use}
 }
 \value{
-\link{autoplot.BooleanTable} returns a \link[ggplot2]{ggplot} figure,
+Function \link{autoplot.BooleanTable} returns a \link[ggplot2]{ggplot} figure,
 which shows the curves of positive and negative predictive values for prevalence from 0 to 1.
 }
 \description{

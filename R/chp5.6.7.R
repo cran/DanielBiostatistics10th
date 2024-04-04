@@ -34,13 +34,13 @@
 #' @param null.value (optional) \link[base]{numeric} scalar or length-two vector.
 #' Null value(s) of the population mean(s) 
 #' (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
-#' for functions [aggregated_z()] and [aggregated_t()].
+#' for functions [aggregated_z] and [aggregated_t].
 #' Null value(s) of the population proportion(s) 
 #' (\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
-#' for [prop_CLT()].
+#' for [prop_CLT].
 #' Null value(s) of the population variance(s) (ratio)
 #' (\eqn{\sigma^2_0}, \eqn{(\sigma^2_{10}, \sigma^2_{20})}, or \eqn{\sigma^2_{10}/\sigma^2_{20}})
-#' for function [aggregated_var()].
+#' for function [aggregated_var].
 #' If missing, only the confidence intervals will be computed.
 #' 
 #' @param alternative \link[base]{character} scalar, alternative hypothesis,
@@ -49,54 +49,50 @@
 #' @param conf.level \link[base]{numeric} scalar, confidence level, default 0.95
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two population variances as being equal 
-#' (default `FALSE`) in function [aggregated_t()]
+#' (default `FALSE`) in function [aggregated_t]
 #' 
 #' @param ... potential arguments, not in use currently
 #' 
 #' @details  
 #' 
-#' Function [aggregated_z()] performs one- or two-sample \eqn{z}-test 
+#' Function [aggregated_z] performs one- or two-sample \eqn{z}-test 
 #' using the aggregated statistics of sample mean(s) and sample size(s) when 
 #' `null.value` is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{z}-distribution is computed.
 #' 
-#' Function [aggregated_t()] performs one- or two-sample \eqn{t}-test 
+#' Function [aggregated_t] performs one- or two-sample \eqn{t}-test 
 #' using the aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
 #' when `null.value` is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{t}-distribution is computed.
 #' 
-#' Function [prop_CLT()] performs one- or two-sample \eqn{z}-test on proportion(s),
+#' Function [prop_CLT] performs one- or two-sample \eqn{z}-test on proportion(s),
 #' using Central Limit Theorem when `null.value` is provided.  
 #' Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 #' 
-#' Function [aggregated_var()] performs one-sample \eqn{\chi^2}-test on variance, 
+#' Function [aggregated_var] performs one-sample \eqn{\chi^2}-test on variance, 
 #' or two-sample \eqn{F}-test on variances, using the aggregated statistics of 
 #' sample standard deviation(s) and sample size(s) when `null.value` is provided.  
 #' Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
 #' 
 #' @return 
-#' Function [aggregated_z()] returns an `'htest'` object when `null.value` is provided, 
+#' Function [aggregated_z] returns an `'htest'` object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' Function [aggregated_t()] returns an \link[stats:t.test]{htest} object when `null.value` is provided, 
+#' Function [aggregated_t] returns an \link[stats:t.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' Function [prop_CLT()] returns an \link[stats:prop.test]{htest} object when `null.value` is provided, 
+#' Function [prop_CLT] returns an \link[stats:prop.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' Function [aggregated_var()] returns an \link[stats:var.test]{htest} object when `null.value` is provided, 
+#' Function [aggregated_var] returns an \link[stats:var.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' @seealso \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
 #' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
-#' 
-#' @example inst/example/Chapter5.6.7.R 
+#' @example inst/extexample/Chapter5.6.7.R 
 #' 
 #' @name Chapter05to07
+#' @importFrom stats pnorm setNames
 #' @export
 aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
@@ -167,6 +163,7 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
 
 
 #' @rdname Chapter05to07
+#' @importFrom stats pt qt setNames
 #' @export
 aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
@@ -238,6 +235,7 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
 
 
 #' @rdname Chapter05to07
+#' @importFrom stats pnorm setNames
 #' @export
 prop_CLT <- function(x, n, bool_obs, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
@@ -337,6 +335,7 @@ prop_CLT <- function(x, n, bool_obs, xbar = x/n, null.value, alternative = c('tw
 
 
 #' @rdname Chapter05to07
+#' @importFrom stats pchisq pf qchisq qf setNames
 #' @export
 aggregated_var <- function(xsd, n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   

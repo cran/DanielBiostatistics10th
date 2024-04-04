@@ -18,7 +18,7 @@ as well as one and only one \link[base]{numeric} predictor}
 \item{...}{potential arguments, not in use currently}
 }
 \value{
-Function \code{\link[=predict_glm_binomial]{predict_glm_binomial()}} returns a \code{'predict_glm_binomial'} object, for which
+Function \link{predict_glm_binomial} returns a \code{'predict_glm_binomial'} object, for which
 a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{
@@ -107,10 +107,6 @@ DescTools::PseudoR2(mod_1142, which = 'CoxSnell')
 DescTools::PseudoR2(mod_1142, which = 'Nagelkerke')
 
 # (optional) Page 579, Example 11.4.5 (same as Example 11.4.4)
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[stats]{predict.glm}

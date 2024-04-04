@@ -22,14 +22,14 @@ poisBar(lambda, xlim, title)
 \item{lambda}{positive \link[base]{numeric} scalar, mean of Poisson distribution}
 }
 \value{
-\code{\link[=binomBar]{binomBar()}} and \code{\link[=poisBar]{poisBar()}} returns a \code{'discreteDistBar'} object, for which
+\link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which
 a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{
 Functions for Chapter 4, \emph{Probability Distributions}.
 }
 \details{
-\code{\link[=binomBar]{binomBar()}} and \code{\link[=poisBar]{poisBar()}} generate bar plots of binomial and Poisson distributions.
+\link{binomBar} and \link{poisBar} generate bar plots of binomial and Poisson distributions.
 }
 \examples{
 binomBar(size = 25L, prob = .1)
@@ -89,10 +89,6 @@ pnorm(q = (3-5.4)/1.3) # manual solution
 pnorm(649, mean = 491, sd = 119) - pnorm(292, mean = 491, sd = 119)
 # Page 122. Example 4.7.3
 1e4L * pnorm(8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE)
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[stats]{dbinom} \link[stats]{dpois}

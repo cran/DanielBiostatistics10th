@@ -17,16 +17,11 @@
 #' 
 #' @return 
 #' 
-#' Function [sampleRow()] returns a \link[base]{data.frame}, a simple random sample from the input.
+#' Function [sampleRow] returns a \link[base]{data.frame}, a simple random sample from the input.
 #' 
 #' @seealso \link[base]{sample.int}
 #' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
-#' 
-#' @example inst/example/Chapter1.R
+#' @example inst/extexample/Chapter1.R
 #' 
 #' @name Chapter01
 #' @export

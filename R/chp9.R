@@ -16,19 +16,15 @@
 #' 
 #' @return
 #' 
-#' Function [predict_lm()] returns a `'predict_lm'` object, for which 
+#' Function [predict_lm] returns a `'predict_lm'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
-#' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
 #' 
 #' @seealso \link[stats]{predict.lm}
 #' 
-#' @example inst/example/Chapter9.R 
+#' @example inst/extexample/Chapter9.R 
 #' 
 #' @name Chapter09
+#' @importFrom stats predict.lm setNames
 #' @export
 predict_lm <- function(object, newx, level = .95, ...) {
   if (class(object)[1L] != 'lm') stop('input must be a simple lm object')
@@ -54,6 +50,7 @@ predict_lm <- function(object, newx, level = .95, ...) {
 #' @export
 print.predict_lm <- function(x, ...) print(autoplot.predict_lm(x, ...))
 
+#' @importFrom ggplot2 autoplot ggplot theme_bw
 #' @export
 autoplot.predict_lm <- function(object, ...) {
   ggplot() + autolayer.predict_lm(object, ...) + theme_bw()
@@ -61,6 +58,7 @@ autoplot.predict_lm <- function(object, ...) {
 
 
 # dont use autolayer.lm; dont want to break other packages
+#' @importFrom ggplot2 geom_point geom_smooth labs
 autolayer_lm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(trms[[2L]]), ...) {
   # skip the check: must be all-numeric, simple linear regression
   dat <- object[['model']]
@@ -74,6 +72,8 @@ autolayer_lm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(tr
   )
 }
 
+#' @importFrom ggplot2 autolayer geom_ribbon scale_fill_discrete geom_point
+#' @importFrom ggrepel geom_label_repel
 #' @export
 autolayer.predict_lm <- function(object, ...) {
   xseq <- object[['xseq']]

@@ -17,19 +17,15 @@
 #' 
 #' @return
 #' 
-#' Function [predict_glm_binomial()] returns a `'predict_glm_binomial'` object, for which 
+#' Function [predict_glm_binomial] returns a `'predict_glm_binomial'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
-#' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
 #' 
 #' @seealso \link[stats]{predict.glm}
 #' 
-#' @example inst/example/Chapter11.R 
+#' @example inst/extexample/Chapter11.R 
 #' 
 #' @name Chapter11
+#' @importFrom stats plogis predict.glm setNames
 #' @export
 predict_glm_binomial <- function(object, newx, level = .95, ...) {
   if (!inherits(object, 'glm') || (object$family$family != 'binomial')) stop('input must be a simple logistic regression')
@@ -56,6 +52,8 @@ predict_glm_binomial <- function(object, newx, level = .95, ...) {
 #' @export
 print.predict_glm_binomial <- function(x, ...) print(autoplot.predict_glm_binomial(x, ...))
 
+#' @importFrom ggplot2 autoplot ggplot scale_y_continuous theme_bw
+#' @importFrom scales percent
 #' @export
 autoplot.predict_glm_binomial <- function(object, ...) {
   ggplot() + autolayer.predict_glm_binomial(object, ...) + 
@@ -65,6 +63,7 @@ autoplot.predict_glm_binomial <- function(object, ...) {
 
 
 # dont use autolayer.glm; dont want to break other packages
+#' @importFrom ggplot2 geom_jitter geom_smooth labs
 autolayer_glm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(trms[[2L]]), ...) {
   # skip the check: must be single-numeric-predictor, simple logistic regression
   dat <- object[['model']]
@@ -78,6 +77,9 @@ autolayer_glm <- function(object, xlab = deparse1(trms[[3L]]), ylab = deparse1(t
   )
 }
 
+
+#' @importFrom ggplot2 autolayer geom_ribbon geom_point
+#' @importFrom ggrepel geom_label_repel
 #' @export
 autolayer.predict_glm_binomial <- function(object, ...) {
   xseq <- object[['xseq']]

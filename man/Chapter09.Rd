@@ -17,7 +17,7 @@ predict_lm(object, newx, level = 0.95, ...)
 \item{...}{potential arguments, not in use currently}
 }
 \value{
-Function \code{\link[=predict_lm]{predict_lm()}} returns a \code{'predict_lm'} object, for which
+Function \link{predict_lm} returns a \code{'predict_lm'} object, for which
 a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 }
 \description{
@@ -61,10 +61,6 @@ cor(EXA_C09_S07_01); cor.test(~ CV + HEIGHT, data = EXA_C09_S07_01)
 # Page 453, When the Hypothesized rho Is a Nonzero Value
 # R does not have a function to do this
 
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[stats]{predict.lm}

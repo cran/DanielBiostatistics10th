@@ -18,7 +18,7 @@ sampleRow(x, size, replace = FALSE, prob = NULL)
 Default \code{NULL} indicates simple random sampling}
 }
 \value{
-Function \code{\link[=sampleRow]{sampleRow()}} returns a \link[base]{data.frame}, a simple random sample from the input.
+Function \link{sampleRow} returns a \link[base]{data.frame}, a simple random sample from the input.
 }
 \description{
 Functions and examples for Chapter 1, \emph{Introduction to Biostatistics}.
@@ -41,10 +41,7 @@ sampleRow(EXA_C01_S04_01, size = 10L, replace = FALSE) # to answer Example 1.4.1
 
 # Page 11, Example 1.4.2
 EXA_C01_S04_01[seq.int(from = 4L, to = 166L, by = 18L), ]
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
+
 }
 \seealso{
 \link[base]{sample.int}

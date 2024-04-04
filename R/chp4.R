@@ -21,28 +21,25 @@
 #' 
 #' @details 
 #' 
-#' [binomBar()] and [poisBar()] generate bar plots of binomial and Poisson distributions.
+#' [binomBar] and [poisBar] generate bar plots of binomial and Poisson distributions.
 #' 
 #' @return 
 #' 
-#' [binomBar()] and [poisBar()] returns a `'discreteDistBar'` object, for which 
+#' [binomBar] and [poisBar] returns a `'discreteDistBar'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' 
 #' @seealso \link[stats]{dbinom} \link[stats]{dpois}
 #' 
-#' @references
-#' 
-#' Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-#' Wiley, ISBN: 978-1-119-62550-6.
 #' 
 #' @examples 
 #' binomBar(size = 25L, prob = .1)
 #' poisBar(lambda = 12, xlim = 30L)
 #' 
-#' @example inst/example/Chapter4.R  
+#' @example inst/extexample/Chapter4.R  
 #' 
 #' @name Chapter04
+#' @importFrom stats dbinom setNames
 #' @export
 binomBar <- function(size, prob, xlim = size, title) {
   if (!is.integer(size) || length(size) != 1L) stop('size must be len-1 integer')
@@ -60,6 +57,7 @@ binomBar <- function(size, prob, xlim = size, title) {
 
 
 #' @rdname Chapter04
+#' @importFrom stats dpois setNames
 #' @export
 poisBar <- function(lambda, xlim, title) {
   if (!is.numeric(lambda) || length(lambda) != 1L || is.na(lambda) || lambda < 0) stop('lambda must be len-1 positive numeric')
@@ -79,11 +77,14 @@ poisBar <- function(lambda, xlim, title) {
 print.discreteDistBar <- function(x, ...) print(autoplot.discreteDistBar(x, ...))
 
 
+#' @importFrom ggplot2 autoplot ggplot scale_y_continuous theme_bw
+#' @importFrom scales percent
 #' @export
 autoplot.discreteDistBar <- function(object, ...) {
   ggplot() + autolayer.discreteDistBar(object, ...) + scale_y_continuous(labels = percent) + theme_bw()
 }
 
+#' @importFrom ggplot2 autolayer geom_bar labs
 #' @importFrom latex2exp TeX
 #' @export
 autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'), ...) {
@@ -111,12 +112,12 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
 #' @param size \link[base]{integer} vector, parameter \eqn{n} of binomial distribution
 #' 
 #' @details 
-#' [binom2pois()] shows how binomial density approaches Poisson density when
+#' [binom2pois] shows how binomial density approaches Poisson density when
 #' \eqn{n\rightarrow\infty} and \eqn{p\rightarrow 0}, while holding a constant product \eqn{np=\lambda}.
 #' 
 #' @return 
 #' 
-#' [binom2pois()] returns a `'binom2pois'` object, for which 
+#' [binom2pois] returns a `'binom2pois'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' @seealso \link[stats]{dbinom} \link[stats]{dpois}
@@ -141,6 +142,7 @@ binom2pois <- function(x, lambda, size = c(10L, 100L)) {
   return(ret)
 }
 
+#' @importFrom stats dbinom dpois
 #' @export
 print.binom2pois <- function(x, ...) {
   object <- x; x <- NULL
@@ -160,6 +162,9 @@ print.binom2pois <- function(x, ...) {
   return(invisible(ret))
 }
 
+#' @importFrom ggplot2 autolayer geom_path geom_hline geom_point
+#' @importFrom ggrepel geom_label_repel
+#' @importFrom stats dbinom dpois
 #' @export
 autolayer.binom2pois <- function(object, ...) {
   lambda <- object[['lambda']]
@@ -175,6 +180,9 @@ autolayer.binom2pois <- function(object, ...) {
   )
 }
 
+#' @importFrom ggplot2 autoplot ggplot scale_y_continuous labs theme_bw
+#' @importFrom latex2exp TeX
+#' @importFrom scales percent
 #' @export
 autoplot.binom2pois <- function(object, ...) {
   ggplot() + autolayer.binom2pois(object, ...) +

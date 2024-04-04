@@ -67,13 +67,13 @@ population standard deviation(s) \eqn{\sigma} or \eqn{(\sigma_1, \sigma_2)}}
 \item{null.value}{(optional) \link[base]{numeric} scalar or length-two vector.
 Null value(s) of the population mean(s)
 (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}})
-for functions \code{\link[=aggregated_z]{aggregated_z()}} and \code{\link[=aggregated_t]{aggregated_t()}}.
+for functions \link{aggregated_z} and \link{aggregated_t}.
 Null value(s) of the population proportion(s)
 (\eqn{p_0}, \eqn{(p_{10}, p_{20})}, or \eqn{p_{10}-p_{20}})
-for \code{\link[=prop_CLT]{prop_CLT()}}.
+for \link{prop_CLT}.
 Null value(s) of the population variance(s) (ratio)
 (\eqn{\sigma^2_0}, \eqn{(\sigma^2_{10}, \sigma^2_{20})}, or \eqn{\sigma^2_{10}/\sigma^2_{20}})
-for function \code{\link[=aggregated_var]{aggregated_var()}}.
+for function \link{aggregated_var}.
 If missing, only the confidence intervals will be computed.}
 
 \item{alternative}{\link[base]{character} scalar, alternative hypothesis,
@@ -87,7 +87,7 @@ either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 Sample standard deviation(s) \eqn{\sigma_{\bar{x}}} or \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two population variances as being equal
-(default \code{FALSE}) in function \code{\link[=aggregated_t]{aggregated_t()}}}
+(default \code{FALSE}) in function \link{aggregated_t}}
 
 \item{x}{\link[base]{integer} scalar or length-two vector,
 number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
@@ -96,16 +96,16 @@ number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
 used in one-sample \eqn{z}-test on proportion}
 }
 \value{
-Function \code{\link[=aggregated_z]{aggregated_z()}} returns an \code{'htest'} object when \code{null.value} is provided,
+Function \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 
-Function \code{\link[=aggregated_t]{aggregated_t()}} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided,
+Function \link{aggregated_t} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 
-Function \code{\link[=prop_CLT]{prop_CLT()}} returns an \link[stats:prop.test]{htest} object when \code{null.value} is provided,
+Function \link{prop_CLT} returns an \link[stats:prop.test]{htest} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 
-Function \code{\link[=aggregated_var]{aggregated_var()}} returns an \link[stats:var.test]{htest} object when \code{null.value} is provided,
+Function \link{aggregated_var} returns an \link[stats:var.test]{htest} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 }
 \description{
@@ -114,21 +114,21 @@ Chapter 6, \emph{Estimation} and
 Chapter 7, \emph{Hypothesis Testing}.
 }
 \details{
-Function \code{\link[=aggregated_z]{aggregated_z()}} performs one- or two-sample \eqn{z}-test
+Function \link{aggregated_z} performs one- or two-sample \eqn{z}-test
 using the aggregated statistics of sample mean(s) and sample size(s) when
 \code{null.value} is provided.  Otherwise, only the confidence interval based on
 \eqn{z}-distribution is computed.
 
-Function \code{\link[=aggregated_t]{aggregated_t()}} performs one- or two-sample \eqn{t}-test
+Function \link{aggregated_t} performs one- or two-sample \eqn{t}-test
 using the aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
 when \code{null.value} is provided.  Otherwise, only the confidence interval based on
 \eqn{t}-distribution is computed.
 
-Function \code{\link[=prop_CLT]{prop_CLT()}} performs one- or two-sample \eqn{z}-test on proportion(s),
+Function \link{prop_CLT} performs one- or two-sample \eqn{z}-test on proportion(s),
 using Central Limit Theorem when \code{null.value} is provided.
 Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 
-Function \code{\link[=aggregated_var]{aggregated_var()}} performs one-sample \eqn{\chi^2}-test on variance,
+Function \link{aggregated_var} performs one-sample \eqn{\chi^2}-test on variance,
 or two-sample \eqn{F}-test on variances, using the aggregated statistics of
 sample standard deviation(s) and sample size(s) when \code{null.value} is provided.
 Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
@@ -250,10 +250,6 @@ aggregated_var(xsd = sd(EXA_C07_S07_01$mass), n = 16L, null.value = 600)
 aggregated_var(xsd = c(30.62, 11.37), n = 6L, null.value = 1, alternative = 'greater')
 # Page 270, Example 7.8.2
 with(EXA_C07_S03_02, var.test(x = CONTROL, y = SCI))
-}
-\references{
-Wayne W. Daniel, \emph{Biostatistics: A Foundation for Analysis in the Health Sciences}, Tenth Edition.
-Wiley, ISBN: 978-1-119-62550-6.
 }
 \seealso{
 \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
