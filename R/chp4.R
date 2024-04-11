@@ -1,6 +1,6 @@
 
 
-#' @title Chapter 4
+#' @title Chapter 4: Probability Distributions
 #' 
 #' @description 
 #' 
@@ -21,11 +21,11 @@
 #' 
 #' @details 
 #' 
-#' [binomBar] and [poisBar] generate bar plots of binomial and Poisson distributions.
+#' Functions [binomBar] and [poisBar] generate bar plots of binomial and Poisson distributions.
 #' 
 #' @return 
 #' 
-#' [binomBar] and [poisBar] returns a `'discreteDistBar'` object, for which 
+#' Functions [binomBar] and [poisBar] returns a `'discreteDistBar'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' 
@@ -112,12 +112,12 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
 #' @param size \link[base]{integer} vector, parameter \eqn{n} of binomial distribution
 #' 
 #' @details 
-#' [binom2pois] shows how binomial density approaches Poisson density when
+#' Function [binom2pois] shows how binomial density approaches Poisson density when
 #' \eqn{n\rightarrow\infty} and \eqn{p\rightarrow 0}, while holding a constant product \eqn{np=\lambda}.
 #' 
 #' @return 
 #' 
-#' [binom2pois] returns a `'binom2pois'` object, for which 
+#' Function [binom2pois] returns a `'binom2pois'` object, for which 
 #' a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
 #' 
 #' @seealso \link[stats]{dbinom} \link[stats]{dpois}
@@ -125,16 +125,14 @@ autolayer.discreteDistBar <- function(object, type = c('density', 'distribution'
 #' @examples 
 #' binom2pois(x = 4L, lambda = 6, size = seq.int(10L, 50L, by = 10L))
 #' 
+#' @keywords internal
 #' @export
 binom2pois <- function(x, lambda, size = c(10L, 100L)) {
   if (!is.integer(size) || length(size <- unique.default(size)) < 2L || anyNA(size) || any(size < 0L)) stop('illegal `size`')
   if (!is.integer(x) || length(x) != 1L || is.na(x) || x < 0L) stop('illegal `x`')
   if (!is.numeric(lambda) || length(lambda) != 1L || is.na(lambda) || lambda <= 0) stop('illegal `lambda`')
-  #sizes <- min(size):max(size)
   ret <- list(
     x = x,
-    #sizes = sizes,
-    #probs = lambda / sizes,
     lambda = lambda, 
     size = size
   )

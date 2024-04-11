@@ -3,7 +3,7 @@
 \name{Chapter01}
 \alias{Chapter01}
 \alias{sampleRow}
-\title{Chapter 1}
+\title{Chapter 1: Introduction to Biostatistics}
 \usage{
 sampleRow(x, size, replace = FALSE, prob = NULL)
 }
@@ -29,9 +29,9 @@ library(DanielBiostatistics10th)
 # Command + Enter: Mac and RStudio Cloud
 # Control + Enter: Windows, Mac and RStudio Cloud
 # To clear the console
-# Control + L: Mac and RStudio Cloud
+# Control + L: Windows, Mac and RStudio Cloud
 
-# Page 8, Example 1.4.1
+# Example 1.4.1; Page 8 (10th ed), Page 7 (11th ed)
 class(EXA_C01_S04_01) # `EXA_C01_S04_01` is a 'data.frame' (a specific class defined in R)
 dim(EXA_C01_S04_01) # dimension, number-row and number-column
 head(EXA_C01_S04_01, n = 8L) # first `n` rows of a 'data.frame'
@@ -39,7 +39,7 @@ names(EXA_C01_S04_01) # column names of a 'data.frame'
 EXA_C01_S04_01$AGE # use `$` to obtain one column from a 'data.frame' 
 sampleRow(EXA_C01_S04_01, size = 10L, replace = FALSE) # to answer Example 1.4.1
 
-# Page 11, Example 1.4.2
+# Example 1.4.2; Page 11 (10th ed), Page 10 (11th ed)
 EXA_C01_S04_01[seq.int(from = 4L, to = 166L, by = 18L), ]
 
 }

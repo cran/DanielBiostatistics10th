@@ -3,7 +3,7 @@
 \name{Chapter09}
 \alias{Chapter09}
 \alias{predict_lm}
-\title{Chapter 9}
+\title{Chapter 9: Simple Linear Regression and Correlation}
 \usage{
 predict_lm(object, newx, level = 0.95, ...)
 }
@@ -25,38 +25,39 @@ Functions for Chapter 9, \emph{Simple Linear Regression and Correlation}.
 }
 \examples{
 library(DanielBiostatistics10th)
+library(ggplot2)
 
-# Page 417, Example 9.3.1
+# Example 9.3.1; Page 417 (10th ed), Page 358 (11th ed) 
 head(EXA_C09_S03_01)
 names(EXA_C09_S03_01)[2:3] = c('Waist', 'AT')
 plot(AT ~ Waist, data = EXA_C09_S03_01, xlab = 'Waist circumference (cm), X', 
-     ylab = 'Deep abdominal AT area (cm2), Y', main = 'Page 419, Figure 9.3.1')
+     ylab = 'Deep abdominal AT area (cm2), Y', main = 'Figure 9.3.1')
 
-# Page 436, Example 9.4.2
+# Example 9.4.1-9.4.2; Page 432-436 (10th ed), Page 372-375 (11th ed) 
 summary(m931 <- lm(AT ~ Waist, data = EXA_C09_S03_01))
 cor(EXA_C09_S03_01[2:3]); cor.test(~ AT + Waist, data = EXA_C09_S03_01)
 confint(m931) # confidence interval of regression coefficients
 anova(m931)
 
-# Page 440, Example 9.4.3
-plot(m931, which = 1, main = 'Page 440, Figure 9.4.8')
+# (omitted) Example 9.4.3; Page 376 (11th ed) 
 
-# Page 441, Section 9.5
+# Example 9.4.3; Page 440 (10th ed)
+# Example 9.4.4; Page 379 (11th ed)
+plot(m931, which = 1, main = 'Figure 9.4.8 (10th) or 9.4.9 (11th)')
+
+# Section 9.5; Page 441 (10th ed), Page 380 (11th ed) 
 autoplot(predict_lm(m931)) + labs(
-  xlab = 'Waist circumference (cm), X', 
-  ylab = 'Deep abdominal AT area (cm2), Y',
-  title = 'Page 422, Figure 9.3.3; Page 442, Figure 9.5.1')
+  xlab = 'Waist circumference (cm), X', ylab = 'Deep abdominal AT area (cm2), Y', 
+  title = 'Figure 9.5.1')
 
-# Page 447, Example 9.7.1
+# Example 9.7.1; Page 447 (10th ed), Page 386 (11th ed) 
 head(EXA_C09_S07_01)
 summary(mod_971 <- lm(CV ~ HEIGHT, data = EXA_C09_S07_01))
 autoplot(predict_lm(mod_971)) + labs(
-  xlab = 'Height (cm)', ylab = 'Cv (units)', 
-  title = 'Page 449, Figure 9.7.2')
+  xlab = 'Height (cm)', ylab = 'Cv (units)', title = 'Figure 9.7.2 (10th ed); 9.7.1 (11th ed)')
 
-# Page 452, Example 9.7.2
-cor(EXA_C09_S07_01); cor.test(~ CV + HEIGHT, data = EXA_C09_S07_01) 
-# Page 451, Figure 9.7.4, Figure 9.7.5
+# Example 9.7.2; Page 452 (10th ed), Page 390 (11th ed) 
+cor(EXA_C09_S07_01); cor.test(~ CV + HEIGHT, data = EXA_C09_S07_01) # Figure 9.7.4, 9.7.5
 
 # Page 453, When the Hypothesized rho Is a Nonzero Value
 # R does not have a function to do this

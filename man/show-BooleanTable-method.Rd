@@ -16,3 +16,4 @@ does not have a returned value.
 \description{
 Show \linkS4class{BooleanTable} object
 }
+\keyword{internal}

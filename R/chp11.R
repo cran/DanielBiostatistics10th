@@ -1,6 +1,6 @@
 
 
-#' @title Chapter 11
+#' @title Chapter 11: Regression Analysis: Some Additional Techniques
 #' 
 #' @description 
 #' 
@@ -87,8 +87,7 @@ autolayer.predict_glm_binomial <- function(object, ...) {
   newx <- object[['pred_newx']]
   c(autolayer_glm(object[['glm']], ...), list(
     geom_ribbon(mapping = aes(x = xseq, ymin = pred[,1L], ymax = pred[,3L]), fill = 'grey70', alpha = .2),
-    #if (length(newx)) geom_point(mapping = aes_string(x = 'x', y = 'fit'), data = newx, colour = 'blue', size = 2L),
-    if (length(newx)) geom_point(mapping = aes(x = newx[['x']], y = newx[['fit']]), data = newx, colour = 'blue', size = 2L),
-    if (length(newx)) geom_label_repel(mapping = aes(x = newx[['x']], y = newx[['fit']], label = sprintf(fmt = '%.1f%%', 1e2*newx[['fit']])), colour = 'blue', size = 3.5)
+    if (length(newx)) geom_point(data = newx, mapping = eval(quote(aes(x = x, y = fit))), colour = 'blue', size = 2L),
+    if (length(newx)) geom_label_repel(data = newx, mapping = eval(quote(aes(x = x, y = fit, label = sprintf(fmt = '%.1f%%', 1e2*fit)))), colour = 'blue', size = 3.5)
   ))
 }

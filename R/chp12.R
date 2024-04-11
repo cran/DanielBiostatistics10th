@@ -1,10 +1,10 @@
 
 
-#' @title Chapter 12
+#' @title Chapter 12: \eqn{\chi^2} Distribution and the Analysis of Frequencies
 #' 
 #' @description 
 #' 
-#' Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies}.
+#' Functions for Chapter 12, \emph{The Chi-Square Distribution and the Analysis of Frequencies}.
 #' 
 #' @param O \link[base]{integer} vector, observed counts
 #' 

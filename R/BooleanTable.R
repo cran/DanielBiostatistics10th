@@ -35,6 +35,7 @@
 #' `endpoint ~ test` or `endpoint ~ risk`.
 #' 
 #' @name BooleanTable
+#' @keywords internal
 #' @aliases BooleanTable-class
 #' @importFrom methods setClass
 #' @export
@@ -69,6 +70,7 @@ setClass(Class = 'BooleanTable', contains = 'matrix', validity = function(object
 #' (x1 = matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
 #' BooleanTable(x1)
 #' 
+#' @keywords internal
 #' @importFrom methods new
 #' @importFrom stats setNames
 #' @export
@@ -121,6 +123,7 @@ BooleanTable <- function(x) {
 #' The \link[methods]{show} method for \linkS4class{BooleanTable} object 
 #' does not have a returned value.
 #' 
+#' @keywords internal
 #' @importFrom methods setMethod show signature
 #' @importFrom stats addmargins
 #' @export
@@ -177,10 +180,11 @@ npv <- function(prevalence, sensitivity, specificity) {
 #' @examples 
 #' (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 #' summary(BooleanTable(x))
-#' summary(BooleanTable(x), prevalence = .14)
+#' summary(BooleanTable(x), prevalence = c(.0001, .001, .01))
 #' 
 #' @importFrom e1071 classAgreement
 #' @importFrom stats binom.test pnorm qnorm
+#' @keywords internal
 #' @export summary.BooleanTable
 #' @export
 summary.BooleanTable <- function(object, prevalence, ...) {
@@ -207,8 +211,10 @@ summary.BooleanTable <- function(object, prevalence, ...) {
         any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
     ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
     npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
-    cat(sprintf(fmt = 'Positive Predictive Value: %.1f%% (prevalence %.1f%%)\n', 1e2*ppv_, 1e2*prevalence))
-    cat(sprintf(fmt = 'Negative Predictive Value: %.1f%% (prevalence %.1f%%)\n', 1e2*npv_, 1e2*prevalence))
+    cat('\n')
+    cat(sprintf(fmt = 'Positive Predictive Value: %.3g%% (prevalence %.3g%%)\n', 1e2*ppv_, 1e2*prevalence), sep = '')
+    cat('\n')
+    cat(sprintf(fmt = 'Negative Predictive Value: %.3g%% (prevalence %.3g%%)\n', 1e2*npv_, 1e2*prevalence), sep = '')
   } else {
     cat(do.call(sprintf, c(list(
       fmt = 'Positive Predictive Value (unknown prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
@@ -278,6 +284,7 @@ summary.BooleanTable <- function(object, prevalence, ...) {
 #' 
 #' @examples 
 #' (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
+#' library(ggplot2)
 #' autoplot(BooleanTable(x))
 #' autoplot(BooleanTable(x), prevalence = .13)
 #' 
@@ -285,6 +292,7 @@ summary.BooleanTable <- function(object, prevalence, ...) {
 #' @importFrom ggrepel geom_label_repel 
 #' @importFrom utils capture.output
 #' @seealso [summary.BooleanTable]
+#' @keywords internal
 #' @name autoplot.BooleanTable
 #' @export autolayer.BooleanTable
 #' @export

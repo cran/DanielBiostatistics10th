@@ -2,7 +2,7 @@
 
 
 
-#' @title Chapter 2
+#' @title Chapter 2: Descriptive Statistics
 #' 
 #' @description 
 #' 
@@ -82,7 +82,11 @@ print_stats <- function(x, na.rm = TRUE) {
 #' @export
 print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
   data.name <- deparse1(substitute(x))
-  object <- if (is.factor(x)) x else {
+  object <- if (is.factor(x)) {
+    x 
+  } else if (is.integer(x) && missing(breaks)) {
+    factor(x)
+  } else {
     if (!is.numeric(x)) stop(sQuote(data.name), ' must be numeric')
     # ?base::cut.default will stop on !is.numeric(x), but the error message is not informative enough
     cut.default(x, breaks = breaks, include.lowest = include.lowest, right = right, ordered_result = TRUE)
@@ -98,6 +102,7 @@ print_freqs <- function(x, breaks, include.lowest = TRUE, right = TRUE) {
 #' 
 #' @slot data.name \link[base]{character} integer, name of the data, only used in output
 #' 
+#' @keywords internal
 #' @importFrom methods setClass
 #' @export
 setClass(Class = 'freqs', contains = 'integer', slots = c(
@@ -121,6 +126,7 @@ setClass(Class = 'freqs', contains = 'integer', slots = c(
 #' The \link[methods]{show} method for \linkS4class{freqs} object 
 #' does not have a returned value.
 #' 
+#' @keywords internal
 #' @importFrom methods setMethod show signature
 #' @export
 setMethod(f = show, signature = signature(object = 'freqs'), definition = function(object) {

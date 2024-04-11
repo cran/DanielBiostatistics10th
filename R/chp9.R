@@ -1,6 +1,6 @@
 
 
-#' @title Chapter 9
+#' @title Chapter 9: Simple Linear Regression and Correlation
 #' 
 #' @description 
 #' 
@@ -84,8 +84,7 @@ autolayer.predict_lm <- function(object, ...) {
     geom_ribbon(mapping = aes(x = xseq, ymin = pred[,2L], ymax = pred[,3L], fill = 'Prediction'), alpha = .2),
     geom_ribbon(mapping = aes(x = xseq, ymin = conf[,2L], ymax = conf[,3L], fill = 'Confidence'), alpha = .2),
     scale_fill_discrete(name = 'Intervals'),
-    #if (length(newx)) geom_point(mapping = aes_string(x = 'x', y = 'fit'), data = newx, colour = 'blue', size = 2L),
-    if (length(newx)) geom_point(mapping = aes(x = newx[['x']], y = newx[['fit']]), data = newx, colour = 'blue', size = 2L),
-    if (length(newx)) geom_label_repel(mapping = aes(x = newx[['x']], y = newx[['fit']], label = sprintf(fmt = '%.1f', newx[['fit']])), colour = 'blue', size = 3.5)
+    if (length(newx)) geom_point(data = newx, mapping = eval(quote(aes(x = x, y = fit))), colour = 'blue', size = 2L),
+    if (length(newx)) geom_label_repel(data = newx, mapping = eval(quote(aes(x = x, y = fit, label = sprintf(fmt = '%.1f', fit)))), colour = 'blue', size = 3.5)
   ))
 }

@@ -32,7 +32,7 @@
 #' storage.mode(WorldPhones) = 'integer'
 #' (y2 = addProbs(WorldPhones))
 #' 
-#' 
+#' @keywords internal
 #' @importFrom stats addmargins
 #' @export
 addProbs <- function(A, margin = seq_len(nd)) {

@@ -16,7 +16,7 @@
 #' Resources from 11th edition \url{https://bcs.wiley.com/he-bcs/Books?action=index&bcsId=11491&itemId=1119496578},
 #' with errata of data.
 #' 
-#' @author Tingting Zhan
+# @author Tingting Zhan
 #' 
 # @keywords internal
 '_PACKAGE'

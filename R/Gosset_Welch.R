@@ -53,6 +53,7 @@
 #' t.test(x, y, var.equal = TRUE)[c('parameter', 'stderr')]
 #' Gosset_Welch(v1 = vx, v0 = vy, n1 = nx, n0 = ny, var.equal = TRUE)
 #' 
+#' @keywords internal
 #' @export
 Gosset_Welch <- function(s1, s0, v1 = s1^2, v0 = s0^2, n1, n0, var.equal = FALSE) {
   if (anyNA(v1) || anyNA(v0) || anyNA(n1) || anyNA(n0)) stop('do not allow missing')

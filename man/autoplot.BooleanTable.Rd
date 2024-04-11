@@ -25,6 +25,7 @@ Plot of predictive values of Boolean test-&-disease table
 }
 \examples{
 (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
+library(ggplot2)
 autoplot(BooleanTable(x))
 autoplot(BooleanTable(x), prevalence = .13)
 
@@ -32,3 +33,4 @@ autoplot(BooleanTable(x), prevalence = .13)
 \seealso{
 \link{summary.BooleanTable}
 }
+\keyword{internal}

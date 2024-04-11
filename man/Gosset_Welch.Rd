@@ -49,3 +49,4 @@ Welch–Satterthwaite equation by Bernard Lewis Welch and F. E. Satterthwaite, \
 \seealso{
 \link[stats]{t.test}
 }
+\keyword{internal}

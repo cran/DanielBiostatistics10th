@@ -16,3 +16,4 @@ does not have a returned value.
 \description{
 Show \linkS4class{freqs} object
 }
+\keyword{internal}

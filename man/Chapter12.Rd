@@ -3,7 +3,7 @@
 \name{Chapter12}
 \alias{Chapter12}
 \alias{print_OE}
-\title{Chapter 12}
+\title{Chapter 12: \eqn{\chi^2} Distribution and the Analysis of Frequencies}
 \usage{
 print_OE(O, prob)
 }
@@ -19,14 +19,14 @@ the category-wise \eqn{\chi^2} statistics.
 A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 }
 \description{
-Functions for Chapter 12, \emph{The Chi-Square Distribution and The Analysis of Frequencies}.
+Functions for Chapter 12, \emph{The Chi-Square Distribution and the Analysis of Frequencies}.
 }
 \examples{
 library(DanielBiostatistics10th)
 
-# Page 605, Example 12.3.1
+# Example 12.3.1; Page 605, 
 d1231_b = c(-Inf, seq.int(from = 125, to = 275, by = 25), Inf)
-(d1231 = setNames( # Page 605, Table 12.3.1
+(d1231 = setNames( # Table 12.3.1
   c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L), 
   nm = levels(cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE))))
 chi1231 = print_OE(d1231, prob = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31)))
@@ -36,7 +36,7 @@ pchisq(sum(chi1231), df = length(d1231) - 3L, lower.tail = FALSE)
 # (2) estimating mean
 # (3) estimating sd
 
-# Page 609, Example 12.3.2
+# Example 12.3.2; Page 609, 
 # 100 doctors, 25 patients per doctor
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
 o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
@@ -50,7 +50,7 @@ pchisq(sum(chi1232), df = length(o1232) - 2L, lower.tail = FALSE)
 # (1) making sum(o) == sum(e)
 # (2) estimating p1232
 
-# Page 611, Example 12.3.3
+# Example 12.3.3; Page 611, 
 d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
 p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
@@ -61,35 +61,30 @@ pchisq(sum(chi1233), df = length(o_1233) - 1L, lower.tail = FALSE)
 # (1) making sum(xo) == sum(xe)
 chisq.test(o_1233, p = p_1233) # equivalent # warning on any(E < 5)
 
-# Page 614, Example 12.3.4
+# Example 12.3.4; Page 614 (10th ed), Page 531 (11th ed) 
 d1234 = c('Dec 05' = 62L, 'Jan 06' = 84L, 'Feb 06' = 17L, 'Mar 06' = 16L, 'Apr 06' = 21L)
-chi1234 = print_OE(d1234)
-pchisq(sum(chi1234), df = length(d1234) - 1L, lower.tail = FALSE)
-chisq.test(d1234) # equivalent
+print_OE(d1234) # Figure 12.3.2
+chisq.test(d1234) 
 
-# Page 616, Example 12.3.5
+# Example 12.3.5; Page 616 (10th ed), Page 533 (11th ed) 
 d1235 = c(dominant = 43L, heterozygous = 125L, recessive = 32L)
-chi1235 = print_OE(d1235, prob = c(1, 2, 1))
-pchisq(sum(chi1235), df = length(d1235) - 1L, lower.tail = FALSE)
-chisq.test(d1235, p = c(1, 2, 1), rescale.p = TRUE) # equivalent
+print_OE(d1235, prob = c(1, 2, 1))
+chisq.test(d1235, p = c(1, 2, 1), rescale.p = TRUE)
 
-# Page 621, Example 12.4.1
+# Example 12.4.1; Page 621
 addmargins(d1241 <- array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dimnames = list(
-  Race = c('White', 'Black', 'Other'),
-  FolicAcid = c('TRUE', 'FALSE'))))
+  Race = c('White', 'Black', 'Other'), FolicAcid = c('TRUE', 'FALSE'))))
 chisq.test(d1241) # ?stats::chisq.test
 
-# Page 626, Example 12.4.2
+# Example 12.4.2; Page 626, 
 addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = list(
-  Type = c('Faller', 'Non-Faller'),
-  LifestyleChange = c('TRUE', 'FALSE'))))
+  Type = c('Faller', 'Non-Faller'), LifestyleChange = c('TRUE', 'FALSE'))))
 chisq.test(d1242, correct = FALSE)
-chisq.test(d1242, correct = TRUE) # Page 627, Yates's Correction
+chisq.test(d1242, correct = TRUE) # Yates's Correction
 
-# Page 631, Example 12.5.1
+# Example 12.5.1; Page 631, 
 addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = list(
-  Group = c('Narcoleptic', 'Healthy'),
-  Migraine = c('TRUE', 'FALSE'))))
+  Group = c('Narcoleptic', 'Healthy'), Migraine = c('TRUE', 'FALSE'))))
 (chisq_1251 = chisq.test(d1251, correct = FALSE))
 if (FALSE) {
   # (optional) using test on two proportions
@@ -98,29 +93,25 @@ if (FALSE) {
   all.equal.numeric(unname(clt_1251$statistic^2), unname(chisq_1251$statistic))
 }
 
-# Page 638, Example 12.6.1
+# Example 12.6.1; Page 638, 
 addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
-  Group = c('PI_Naive', 'PA_Experienced'),
-  Regimen2yr = c('TRUE', 'FALSE'))))
+  Group = c('PI_Naive', 'PA_Experienced'), Regimen2yr = c('TRUE', 'FALSE'))))
 fisher.test(d1262)
 
-# Page 644, Example 12.7.1
-(d1271 = array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), 
-               dimnames = list(Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
+# Example 12.7.1; Page 644, 
+(d1271 = array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), dimnames = list(
+  Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
 summary(BooleanTable(t(d1271)))
 # textbook confidence interval (.65, 1.86) wrong (too many rounding in intermediate steps)
 
-# Page 647, Example 12.7.2
+# Example 12.7.2; Page 647, 
 (d1272 = array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
-  SmkPregnancy = c('TRUE', 'FALSE'),
-  Obesity = c('TRUE', 'FALSE'))))
+  SmkPregnancy = c('TRUE', 'FALSE'), Obesity = c('TRUE', 'FALSE'))))
 summary(BooleanTable(t(d1272)))
 
-# Page 650, Example 12.7.3
-# Page 652, Example 12.7.4
+# Example 12.7.3-12.7.4; Page 650-652, 
 (d1273 <- array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), dimnames = list(
-  HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), 
-  Age = c('<=55', '>55'))))
-addmargins(d1273, margin = 1:2) # Page 651, Table 12.7.6
+  HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), Age = c('<=55', '>55'))))
+addmargins(d1273, margin = 1:2) # Table 12.7.6
 mantelhaen.test(d1273)
 }

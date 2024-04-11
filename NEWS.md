@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.2.0
+Move some documentation to internal
+
 # DanielBiostatistics10th 0.1.11
 Annual update
 

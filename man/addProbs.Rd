@@ -33,8 +33,8 @@ is much slower than \link[base]{colSums}.
 storage.mode(WorldPhones) = 'integer'
 (y2 = addProbs(WorldPhones))
 
-
 }
 \seealso{
 \link[base]{rowSums} \link[base]{colSums} \link[base]{proportions}
 }
+\keyword{internal}

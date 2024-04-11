@@ -28,9 +28,10 @@ together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 \examples{
 (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 summary(BooleanTable(x))
-summary(BooleanTable(x), prevalence = .14)
+summary(BooleanTable(x), prevalence = c(.0001, .001, .01))
 
 }
 \references{
 \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}
 }
+\keyword{internal}

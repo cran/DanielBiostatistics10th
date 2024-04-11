@@ -55,3 +55,4 @@ End-user may also use \link[caret]{confusionMatrix},
 which does not provide confidence intervals of
 sensitivity, specificity, etc.
 }
+\keyword{internal}

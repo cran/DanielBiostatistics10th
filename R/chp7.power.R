@@ -1,6 +1,6 @@
 
 
-#' @title Chapter 7 (Power Curve)
+#' @title Chapter 7: Power Curve
 #' 
 #' @description 
 #' 

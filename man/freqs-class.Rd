@@ -15,3 +15,4 @@ S4 Class \linkS4class{freqs}
 \item{\code{data.name}}{\link[base]{character} integer, name of the data, only used in output}
 }}
 
+\keyword{internal}
