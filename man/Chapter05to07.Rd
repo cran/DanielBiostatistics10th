@@ -32,7 +32,7 @@ aggregated_t(
 prop_CLT(
   x,
   n,
-  bool_obs,
+  obs,
   xbar = x/n,
   null.value,
   alternative = c("two.sided", "less", "greater"),
@@ -51,20 +51,21 @@ aggregated_var(
 }
 \arguments{
 \item{xbar}{\link[base]{numeric} scalar or
-length-two vector.
+\link[base]{length}-2 \link[base]{vector}.
 Sample mean(s) for \link[base]{numeric} variable(s) \eqn{\bar{x}} or \eqn{(\bar{x}_1, \bar{x}_2)}.
 Sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s) \eqn{\hat{p}} or \eqn{(\hat{p}_1, \hat{p}_2)}.
 In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in
 sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}}
 
 \item{n}{\link[base]{integer} scalar \eqn{n} or
-length-two vector.
-Sample size(s) \eqn{n} or \eqn{(n_1, n_2)}}
+\link[base]{length}-2 \link[base]{vector} \eqn{(n_1, n_2)},
+sample size(s)}
 
-\item{sd}{\link[base]{numeric} scalar or length-two vector.
-population standard deviation(s) \eqn{\sigma} or \eqn{(\sigma_1, \sigma_2)}}
+\item{sd}{\link[base]{numeric} scalar \eqn{\sigma} or
+\link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_1, \sigma_2)},
+population standard deviation(s)}
 
-\item{null.value}{(optional) \link[base]{numeric} scalar or length-two vector.
+\item{null.value}{(optional) \link[base]{numeric} scalar or \link[base]{length}-2 \link[base]{vector}.
 Null value(s) of the population mean(s)
 (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}})
 for functions \link{aggregated_z} and \link{aggregated_t}.
@@ -79,21 +80,21 @@ If missing, only the confidence intervals will be computed.}
 \item{alternative}{\link[base]{character} scalar, alternative hypothesis,
 either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 
-\item{conf.level}{\link[base]{numeric} scalar, confidence level, default 0.95}
+\item{conf.level}{\link[base]{numeric} scalar \eqn{(1-\alpha)}, confidence level, default 0.95}
 
 \item{...}{potential arguments, not in use currently}
 
-\item{xsd}{\link[base]{numeric} scalar or length-two vector.
+\item{xsd}{\link[base]{numeric} scalar or \link[base]{length}-2 \link[base]{vector}.
 Sample standard deviation(s) \eqn{\sigma_{\bar{x}}} or \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two population variances as being equal
 (default \code{FALSE}) in function \link{aggregated_t}}
 
-\item{x}{\link[base]{integer} scalar or length-two vector,
+\item{x}{\link[base]{integer} scalar or \link[base]{length}-2 \link[base]{vector},
 number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
 
-\item{bool_obs}{\link[base]{logical} vector of Boolean observations,
-used in one-sample \eqn{z}-test on proportion}
+\item{obs}{\link[base]{vector}, observations,
+currently used only in one-sample \eqn{z}-test on proportion \link{prop_CLT}}
 }
 \value{
 Function \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided,
@@ -199,16 +200,16 @@ prop_CLT(xbar = .18, n = 1220L)
 prop_CLT(x = c(31L, 53L), n = c(68L, 255L), conf.level = .99)
 
 # Example 6.7.1; Page 190, 
-n_671 = uniroot(f = function(n, sd, level = .95) {
+(n_671 = uniroot(f = function(n, sd, level = .95) {
   qnorm(1-(1-level)/2) * sd/sqrt(n) - 5 # half-width of CI <= 5 grams
-}, interval = c(0, 2e2), sd = 20)
-sprintf('Example 6.7.1 requires a sample size of \%d.', ceiling(n_671$root))
+}, interval = c(0, 2e2), sd = 20)$root)
+ceiling(n_671)
 
 # Example 6.8.1; Page 192, 
-n_681 = uniroot(f = function(n, p, level = .95) {
+(n_681 = uniroot(f = function(n, p, level = .95) {
   qnorm(1-(1-level)/2) * sqrt(p*(1-p)/n) - .05
-}, interval = c(0, 1e3), p = .35)
-sprintf('Example 6.8.1 requires a sample size of \%d.', ceiling(n_681$root))
+}, interval = c(0, 1e3), p = .35)$root)
+ceiling(n_681)
 
 # Example 6.9.1; Page 196, 
 d691 = c(9.7, 12.3, 11.2, 5.1, 24.8, 14.8, 17.7)

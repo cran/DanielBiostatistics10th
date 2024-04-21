@@ -12,8 +12,6 @@ Examples for Chapter 14, \emph{Survival Analysis}.
 \examples{
 library(DanielBiostatistics10th)
 library(survival)
-library(ggplot2)
-library(ggfortify)
 
 # Example 14.3.1; Page 756 (10th ed), Page 652 (11th ed) 
 head(EXA_C14_S03_01)
@@ -25,8 +23,9 @@ class(d1431$OS) # 'Surv'
 head(d1431$OS)
 summary(sf_1431 <- survfit(OS ~ TUMOR, data = d1431)) # Table 14.3.2
 # ?survival::survfit # Kaplan-Meier estimates for the survival function
-autoplot(sf_1431) + xlim(0, 120) + labs(title = 'Figure 14.3.1')
-# ?ggfortify:::autoplot.survfit # to plot the Kaplan-Meier curves
+plot(sf_1431, lty = 2:3, xlab = 'month', ylab = 'OS', main = 'Figure 14.3.1'); legend(
+  x = 250, y = .9, legend = c('High', 'Low'), lty = 2:3)
+# ?survival:::plot.survfit
 
 # Example 14.4.1; Page 764 (10th ed), Page 659 (11th ed) 
 survdiff(OS ~ TUMOR, data = d1431, rho = 0)
@@ -49,5 +48,8 @@ confint(model1_1451)
 summary(model2_1451 <- coxph(PFS ~ drug, data = d1451))
 confint(model2_1451)
 # 'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.923, p < .001)
-autoplot(survfit(PFS ~ drug, data = d1451)) + labs(title = 'Figure 14.5.1')
+plot(survfit(PFS ~ drug, data = d1451), lty = 2:3, 
+     xlab = 'weeks', ylab = 'PFS', main = 'Figure 14.5.1'); legend(
+  x = 35, y = .9, legend = c('Other', 'Opiate'), lty = 2:3)
+# ?survival:::plot.survfit
 }

@@ -2,39 +2,14 @@
 % Please edit documentation in R/chp4.R
 \name{Chapter04}
 \alias{Chapter04}
-\alias{binomBar}
-\alias{poisBar}
 \title{Chapter 4: Probability Distributions}
-\usage{
-binomBar(size, prob, xlim = size, title)
-
-poisBar(lambda, xlim, title)
-}
-\arguments{
-\item{size}{non-negative \link[base]{integer} scalar, number of trials for binomial distribution}
-
-\item{prob}{\link[base]{numeric} scalar between 0 and 1, probability of success on each trial for binomial distribution}
-
-\item{xlim}{length-two \link[base]{numeric} vector, horizontal limit of the figure}
-
-\item{title}{\link[base]{character} scalar, title of the figure}
-
-\item{lambda}{positive \link[base]{numeric} scalar, mean of Poisson distribution}
-}
 \value{
-Functions \link{binomBar} and \link{poisBar} returns a \code{'discreteDistBar'} object, for which
-a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
+No function defined for Chapter 4.
 }
 \description{
-Functions for Chapter 4, \emph{Probability Distributions}.
-}
-\details{
-Functions \link{binomBar} and \link{poisBar} generate bar plots of binomial and Poisson distributions.
+Examples in Chapter 4, \emph{Probability Distributions}.
 }
 \examples{
-binomBar(size = 25L, prob = .1)
-poisBar(lambda = 12, xlim = 30L)
-
 library(DanielBiostatistics10th)
 
 # Example 4.2.1-4.2.7; Page 93-97 (10th ed), Page 81-85 (11th ed)
@@ -109,7 +84,4 @@ pnorm(649, mean = 491, sd = 119) - pnorm(292, mean = 491, sd = 119)
 
 # Example 4.7.3; Page 122 (10th ed), Page 111 (11th ed) 
 1e4L * pnorm(8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE)
-}
-\seealso{
-\link[stats]{dbinom} \link[stats]{dpois}
 }

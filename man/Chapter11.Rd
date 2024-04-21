@@ -2,32 +2,16 @@
 % Please edit documentation in R/chp11.R
 \name{Chapter11}
 \alias{Chapter11}
-\alias{predict_glm_binomial}
 \title{Chapter 11: Regression Analysis: Some Additional Techniques}
-\usage{
-predict_glm_binomial(object, newx, level = 0.95, ...)
-}
-\arguments{
-\item{object}{\link[stats]{glm} object with \link[stats]{binomial} link function, i.e., a logistic regression model,
-as well as one and only one \link[base]{numeric} predictor}
-
-\item{newx}{(optional) \link[base]{numeric} scalar or vector, new \eqn{x}-value(s) for which the fitted response(s) are to be reported}
-
-\item{level}{\link[base]{numeric} scalar, tolerance/confidence level, default .95}
-
-\item{...}{potential arguments, not in use currently}
-}
 \value{
-Function \link{predict_glm_binomial} returns a \code{'predict_glm_binomial'} object, for which
-a \link[base]{print} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
+No function defined for Chapter 11.
 }
 \description{
-Functions for Chapter 11, \emph{Regression Analysis: Some Additional Techniques}.
+Examples in Chapter 11, \emph{Regression Analysis: Some Additional Techniques}.
 }
 \examples{
 library(DanielBiostatistics10th)
-library(ggplot2)
-library(car)
+library(car) # ?car::scatterplot
 library(DescTools)
 
 # Example 11.1.1; Page 540, 
@@ -46,12 +30,12 @@ d1121 = within(EXA_C11_S02_01, expr = {
   SMOKE = as.logical(SMOKE)
 })
 xlab1121 = 'Length of gestation (weeks)'; ylab1121 = 'Birth weight (grams)'
-car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
-                 xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.1')
+scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
+            xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.1')
 summary(m1121_main <- lm(GRAMS ~ WEEKS + SMOKE, data = d1121)) # Figure 11.2.2
 confint(m1121_main)
-car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
-                 xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.3')
+scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
+            xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.3')
 (cf_main = m1121_main$coefficients)
 abline(a = cf_main[1L], b = cf_main[2L], col = 'blue') # regression line for non-smoking mothers
 abline(a = cf_main[1L] + cf_main[3L], b = cf_main[2L], col = 'magenta') 
@@ -62,8 +46,8 @@ d1123 = within(EXA_C11_S02_03, expr = {
 })
 summary(mod_1123 <- lm(EFFECT ~ AGE * METHOD, data = d1123)) # Figure 11.2.5
 confint(mod_1123)
-car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
-                 xlab = 'Age', ylab = 'Treatment effectiveness', main = 'Figure 11.2.6')
+scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
+            xlab = 'Age', ylab = 'Treatment effectiveness', main = 'Figure 11.2.6')
 
 # Example 11.3.1; Page 561, 
 head(EXA_C11_S03_01)
@@ -90,7 +74,6 @@ summary(mod_1142 <- glm(ATT ~ AGE, family = binomial, data = EXA_C11_S04_02)) # 
 exp(mod_1142$coefficients[2L])
 exp(confint(mod_1142))
 car::Anova(mod_1142) # Optional
-autoplot(predict_glm_binomial(mod_1142, newx = c(50, 65, 80))) + labs(title = 'Figure 11.4.3')
 
 # Example 11.4.3; Page 576, 
 head(REV_C11_24)
@@ -101,7 +84,4 @@ summary(glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24))
 # Example 11.4.4-11.4.5; Page 578-579
 DescTools::PseudoR2(mod_1142, which = 'CoxSnell')
 DescTools::PseudoR2(mod_1142, which = 'Nagelkerke')
-}
-\seealso{
-\link[stats]{predict.glm}
 }

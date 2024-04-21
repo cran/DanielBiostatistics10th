@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.2.1
+Removes import of package ggplot2
+
 # DanielBiostatistics10th 0.2.0
 Move some documentation to internal
 

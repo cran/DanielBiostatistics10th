@@ -8,30 +8,31 @@
 #' Chapter 6, \emph{Estimation} and 
 #' Chapter 7, \emph{Hypothesis Testing}.
 #' 
-#' @param x \link[base]{integer} scalar or length-two vector, 
+#' @param x \link[base]{integer} scalar or \link[base]{length}-2 \link[base]{vector}, 
 #' number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)
 #' 
-#' @param bool_obs \link[base]{logical} vector of Boolean observations,
-#' used in one-sample \eqn{z}-test on proportion
+#' @param obs \link[base]{vector}, observations,
+#' currently used only in one-sample \eqn{z}-test on proportion [prop_CLT]
 #' 
 #' @param xbar \link[base]{numeric} scalar or 
-#' length-two vector. 
+#' \link[base]{length}-2 \link[base]{vector}. 
 #' Sample mean(s) for \link[base]{numeric} variable(s) \eqn{\bar{x}} or \eqn{(\bar{x}_1, \bar{x}_2)}.
 #' Sample proportion(s) for binary (i.e., \link[base]{logical}) variable(s) \eqn{\hat{p}} or \eqn{(\hat{p}_1, \hat{p}_2)}. 
 #' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
 #' sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}
 #' 
-#' @param xsd \link[base]{numeric} scalar or length-two vector.
+#' @param xsd \link[base]{numeric} scalar or \link[base]{length}-2 \link[base]{vector}.
 #' Sample standard deviation(s) \eqn{\sigma_{\bar{x}}} or \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}
 #' 
-#' @param sd \link[base]{numeric} scalar or length-two vector.
-#' population standard deviation(s) \eqn{\sigma} or \eqn{(\sigma_1, \sigma_2)}
+#' @param sd \link[base]{numeric} scalar \eqn{\sigma} or 
+#' \link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_1, \sigma_2)},
+#' population standard deviation(s)
 #' 
 #' @param n \link[base]{integer} scalar \eqn{n} or 
-#' length-two vector.
-#' Sample size(s) \eqn{n} or \eqn{(n_1, n_2)} 
+#' \link[base]{length}-2 \link[base]{vector} \eqn{(n_1, n_2)},
+#' sample size(s)
 #' 
-#' @param null.value (optional) \link[base]{numeric} scalar or length-two vector.
+#' @param null.value (optional) \link[base]{numeric} scalar or \link[base]{length}-2 \link[base]{vector}.
 #' Null value(s) of the population mean(s) 
 #' (\eqn{\mu_0}, \eqn{(\mu_{10}, \mu_{20})}, or \eqn{\mu_{10}-\mu_{20}}) 
 #' for functions [aggregated_z] and [aggregated_t].
@@ -46,7 +47,7 @@
 #' @param alternative \link[base]{character} scalar, alternative hypothesis,
 #' either `'two.sided'` (default), `'greater'` or `'less'`
 #' 
-#' @param conf.level \link[base]{numeric} scalar, confidence level, default 0.95
+#' @param conf.level \link[base]{numeric} scalar \eqn{(1-\alpha)}, confidence level, default 0.95
 #' 
 #' @param var.equal \link[base]{logical} scalar, whether to treat the two population variances as being equal 
 #' (default `FALSE`) in function [aggregated_t]
@@ -237,12 +238,14 @@ aggregated_t <- function(xbar, xsd, n, null.value, var.equal = FALSE, alternativ
 #' @rdname Chapter05to07
 #' @importFrom stats pnorm setNames
 #' @export
-prop_CLT <- function(x, n, bool_obs, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
+prop_CLT <- function(x, n, obs, xbar = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
-  if (!missing(bool_obs)) {
-    if (!is.logical(bool_obs) || !length(bool_obs) || anyNA(bool_obs)) stop('Boolean observations illegal')
-    x <- sum(bool_obs) # overwrite user provided `x`, `n` and `xbar`
-    n <- length(bool_obs)
+  if (!missing(obs)) {
+    if (!is.logical(obs) || !length(obs)) stop('Boolean observations illegal')
+    # overwrite user provided `x`, `n` and `xbar`
+    obs <- obs[!is.na(obs)]
+    x <- sum(obs) 
+    n <- length(obs)
     xbar <- x/n
   }
   

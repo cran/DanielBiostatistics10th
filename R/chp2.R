@@ -32,7 +32,7 @@
 #' @return 
 #' 
 #' Function [print_freqs] returns a \linkS4class{freqs} object, for which
-#' a \link[methods]{show} method, an \link[ggplot2]{autolayer} and an \link[ggplot2]{autoplot} method are defined.
+#' a \link[methods]{show} method is defined.
 #' 
 #' Function [print_stats] does not have a returned value.
 #' 
@@ -45,7 +45,6 @@
 #' @example inst/extexample/Chapter2.R
 #' 
 #' @name Chapter02
-#' @importFrom ggplot2 ggplot geom_histogram labs theme_bw
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom pracma Mode
 #' @importFrom stats median.default quantile sd var
@@ -69,10 +68,11 @@ print_stats <- function(x, na.rm = TRUE) {
   cat(sprintf('skewness = %.3f\n', skewness(x, na.rm = na.rm)))
   cat(sprintf('kurtosis = %.3f\n', kurtosis(x, na.rm = na.rm)))
   cat('\n')
-  p <- ggplot() + geom_histogram(mapping = aes(x = x), bins = 30L, colour = 'white') + 
-    labs(x = nm, y = NULL) +
-    theme_bw()
-  print(p)
+  # to avoid import \pkg{ggplot2}
+  #p <- ggplot() + geom_histogram(mapping = aes(x = x), bins = 30L, colour = 'white') + 
+  #  labs(x = nm, y = NULL) +
+  #  theme_bw()
+  #print(p)
   return(invisible())
 }
 
@@ -144,26 +144,3 @@ setMethod(f = show, signature = signature(object = 'freqs'), definition = functi
   print.noquote(noquote(ret, right = TRUE))
 })
 
-#' @importFrom ggplot2 autoplot ggplot scale_y_continuous theme_bw
-#' @importFrom scales percent
-#' @export
-autoplot.freqs <- function(object, ...) {
-  ggplot() + autolayer.freqs(object, ...) + scale_y_continuous(labels = percent) + theme_bw()
-}
-
-
-#' @importFrom ggplot2 autolayer geom_bar labs
-#' @export
-autolayer.freqs <- function(object, type = c('density', 'distribution'), ...) {
-  freq <- unclass(object)
-  cfreq <- cumsum(freq)
-  n <- sum(freq)
-  switch(match.arg(type), density = list(
-    geom_bar(mapping = aes(x = names(freq), y = c(freq/n)), stat = 'identity'),
-    labs(x = 'Categories', y = 'Relative Frequency')
-  ), distribution = list(
-    geom_bar(mapping = aes(x = names(freq), y = c(cfreq/n)), stat = 'identity'),
-    #geom_step(mapping = aes(x = c(0, seq_along(c(freq))), y = c(0, cfreq/n))), # actually not pretty
-    labs(x = 'Categories', y = 'Cumulative Relative Frequency')
-  ))
-}

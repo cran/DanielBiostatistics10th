@@ -51,7 +51,7 @@ BooleanTable(x1)
 
 }
 \seealso{
-End-user may also use \link[caret]{confusionMatrix},
+End-user may also use function \code{caret::confusionMatrix},
 which does not provide confidence intervals of
 sensitivity, specificity, etc.
 }
