@@ -1,3 +1,6 @@
+# DanielBiostatistics10th 0.2.2
+Release for R 4.4.0
+
 # DanielBiostatistics10th 0.2.1
 Removes import of package ggplot2
 

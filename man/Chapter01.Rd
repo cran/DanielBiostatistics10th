@@ -41,7 +41,6 @@ sampleRow(EXA_C01_S04_01, size = 10L, replace = FALSE) # to answer Example 1.4.1
 
 # Example 1.4.2; Page 11 (10th ed), Page 10 (11th ed)
 EXA_C01_S04_01[seq.int(from = 4L, to = 166L, by = 18L), ]
-
 }
 \seealso{
 \link[base]{sample.int}
