@@ -4,13 +4,16 @@
 \alias{addProbs}
 \title{Conditional and/or Marginal Probabilities}
 \usage{
-addProbs(A, margin = seq_len(nd))
+addProbs(A, margin = seq_len(nd), fmt = "\%d (\%.1f\%\%)")
 }
 \arguments{
 \item{A}{\link[base]{matrix} of \link[base]{typeof} \link[base]{integer},
 two-dimensional contingency table.  See \link[stats]{addmargins}}
 
 \item{margin}{\link[base]{integer} scalar or \link[base]{vector}, see \link[stats]{addmargins}}
+
+\item{fmt}{\link[base]{character} scalar,
+C-style string format with a \verb{\%d} and an \verb{\%f\%\%} for the counts and proportions (order enforced).}
 }
 \value{
 Function \link{addProbs} returns an \code{'addProbs'} object, which inherits from \link[base]{table} and \link[base]{noquote}.
@@ -24,17 +27,24 @@ and conditional (using \code{margin = 1L} or \code{margin = 2L})
 probabilities of a two-dimensional contingency table.
 }
 \note{
-\link[base]{margin.table} (which is to be renamed as \link[base]{marginSums})
+\link[base]{margin.table}
+(which is to be renamed as \link[base]{marginSums})
 is much slower than \link[base]{colSums}.
+
+The use of argument \code{margin} is
+the same as \link[stats]{addmargins},
+and different from \link[base]{proportions}!
 }
 \examples{
-(y1 = addProbs(table(warpbreaks$tension)))
+addProbs(table(warpbreaks$tension))
 
-storage.mode(WorldPhones) = 'integer'
-(y2 = addProbs(WorldPhones))
+storage.mode(VADeaths) = 'integer'
+addProbs(VADeaths)
+addProbs(VADeaths, margin = 1L)
+rowSums(proportions(VADeaths, margin = 1L))
+addmargins(VADeaths, margin = 1L)
 
 }
 \seealso{
 \link[base]{rowSums} \link[base]{colSums} \link[base]{proportions}
 }
-\keyword{internal}

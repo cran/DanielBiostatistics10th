@@ -54,7 +54,7 @@ library(DanielBiostatistics10th)
 (p792 = power_z(seq.int(from = 50, to = 70, by = 5), null.value = 65, sd = 15, n = 20L, 
                 sig.level = .01, alternative = 'less'))
 
-# Example 7.10.1; Page 278, 
+# Example 7.10.1; Page 278 (10th ed), 
 (n_d7101 <- uniroot(f = function(x) {
   power_z(55, null.value = 65, sd = 15, n = x, sig.level = .01, alternative = 'less')$power - .95
 }, interval = c(0, 50))$root)

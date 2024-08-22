@@ -54,7 +54,7 @@ sort(age) # Table 2.2.1
 
 # Example 2.4.1-2.4.6; Page 38-42 (10th ed); Page 30-34 (11th ed)
 # Example 2.5.1-2.5.3; Page 44-46 (10th ed); Page 35-41 (11th ed)
-print_stats(age) # or some other data input
+print_stats(age)
 
 # Example 2.5.4 (omitted); Page 49 (10th ed), Page 41 (11th ed)
 

@@ -21,8 +21,13 @@
 #' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
 #' sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}
 #' 
-#' @param xsd \link[base]{numeric} scalar or \link[base]{length}-2 \link[base]{vector}.
-#' Sample standard deviation(s) \eqn{\sigma_{\bar{x}}} or \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})}
+# @param xsd \link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or 
+# \link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})},
+# sample standard deviation(s)
+# wrong!!!!
+#' @param xsd \link[base]{numeric} scalar \eqn{s} or 
+#' \link[base]{length}-2 \link[base]{vector} \eqn{(s_1, s_2)},
+#' sample standard deviation(s)
 #' 
 #' @param sd \link[base]{numeric} scalar \eqn{\sigma} or 
 #' \link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_1, \sigma_2)},
@@ -110,7 +115,7 @@ aggregated_z <- function(xbar, n, sd, null.value, alternative = c('two.sided', '
   xbar <- tmp$xbar
   sd <- tmp$sd
   n <- tmp$n
-  dname <- sprintf(fmt = '%.3g(\u00B1%.3g)', xbar, sd) # console print, not figure
+  dname <- sprintf(fmt = '%.3g\u00B1%.3g, n=%d', xbar, sd, n) # console print, not figure
   
   if (length(xbar) == 1L) { # one sample z-test
     method <- 'One Sample z-test'
