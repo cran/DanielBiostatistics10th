@@ -1,9 +1,9 @@
-d65b2b882a92e63f8ca2839fc36c36a1 *DESCRIPTION
+7fd5e1c4876169432d72909ea386f7b6 *DESCRIPTION
 c480120925c2172a4afad9aa9ede5ffb *NAMESPACE
 2bc21732ca94cfb3f998dc9bd373e4b5 *NEWS.md
 c7ffaa30e3110f43537cc6b68eb09d91 *R/0PACKAGE.R
 694bc27a759af9aa34e8e41bf534c59e *R/BooleanTable.R
-ca61d4a64d66ce5056e0e6013692206f *R/Gosset_Welch.R
+0f490c89bc206226077787c51b5540ea *R/Gosset_Welch.R
 8dd9a9b4c101fb5d21e0070f36ca4765 *R/addProbs.R
 53d5c3f88c442fb2fd38b0b85de9de42 *R/chp1.R
 787592c2ca614a9f6bf4ed042d3c5071 *R/chp10.R
@@ -348,7 +348,7 @@ a8702f45a032e8c2e8bb02d354b6bcbd *inst/extexample/Chapter13.R
 94309ca24a12a32ac8e8cd252c4ac7fb *inst/extexample/Chapter2.R
 17b3170f07e62b73e2df2e4a4da349c6 *inst/extexample/Chapter3.R
 2edbd7c0fac66cb9d1ca75403724b185 *inst/extexample/Chapter4.R
-1091b09c0cbc95215c315556ae7ffe58 *inst/extexample/Chapter5.6.7.R
+c0b82ec944b919de74c1c57ba9886cd2 *inst/extexample/Chapter5.6.7.R
 afe4b1b68c15e5e009e375feeb718901 *inst/extexample/Chapter7_power.R
 d436421876a55c99884f95517f59ad01 *inst/extexample/Chapter8.R
 4d230a213d3425c74a1e6ed1ddcc1552 *inst/extexample/Chapter9.R
@@ -357,7 +357,7 @@ d436421876a55c99884f95517f59ad01 *inst/extexample/Chapter8.R
 ce68ceabb96043af59c7d1c28d02287a *man/Chapter02.Rd
 3f90f08b42fae8dae74763dc3623e783 *man/Chapter03.Rd
 dda67daff977d5bff5cac8f4dfe9e110 *man/Chapter04.Rd
-5b79ab88c56438766ca0b65505821317 *man/Chapter05to07.Rd
+8f176c68e532de9ec19708ecf1908c79 *man/Chapter05to07.Rd
 52a648ad5f700907395d685a0199f06e *man/Chapter07_power.Rd
 6b505b5c5fcba4df3dd3a623cfb70d3d *man/Chapter08.Rd
 befb5b8e8d9c6df90d2ff5625aefb9a7 *man/Chapter09.Rd
@@ -369,7 +369,7 @@ e81e056f3b741f5c55c635ada5b56415 *man/Chapter13.Rd
 3dad11508afa4a04e760e12639ca7a13 *man/DanielBiostatistics10th-package.Rd
 a5c3a189140cafed9a9aa0f89b8e5bc3 *man/EXA.Rd
 af466442c20b48020a810ccdbb893403 *man/EXR.Rd
-a1c2184ee82009763bca201c7f960f99 *man/Gosset_Welch.Rd
+e1602dce1b26104259232daa1e1999fd *man/Gosset_Welch.Rd
 9731f14446d69071018d9dd545d86156 *man/LDS.Rd
 3fe24b4230346a851ab077a890d219da *man/REV.Rd
 106c6c7d336a84c05b40130a2237e798 *man/addProbs.Rd
